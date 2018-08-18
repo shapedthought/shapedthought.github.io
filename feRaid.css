@@ -1,0 +1,43 @@
+.container {
+	width: 1000px;
+	margin: 100px auto; 
+	background-color: white;
+	border-radius: 25px;
+	border: 1px solid black;
+}
+
+body {
+	background-color: #efefef;
+}
+
+#icon {
+	margin-left: 20px;
+	size: 80%;
+}
+
+h1 {
+	font-family: Galada;
+	font-size: 50px;
+	padding-right: 20px;
+}
+
+#resultcss {
+	font-size: 30px;
+	text-align: center;
+	margin: 10px;
+}
+
+#button {
+	margin: 30px;
+}
+
+.otherResults {
+	font-size: 15px;
+	color: gray;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0));
+}

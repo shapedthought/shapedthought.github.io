@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Check the size!</title>
+	<link rel="stylesheet" type="text/css" href="bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="feRaid.css">
+<link href="https://fonts.googleapis.com/css?family=Galada" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+</head>
+<body>
+
+
+<div class="container">
+
+<h1>Check the size!<span id="icon"><i class="fas fa-server"></i></span></h1>
+
+<div class="box">
+	<div class="row">
+
+		<div class="col-lg-3 col-md-6 col-sm-12">
+		<label for="iops">IOPS</label>
+<input name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="1000" required>
+		</div>
+
+		<div class="col-lg-3 col-md-6 col-sm-12">
+		<label for="rBlock">Read Block Size</label>
+<input name="rblock" id="rBlock" class="form-control form-control-lg" type="text" placeholder="32" required>
+		</div>
+		<div class="col-lg-3 col-md-6 col-sm-12">
+		<label for="wBlock">Write Block Size</label>
+		<input name="writeBlock" id="wBlock" class="form-control form-control-lg" type="text" placeholder="32" required>
+		</div>
+		<div class="col-lg-3 col-md-6 col-sm-12">
+		<label for="percentage">Read Percentage</label>
+<input name="percentage" id="percentage" class="form-control form-control-lg" type="text" placeholder="70" required>
+		</div>
+	</div>
+	<div id="button" class="row">
+	<button id="button2" type="button" class="btn btn-primary">Submit</button>
+	</div>
+	<hr>
+	<div id="resultcss" class="row">
+		<p>IOPS Required</p>
+		<span id="rBox"><p> <span id="result">0</span><span> @ 4k block</span></p>
+		<p class="otherResults"> <span id="result2">0</span><span> @ 8k block</span></p>
+		<p class="otherResults"> <span id="result3">0</span><span> @ 16k block</span></p>
+	</span>
+
+	</div>
+</div>
+</div>
+
+<!-- <script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+<script src="bootstrap.min.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" src="IoConvert.js"></script>
+
+
+
+</body>
+</html>

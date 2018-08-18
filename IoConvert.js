@@ -7,7 +7,7 @@ $("#button2").click(function(){
 	var ReadPercentage = Number($("#percentage").val());
 	ReadPercentage = ReadPercentage / 100;
 	WritePercentage = 1 - ReadPercentage;
-	if (IOPS + wBlock + rBlock + ReadPercentage == 0){
+	if (IOPS == 0 || wBlock == 0 || rBlock == 0 || ReadPercentage == 0){
 		alert("Please Enter Values");
 	} else {
 		$("#result").text(calculation(4, rBlock, wBlock, IOPS, ReadPercentage, WritePercentage));

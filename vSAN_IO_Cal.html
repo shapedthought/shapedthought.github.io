@@ -11,7 +11,7 @@
         crossorigin="anonymous">
     <link rel="stylesheet" href="feRaid.css">
     <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
-    <title>tawsome tools</title>
+    <title>vSAN IOPS Calcuator</title>
 </head>
 <!-- NAVBAR -->
 
@@ -24,47 +24,55 @@
             </button>
             <div class="collapse navbar-collapse" id="navabarCollapse">
                 <ul class="navbar-nav ml-auto">
+
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- TOOL LIST-->
+    <!-- CALCULATOR-->
     <div class="container">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Tool</th>
-                    <th>Info</th>
-                    <th>Last Update</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td><a href="/vSAN_IO_Cal.html">vSAN IOPS Calculator</a></td>
-                    <td>Works out the required IOPS based on vSAN block size</td>
-                    <td>21/08/18</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Disk Group Calculator</td>
-                    <td>Works out the required required disk groups based on pool %</td>
-                    <td>Soon</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Backup Calculator</td>
-                    <td>Works out backup capacity requirements</td>
-                    <td>Soon</td>
-                </tr>
-            </tbody>
+        <div class="row">
+            <div class="col">
+                <h1 class="mb-3">vSAN IOPS Calculator<span id="icon"><i class="fas fa-calculator ml-3"></i></span></h1>
+            </div>
+        </div>
+        <div class="box">
+            <div class="row">
+
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <label for="iops">IOPS</label>
+                    <input name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="1000" required>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <label for="rBlock">Read Block Size</label>
+                    <input name="rblock" id="rBlock" class="form-control form-control-lg" type="text" placeholder="32" required>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <label for="wBlock">Write Block Size</label>
+                    <input name="writeBlock" id="wBlock" class="form-control form-control-lg" type="text" placeholder="32" required>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <label for="percentage">Read Percentage</label>
+                    <input name="percentage" id="percentage" class="form-control form-control-lg" type="text" placeholder="70" required>
+                </div>
+            </div>
+            <div id="button" class="row">
+                <button id="button2" type="button" class="btn btn-primary mt-3 ml-3">Submit</button>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-6 offset-md-3 text-center">
+                    <h3>IOPS Required</h3>
+                    <span id="rBox"><p> <span id="result">0</span><span> @ 4k block</span></p>
+                        <p class="otherResults"> <span id="result2">0</span><span> @ 8k block</span></p>
+                        <p class="otherResults"> <span id="result3">0</span><span> @ 16k block</span></p>
+                </div>
+            </div>
 
 
-        </table>
-
-
+        </div>
     </div>
 
 
@@ -86,26 +94,6 @@
 <script>
     //Get the curren year for the copyright
     $('#year').text(new Date().getFullYear());
-
-    //Init Scrollspy
-    $('body').scrollspy({ target: '#main-nav' });
-
-
-    //Smooth scrolling
-    $('#main-nav a').on('click', function (event) {
-        if (this.hash !== "") {
-            event.preventDefault();
-
-            const hash = this.hash;
-
-            $('html, body').animate({
-                scrollTop: $(hash).offset().top
-            }, 800, function () {
-                window.location.hash = hash;
-            });
-        }
-    });
-
 </script>
 
 </html>

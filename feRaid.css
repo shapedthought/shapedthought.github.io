@@ -1,4 +1,4 @@
-.container {
+/* .container {
 	width: 1000px;
 	margin: 100px auto; 
 	background-color: white;
@@ -16,7 +16,7 @@ body {
 }
 
 h1 {
-	/* font-family: Galada; */
+	font-family: Galada;
 	font-size: 50px;
 	padding-right: 20px;
 }
@@ -40,4 +40,8 @@ hr {
     border: 0;
     height: 1px;
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0));
+} */
+
+.navbar-brand {
+  font-family: "Righteous", cursive;
 }

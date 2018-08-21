@@ -11,7 +11,7 @@
         crossorigin="anonymous">
     <link rel="stylesheet" href="feRaid.css">
     <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
-    <title>tawsome tools</title>
+    <title>vSAN IOPS Calcuator</title>
 </head>
 <!-- NAVBAR -->
 
@@ -24,64 +24,66 @@
             </button>
             <div class="collapse navbar-collapse" id="navabarCollapse">
                 <ul class="navbar-nav ml-auto">
+
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- TOOL LIST-->
+    <!-- CALCULATOR-->
     <div class="container">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Tool</th>
-                    <th>Info</th>
-                    <th>Last Update</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td><a href="/vSAN_IO_Cal.html">vSAN IOPS Calculator</a></td>
-                    <td>Works out the required IOPS based on vSAN block size</td>
-                    <td>21/08/18</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td><a href="/Front-End-IOPS.html">Front-end IOPS Calculator</a></td>
-                    <td>Works out what the front-end IOPS are from the backend IOPS with RAID</td>
-                    <td>21/08/18</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Disk Group Calculator</td>
-                    <td>Works out the required required disk groups based on pool %</td>
-                    <td>Soon</td>
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <td>Backup Calculator</td>
-                    <td>Works out backup capacity requirements</td>
-                    <td>Soon</td>
-                </tr>
-            </tbody>
+        <h1 class="mb-3">Front-end IOPS Calculator</h1>
+        <div class="row">
+            <div class="col">
+                <label for="backEnd">Back End IOPS</label>
+                <input name="backEnd" id="beIOPS" class="form-control form-control-lg" type="text" placeholder="1000" required>
+            </div>
+            <div class="col">
+                <label for="parity">Parity</label>
+                <input name="parity" id="parity" class="form-control form-control-lg" type="text" placeholder="4" required>
+            </div>
+            <div class="col">
+                <label for="percentage">Parity</label>
+                <input name="percentage" id="percentage" class="form-control form-control-lg" type="text" placeholder="70" required>
+            </div>
+        </div>
+        <div id="button" class="row mt-3">
+            <div class="col">
+                <button id="button2" type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <hr>
+                <h3>Front-end IOPS: <span id="result" class="text-danger"></span></h3>
 
-
-        </table>
-
-
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <h4>RAID Levels</h4>
+                <ul>
+                    <li>RAID 5: Parity 4</li>
+                    <li>RAID 6: Parity 6</li>
+                    <li>RAID 10: Parity 10</li>
+                </ul>
+            </div>
+        </div>
     </div>
+
 
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
+<!-- <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
     crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
     crossorigin="anonymous"></script>
 
-<script type="text/javascript" src="IoConvert.js"></script>
+<script type="text/javascript" src="feRaid.js"></script>
 
 
 </html>

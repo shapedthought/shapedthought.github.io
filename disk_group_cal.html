@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="feRaid.css">
+    <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+    <title>vSAN IOPS Calcuator</title>
+</head>
+<!-- NAVBAR -->
+
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark mb-3" id="main-nav">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">tawsome</a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#navabarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navabarCollapse">
+                <ul class="navbar-nav ml-auto">
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CALCULATOR-->
+
+    <div id="diskCal" class="container">
+
+        <h1>Disk Calculator<span id="icon"><i class="fas fa-hdd ml-2"></i></span></h1>
+
+
+        <div class="row">
+            <div class="col-lg-3 center">
+                <label for="capReq">Capacity Required (TB)</label>
+                <input name="capReq" v-model="capReq" class="form-control form-control-lg" type="text">
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-6">
+                <h3>Tier 1</h3>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label for="ssdPercent">SSD Percentage</label>
+                <input v-model="ssdPercent" class="form-control form-control-lg" type="text" placeholder="5">
+            </div>
+
+            <div class="col">
+                <label for="ssdLength">Stripe length</label>
+                <input v-model="ssdLength" class="form-control form-control-lg" type="text">
+            </div>
+
+            <div class="col">
+                <label for="ssdCap">Disk Size</label>
+                <input v-model="ssdCap" class="form-control form-control-lg" type="text">
+            </div>
+            <div class="col">
+                <label for="ssdSelected">RAID level for the group</label>
+                <select v-model="ssdSelected" class="selectpicker" title="Select...">
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+            <!-- <div class="col">
+                    <label for="ssdSelected">SSD RAID level</label>
+                    <select v-model="ssdSelected" class="custom-select">
+                        <option value="5" selected>5</option>
+                        <option value="6">6</option>
+                    </select>
+                </div> -->
+        </div>
+
+        <hr>
+        <div class="row">
+            <div class="col-lg-6">
+                <h3>Tier 2</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="sasPercent">SAS Percentage</label>
+                <input v-model="sasPercent" class="form-control form-control-lg" type="text">
+            </div>
+            <div class="col">
+                <label for="sasLength">Stripe length</label>
+                <input v-model="sasLength" class="form-control form-control-lg" type="text">
+            </div>
+            <div class="col">
+                <label for="sasCap">Disk Size</label>
+                <input v-model="sasCap" class="form-control form-control-lg" type="text">
+            </div>
+            <div class="col">
+                <label for="sasSelected">RAID level for the group</label>
+                <select v-model="sasSelected" class="selectpicker" title="Select...">
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+        </div>
+
+        <hr>
+        <div class="row">
+            <div class="col-lg-6">
+                <h3>Tier 3</h3>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label for="nlsasPercent">NL-SAS percentage</label>
+                <input v-model="nlsasPercent" class="form-control form-control-lg" type="text">
+            </div>
+
+            <div class="col">
+                <label for="sasLength">Stripe length</label>
+                <input v-model="nlsasLength" class="form-control form-control-lg" type="text">
+            </div>
+
+            <div class="col">
+                <label for="sasCap">Disk Size</label>
+                <input v-model="nlsasCap" class="form-control form-control-lg" type="text">
+            </div>
+
+            <div class="col">
+                <label for="raid">RAID level for the group</label>
+                <select v-model="nlsasSelected" class="selectpicker" title="Select...">
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- </div>
+            <div id="button" class="row">
+            <button id="button2" type="button" class="btn btn-primary">Submit</button>
+            </div> -->
+        <hr>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card border-danger text-center mb-resp">
+                    <div class="card-body">
+                        <h3>SSD</h3>
+                        <p>SSD Groups Required: {{ ssdCalculation() }}</p>
+                        <p>SSD Capacity Required: {{ ssdCapReq() }} TB</p>
+                        <p>SSD Capacity delivered: {{ ssdCapDel() }} TB</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-warning text-center mb-resp">
+                    <div class="card-body">
+                        <h3>SAS</h3>
+                        <p>SAS Groups Required: {{ sasCalculation() }}</p>
+                        <p>SAS Capacity Required: {{ sasCapReq() }} TB</p>
+                        <p>SAS Capacity delivered: {{ sasCapDel() }} TB</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-success text-center mb-resp">
+                    <div class="card-body">
+                        <h3>NL-SAS</h3>
+                        <p>NL-SAS Groups Required: {{ nlsasCalculation() }} </p>
+                        <p>NL-SAS Capacity Required: {{ nlsasCapReq() }} </p>
+                        <p>NL-SAS Capacity delivered: {{ nlsasCapDel() }} TB</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col text-center">
+                <h2>Total Capacity Delivered {{ totalCapDel() }}</h2>
+            </div>
+        </div> -->
+    </div>
+    </div>
+
+    <!-- <div id="resultCss" class="row">
+        <p>Disks Required</p>
+        <span id="rBox"><p>SSD Groups Required: {{ ssdCalculation() }} - Req: {{ ssdCapReq() }} TB - Del: {{ ssdCapDel()
+                }} TB</p>
+            <p>SAS Groups Required: {{ sasCalculation() }} - Req: {{ sasCapReq() }}TB - Del: {{ sasCapDel() }} TB</p>
+            <p>NL-SAS Groups Required: {{ nlsasCalculation() }} - Req: {{ nlsasCapReq() }} - Del: {{ nlsasCapDel() }} TB
+            </p>
+            <p>Total Capacity delivered: </p>
+        </span>
+    </div> -->
+
+
+
+
+
+
+
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+    crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+
+<script type="text/javascript" src="diskCalculator.js"></script>
+
+
+
+</html>

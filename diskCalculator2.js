@@ -43,6 +43,69 @@ let totalDel = document.querySelector("#totalDel");
 //Total percentage
 let percent = document.querySelector("#percent");
 
+//Bar Chart
+
+let myChart = document.getElementById("myChart").getContext("2d");
+
+let capacityChart = new Chart(myChart, {
+  type: "bar",
+  data: {
+    labels: [
+      "SSD Req",
+      "SSD Del",
+      "SAS Req",
+      "SAS Del",
+      "NL-SAS Req",
+      "NL-SAS Del"
+    ],
+    datasets: [
+      {
+        label: "TB",
+        data: [0, 0, 0, 0, 0, 0],
+        backgroundColor: [
+          "#ff6666",
+          "#ff6666",
+          "#ffff99",
+          "#ffff99",
+          "#b3ffb3",
+          "#b3ffb3"
+        ],
+        borderWidth: 1
+      }
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "Capacity by tier"
+    }
+  }
+});
+
+//PIE CHART
+let myChart2 = document.getElementById("myChart2").getContext("2d");
+
+let pieChart = new Chart(myChart2, {
+  type: "pie",
+  data: {
+    labels: ["SSD Cap", "SAS Cap", "NL-SAS Cap"],
+    datasets: [
+      {
+        label: "Pool ratios",
+        data: [35, 35, 30],
+        backgroundColor: ["#ff6666", "#ffff99", "#b3ffb3"],
+        borderWidth: 1
+      }
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "Capacity delivered"
+    }
+  }
+});
+
 //Button click event
 let button = document.querySelector("#button");
 console.log("clicked!");
@@ -55,14 +118,20 @@ function runCal() {
   sasPercent2 = parseFloat(sasPercent.value);
   nlsasPercent2 = parseFloat(nlsasPercent.value);
   capReq2 = parseFloat(capReq.value);
-  let ssdCap = capTierReq(ssdPercent2, capReq2); //Have I overridden the disk value?
+  let ssdCap = capTierReq(ssdPercent2, capReq2);
   let sasCap = capTierReq(sasPercent2, capReq2);
   let nlsasCap = capTierReq(nlsasPercent2, capReq2);
 
-  //Output the capacity requirements for each tier, could get rid of the vars above
-  ssdReqCap.innerText = (ssdCap / 1024).toFixed(2);
-  sasReqCap.innerText = (sasCap / 1024).toFixed(2);
-  nlsasReqCap.innerText = (nlsasCap / 1024).toFixed(2);
+  //Output the capacity requirements for each tier
+  ssdCapTB = (ssdCap / 1024).toFixed(2);
+  capacityChart.data.datasets[0].data[0] = ssdCapTB;
+  sasCapTB = (sasCap / 1024).toFixed(2);
+  capacityChart.data.datasets[0].data[2] = sasCapTB;
+  nlsasCapTB = (nlsasCap / 1024).toFixed(2);
+  capacityChart.data.datasets[0].data[4] = nlsasCapTB;
+  ssdReqCap.innerText = ssdCapTB;
+  sasReqCap.innerText = sasCapTB;
+  nlsasReqCap.innerText = nlsasCapTB;
 
   //Parity by tier
   let ssdSelected2 = parseInt(ssdSelected.value);
@@ -94,10 +163,18 @@ function runCal() {
   sasGroup.innerText = sasGroupsReq;
   nlsasGroup.innerText = nlsasGroupsReq;
 
-  //Delivered capacity
+  //Delivered capacity, need to put this into some arrays and loop
   let ssdDelCap = (ssdGroupsReq * ssdGroupCap) / 1024;
+  capacityChart.data.datasets[0].data[1] = ssdDelCap.toFixed(2);
+  pieChart.data.datasets[0].data[0] = ssdDelCap.toFixed(2);
   let sasDelCap = (sasGroupsReq * sasGroupCap) / 1024;
+  capacityChart.data.datasets[0].data[3] = sasDelCap.toFixed(2);
+  pieChart.data.datasets[0].data[1] = sasDelCap.toFixed(2);
   let nlsasDelCap = (nlsasGroupsReq * nlsasGroupCap) / 1024;
+  capacityChart.data.datasets[0].data[5] = nlsasDelCap.toFixed(2);
+  pieChart.data.datasets[0].data[2] = nlsasDelCap.toFixed(2);
+  capacityChart.update();
+  pieChart.update();
 
   //Output delivered capacity to DOM
   ssdDel.innerText = ssdDelCap.toFixed(2);
@@ -107,6 +184,8 @@ function runCal() {
   //Total delivered capacity
   let totalCapDel = ssdDelCap + sasDelCap + nlsasDelCap;
   totalDel.innerText = totalCapDel.toFixed(2);
+
+  //Pool delivered percentages
 
   percent.innerText = ssdPercent2 + sasPercent2 + nlsasPercent2 + "%";
 
@@ -127,3 +206,16 @@ function groupCap(diskCap, stripe, parity) {
   let cal = diskCap * 0.89 * (stripe - parity);
   return cal; //Still in GB here
 }
+
+//Update chart data
+
+// function addData(position, data) {
+//   myChart.data.datasets[0].data[position] = data;
+// }
+
+// //Remove data from chart
+// function removeData() {
+//   myChart.data.datasets.forEach(dataset => {
+//     dataset.data.pop();
+//   });
+// }

@@ -9,6 +9,7 @@
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
         crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
     <link rel="stylesheet" href="feRaid.css">
     <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
     <title>RAID Pack Calcuator</title>
@@ -73,6 +74,21 @@
                 <h2>Total Capacity Delivered: <span id="totalDel">0</span>TB</h2>
             </div>
         </div>
+
+        <hr>
+
+        <!-- CHART -->
+        <div class="row">
+            <div class="col-6">
+                <canvas id="myChart"></canvas>
+            </div>
+            <div class="col-6">
+                <canvas id="myChart2"></canvas>
+            </div>
+        </div>
+
+
+
         <hr>
         <div class="row">
             <div class="col-lg-3 center">
@@ -107,7 +123,7 @@
 
             <div class="col">
                 <label for="ssdCap">Disk Size</label>
-                <input id="ssdCap" class="form-control form-control-lg" type="text" placeholder="800">
+                <input id="ssdCap" class="form-control form-control-lg" type="text">
             </div>
             <div class="col">
                 <label for="ssdSelected">RAID level for the group</label>
@@ -117,6 +133,7 @@
                 </select>
             </div>
         </div>
+
 
         <hr>
         <div class="row">

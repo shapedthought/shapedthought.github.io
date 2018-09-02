@@ -58,21 +58,19 @@ let capacityChart = new Chart(myChart, {
       "NL-SAS Req",
       "NL-SAS Del"
     ],
-    datasets: [
-      {
-        label: "TB",
-        data: [0, 0, 0, 0, 0, 0],
-        backgroundColor: [
-          "#ff6666",
-          "#ff6666",
-          "#ffff99",
-          "#ffff99",
-          "#b3ffb3",
-          "#b3ffb3"
-        ],
-        borderWidth: 1
-      }
-    ]
+    datasets: [{
+      label: "TB",
+      data: [0, 0, 0, 0, 0, 0],
+      backgroundColor: [
+        "#ff6666",
+        "#ff6666",
+        "#ffff99",
+        "#ffff99",
+        "#b3ffb3",
+        "#b3ffb3"
+      ],
+      borderWidth: 1
+    }]
   },
   options: {
     title: {
@@ -89,14 +87,12 @@ let pieChart = new Chart(myChart2, {
   type: "pie",
   data: {
     labels: ["SSD Cap", "SAS Cap", "NL-SAS Cap"],
-    datasets: [
-      {
-        label: "Pool ratios",
-        data: [35, 35, 30],
-        backgroundColor: ["#ff6666", "#ffff99", "#b3ffb3"],
-        borderWidth: 1
-      }
-    ]
+    datasets: [{
+      label: "Pool ratios",
+      data: [35, 35, 30],
+      backgroundColor: ["#ff6666", "#ffff99", "#b3ffb3"],
+      borderWidth: 1
+    }]
   },
   options: {
     title: {
@@ -203,7 +199,7 @@ function capTierReq(percent, capReq) {
 
 //Group capacity
 function groupCap(diskCap, stripe, parity) {
-  let cal = diskCap * 0.89 * (stripe - parity);
+  let cal = diskCap * 0.89 * (stripe - parity); //should have done the parse float here!
   return cal; //Still in GB here
 }
 

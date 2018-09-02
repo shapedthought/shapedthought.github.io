@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="feRaid.css">
+    <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+    <title>vSAN Capacity Calcuator</title>
+</head>
+<!-- NAVBAR -->
+
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark mb-3" id="main-nav">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">tawsome</a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#navabarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navabarCollapse">
+                <ul class="navbar-nav ml-auto">
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CALCULATOR-->
+    <div class="container">
+
+        <div class="row">
+            <div class="col">
+                <h1 class="mb-3">vSAN Capacity Calculator<span id="icon"><i class="fas fa-calculator ml-3"></i></span></h1>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <!-- Button trigger modal -->
+            <div class="col">
+                <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#exampleModal">
+                    Settings
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h3>VM Requirements</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-mb-3 ml-3 mr-3">
+                <label for="iops">vCPU</label>
+                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="200"
+                    required>
+            </div>
+            <div class="col-mb-3">
+                <label for="iops">RAM (GB)</label>
+                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="512"
+                    required>
+            </div>
+        </div>
+        <!-- HOST CONFIG -->
+        <hr>
+        <div class="row">
+            <div class="col">
+                <h3>Host CPU and RAM Config</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="iops">Overcommit ratio x:1</label>
+                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="4"
+                    required>
+            </div>
+            <div class="col">
+                <label for="iops">Host Redundancy N+X</label>
+                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="1"
+                    required>
+            </div>
+            <div class="col">
+                <label for="iops">Cores per processor</label>
+                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="20"
+                    required>
+            </div>
+            <div class="col">
+                <label for="iops">Processors per host</label>
+                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="2"
+                    required>
+            </div>
+            <div class="col">
+                <label for="iops">RAM per host (GB)</label>
+                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="1024"
+                    required>
+            </div>
+        </div>
+        <hr>
+        <!-- VSAN CONFIG -->
+        <div class="row">
+            <div class="col">
+                <h3>vSAN Configuration</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <select name="ssdHight" id="ssdHight" class="custom-select">
+                    <option>Hybrid</option>
+                    <option>Flash</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col">
+                <label for="iops">Capacity required</label>
+                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="4"
+                    required>
+            </div>
+            <div class="col">
+                <label for="nodeType">FTT</label>
+                <select name="nodeType" id="nodeType" class="custom-select">
+                    <option>FTT1</option>
+                    <option>FTT2</option>
+                    <option>FTT3</option>
+                    <option>RAID-5</option>
+                    <option>RAID-6</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="iops">Disk Group Qty per host</label>
+                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="20"
+                    required>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <label for="iops">Cache capacity (GB)</label>
+                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="2"
+                    required>
+            </div>
+            <div class="col">
+                <label for="iops">Data disk capacity (GB)</label>
+                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="1024"
+                    required>
+            </div>
+            <div class="col">
+                <label for="iops">Data disk capacity (GB)</label>
+                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="1024"
+                    required>
+            </div>
+        </div>
+
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="button" class="row">
+            <button id="button2" type="button" class="btn btn-primary mt-3 ml-3">Submit</button>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6 offset-md-3 text-center">
+                <h3>IOPS Required</h3>
+                <span id="rBox">
+                    <p> <span id="result">0</span><span> @ 4k block</span></p>
+                    <p class="otherResults"> <span id="result2">0</span><span> @ 8k block</span></p>
+                    <p class="otherResults"> <span id="result3">0</span><span> @ 16k block</span></p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+<!-- <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+    crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="vSAN_Capacity.js"></script>
+
+<script>
+    //Get the curren year for the copyright
+    $('#year').text(new Date().getFullYear());
+</script>
+
+</html>

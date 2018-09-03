@@ -42,7 +42,7 @@
         <div class="row">
             <!-- Button trigger modal -->
             <div class="col">
-                <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#exampleModal">
+                <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#settingsModal">
                     Settings
                 </button>
             </div>
@@ -107,21 +107,15 @@
         </div>
         <div class="row">
             <div class="col-3">
-                <select name="ssdHight" id="ssdHight" class="custom-select">
+                <label for="nodeType">Node Type</label>
+                <select name="nodeType" id="ssdHight" class="custom-select">
                     <option>Hybrid</option>
                     <option>Flash</option>
                 </select>
             </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col">
-                <label for="iops">Capacity required</label>
-                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="4"
-                    required>
-            </div>
-            <div class="col">
-                <label for="nodeType">FTT</label>
-                <select name="nodeType" id="nodeType" class="custom-select">
+            <div class="col-3">
+                <label for="FTT">FTT</label>
+                <select name="FTT" id="FTT" class="custom-select">
                     <option>FTT1</option>
                     <option>FTT2</option>
                     <option>FTT3</option>
@@ -129,7 +123,15 @@
                     <option>RAID-6</option>
                 </select>
             </div>
-            <div class="col">
+        </div>
+        <div class="row mt-2">
+            <div class="col-3">
+                <label for="iops">Capacity required (TB)</label>
+                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="4"
+                    required>
+            </div>
+
+            <div class="col-3">
                 <label for="iops">Disk Group Qty per host</label>
                 <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="20"
                     required>
@@ -152,51 +154,114 @@
                     required>
             </div>
         </div>
-
-
-
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
         <div id="button" class="row">
             <button id="button2" type="button" class="btn btn-primary mt-3 ml-3">Submit</button>
         </div>
         <hr>
         <div class="row">
             <div class="col-md-6 offset-md-3 text-center">
-                <h3>IOPS Required</h3>
+                <h3>This will be replaced</h3>
                 <span id="rBox">
                     <p> <span id="result">0</span><span> @ 4k block</span></p>
                     <p class="otherResults"> <span id="result2">0</span><span> @ 8k block</span></p>
                     <p class="otherResults"> <span id="result3">0</span><span> @ 16k block</span></p>
             </div>
         </div>
+        <!-- LOAD MODAL -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Info</h4>
+                        <button class="close" data-dismiss="modal">
+                            <span class="text-white">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>This is just boilerplate, no functionality has been added yet!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="settingsModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-dark text-white">
+                        <h5 class="modal-title">vSAN Settings</h5>
+                        <button class="close" data-dismiss="modal">
+                            <span class="text-white">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="Title">Slack</label>
+                                        <input type="text" class="form-control" id="slackSpace">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="Title">Formatting Overhead</label>
+                                        <input type="text" class="form-control" id="formattingOverhead">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="Title">Base Consumption</label>
+                                        <input type="text" class="form-control" id="baseConsumption">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="Title">Disk Group Base Consumption</label>
+                                        <input type="text" class="form-control" id="dgBaseConsumption">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="Title">SSD Memory Overhead per GB (Hybrid)</label>
+                                        <input type="text" class="form-control" id="baseConsumption">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="Title">SSD Memory Overhead per GB (Flash)</label>
+                                        <input type="text" class="form-control" id="dgBaseConsumption">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="Title">Capacity Disk Base Consumption</label>
+                                        <input type="text" class="form-control" id="capDiskBaseConsumption">
+                                    </div>
+                                </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" data-dismiss="modal">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
-
-
-
-
-
 
 
 </body>
@@ -211,9 +276,6 @@
 
 <script type="text/javascript" src="vSAN_Capacity.js"></script>
 
-<script>
-    //Get the curren year for the copyright
-    $('#year').text(new Date().getFullYear());
-</script>
+
 
 </html>

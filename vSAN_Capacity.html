@@ -32,7 +32,15 @@
 
     <!-- CALCULATOR-->
     <div class="container">
-
+        <div class="row">
+            <!-- Button trigger modal -->
+            <div class="col">
+                <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#settingsModal"
+                    id="settingsButton">
+                    Settings
+                </button>
+            </div>
+        </div>
         <div class="row">
             <div class="col">
                 <h1 class="mb-3">vSAN Capacity Calculator<span id="icon"><i class="fas fa-calculator ml-3"></i></span></h1>
@@ -40,13 +48,39 @@
         </div>
         <hr>
         <div class="row">
-            <!-- Button trigger modal -->
-            <div class="col">
-                <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#settingsModal">
-                    Settings
-                </button>
+            <div class="col-md-4">
+                <div class="card text-center mb-resp">
+                    <div class="card-body">
+                        <h3>vCPU</h3>
+                        <p>vCPU Required: <span id="vcpuReqOutput"></span></p>
+                        <p>vCPU Delivered: <span id="vcpuDelOutput"></span></p>
+                        <p>Difference: <span id="vcpuDiffOutput"></span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center mb-resp">
+                    <div class="card-body">
+                        <h3>RAM</h3>
+                        <p>RAM Required: <span id="ramReqOutput"></span></p>
+                        <p>RAM Delivered: <span id="ramDelOutput"></span></p>
+                        <p>Difference: <span id="ramDiffOutput"></span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center mb-resp">
+                    <div class="card-body">
+                        <h3>Capacity</h3>
+                        <p>Capacity Required: <span id="capReqOutput"></span></p>
+                        <p>Capacity Delivered: <span id="capDelOutput"></span></p>
+                        <p>Difference: <span id="capDiffOutput"></span></p>
+                    </div>
+                </div>
             </div>
         </div>
+        <hr>
+
         <div class="row">
             <div class="col">
                 <h3>VM Requirements</h3>
@@ -54,53 +88,50 @@
         </div>
         <div class="row">
             <div class="col-mb-3 ml-3 mr-3">
-                <label for="iops">vCPU</label>
-                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="200"
-                    required>
+                <label for="vCPUReq">vCPU</label>
+                <input type="number" name="vCPU" id="" class="form-control form-control-lg" required>
             </div>
             <div class="col-mb-3">
-                <label for="iops">RAM (GB)</label>
-                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="512"
-                    required>
+                <label for="ramReq">RAM (GiB)</label>
+                <input type="number" name="ramReq" id="IOPS" class="form-control form-control-lg" required>
             </div>
         </div>
         <!-- HOST CONFIG -->
         <hr>
-        <div class="row">
+        <div class="row mt-5">
             <div class="col">
                 <h3>Host CPU and RAM Config</h3>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <label for="iops">Overcommit ratio x:1</label>
-                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="4"
+                <label for="overcommit">Overcommit ratio x:1</label>
+                <input type="number" name="overcommit" id="overcommit" class="form-control form-control-lg" required>
+            </div>
+            <div class="col">
+                <label for="hostRedundancy">Host Redundancy N+X</label>
+                <input type="number" name="hostRedundancy" id="hostRedundancy" class="form-control form-control-lg"
                     required>
             </div>
             <div class="col">
-                <label for="iops">Host Redundancy N+X</label>
-                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="1"
+                <label for="corePerProcessor">Cores per processor</label>
+                <input type="number" name="corePerProcessor" id="corePerProcessor" class="form-control form-control-lg"
                     required>
             </div>
             <div class="col">
-                <label for="iops">Cores per processor</label>
-                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="20"
+                <label for="processorsPerHost">Processors per host</label>
+                <input type="number" name="processorsPerHost" id="processorsPerHost" class="form-control form-control-lg"
                     required>
             </div>
             <div class="col">
-                <label for="iops">Processors per host</label>
-                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="2"
-                    required>
-            </div>
-            <div class="col">
-                <label for="iops">RAM per host (GB)</label>
-                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="1024"
-                    required>
+                <label for="ramPerHost">RAM per host (GiB)</label>
+                <input type="number" name="ramPerHost" id="ramPerHost" class="form-control form-control-lg" required>
             </div>
         </div>
         <hr>
+
         <!-- VSAN CONFIG -->
-        <div class="row">
+        <div class="row mt-5">
             <div class="col">
                 <h3>vSAN Configuration</h3>
             </div>
@@ -108,65 +139,73 @@
         <div class="row">
             <div class="col-3">
                 <label for="nodeType">Node Type</label>
-                <select name="nodeType" id="ssdHight" class="custom-select">
-                    <option>Hybrid</option>
-                    <option>Flash</option>
+                <select name="nodeType" id="nodeType" class="custom-select">
+                    <option value="hybrid">Hybrid</option>
+                    <option value="flash">Flash</option>
                 </select>
             </div>
-            <div class="col-3">
-                <label for="FTT">FTT</label>
-                <select name="FTT" id="FTT" class="custom-select">
-                    <option>FTT1</option>
-                    <option>FTT2</option>
-                    <option>FTT3</option>
-                    <option>RAID-5</option>
-                    <option>RAID-6</option>
+            <div class="col-3" id="fttHybrid">
+                <label for="fttHybridValue">FTT Hybrid</label>
+                <select name="fttHybridValue" id="fttHybridValue" class="custom-select">
+                    <option value="2">FTT1</option>
+                    <option value="3">FTT2</option>
+                    <option value="4">FTT3</option>
                 </select>
             </div>
+            <div class="col-3 d-none" id="fttFlash" class="d-none">
+                <label for="fttFlashValue">FTT All-Flash</label>
+                <select name="fttFlashValue" id="fttFlashValue" class="custom-select">
+                    <option value="2">FTT1</option>
+                    <option value="3">FTT2</option>
+                    <option value="4">FTT3</option>
+                    <option value="1.33">RAID-5</option>
+                    <option value="1.5">RAID-6</option>
+                </select>
+            </div>
+
+
         </div>
-        <div class="row mt-2">
-            <div class="col-3">
-                <label for="iops">Capacity required (TB)</label>
-                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="4"
+        <div class="row mt-5">
+            <div class="col-md-3">
+                <label for="capacityRequired">Capacity required (TiB)</label>
+                <input type="number" name="capacityRequired" id="capacityRequired" class="form-control form-control-lg"
                     required>
             </div>
 
-            <div class="col-3">
-                <label for="iops">Disk Group Qty per host</label>
-                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="20"
+            <div class="col-md-3">
+                <label for="diskGroupQtyPerHost">Disk Group Qty per host</label>
+                <input type="number" name="diskGroupQtyPerHost" id="diskGroupQtyPerHost" class="form-control form-control-lg"
                     required>
+            </div>
+            <div class="col=md-3">
+                <label for="dataDisksPerDiskGroup">Data disks per disk group</label>
+                <input type="number" name="dataDisksPerDiskGroup" id="dataDisksPerDiskGroup" class="form-control form-control-lg"
+                    placeholder="Min 3, Max 7" required>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col">
-                <label for="iops">Cache capacity (GB)</label>
-                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="2"
+        <div class="row mt-5">
+            <div class="col-md-3">
+                <label for="cacheCapacity">Cache capacity (GiB)</label>
+                <input type="number" name="cacheCapacity" id="cacheCapacity" class="form-control form-control-lg"
                     required>
             </div>
-            <div class="col">
-                <label for="iops">Data disk capacity (GB)</label>
-                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="1024"
+            <div class="col-md-3">
+                <label for="dataDiskCapacity">Data disk capacity (GiB)</label>
+                <input type="number" name="dataDiskCapacity" id="dataDiskCapacity" class="form-control form-control-lg"
                     required>
             </div>
-            <div class="col">
-                <label for="iops">Data disk capacity (GB)</label>
-                <input type="number" name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="1024"
-                    required>
+            <div class="col-md-3">
+                <label for="dedupFactor">Dedup factor X:1</label>
+                <input type="number" name="dedupFactor" id="dedupFactor" class="form-control form-control-lg" required>
             </div>
+
         </div>
         <div id="button" class="row">
             <button id="button2" type="button" class="btn btn-primary mt-3 ml-3">Submit</button>
         </div>
         <hr>
-        <div class="row">
-            <div class="col-md-6 offset-md-3 text-center">
-                <h3>This will be replaced</h3>
-                <span id="rBox">
-                    <p> <span id="result">0</span><span> @ 4k block</span></p>
-                    <p class="otherResults"> <span id="result2">0</span><span> @ 8k block</span></p>
-                    <p class="otherResults"> <span id="result3">0</span><span> @ 16k block</span></p>
-            </div>
-        </div>
+
+
         <!-- LOAD MODAL -->
         <div id="myModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
@@ -189,6 +228,7 @@
             </div>
         </div>
 
+
         <!-- Modal -->
         <div class="modal fade" id="settingsModal">
             <div class="modal-dialog modal-lg">
@@ -204,57 +244,67 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="Title">Slack</label>
-                                        <input type="text" class="form-control" id="slackSpace">
+                                        <label for="slackSpace">Slack (%)</label>
+                                        <input type="number" class="form-control" id="slackSpace">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="Title">Formatting Overhead</label>
-                                        <input type="text" class="form-control" id="formattingOverhead">
+                                        <label for="formattingOverhead">Formatting Overhead (%)</label>
+                                        <input type="number" class="form-control" id="formattingOverhead">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="baseConsumption">Base Consumption (MiB)</label>
+                                        <input type="number" class="form-control" id="baseConsumption">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="dgBaseConsumption">Disk Group Base Consumption (MiB)</label>
+                                        <input type="number" class="form-control" id="dgBaseConsumption">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="Title">Base Consumption</label>
-                                        <input type="text" class="form-control" id="baseConsumption">
+                                        <label for="SSDMemOverheadPerGiB">Hybrid SSD Memory Overhead per GiB (MiB)</label>
+                                        <input type="number" class="form-control" id="SSDMemOverheadPerGiB">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="Title">Disk Group Base Consumption</label>
-                                        <input type="text" class="form-control" id="dgBaseConsumption">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="Title">SSD Memory Overhead per GB (Hybrid)</label>
-                                        <input type="text" class="form-control" id="baseConsumption">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="Title">SSD Memory Overhead per GB (Flash)</label>
-                                        <input type="text" class="form-control" id="dgBaseConsumption">
+                                        <label for="HDDMemOverheadPerGiB">Flash SSD Memory Overhead per GiB (MiB)</label>
+                                        <input type="number" class="form-control" id="HDDMemOverheadPerGiB">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="Title">Capacity Disk Base Consumption</label>
-                                        <input type="text" class="form-control" id="capDiskBaseConsumption">
+                                        <label for="capDiskBaseConsumption">Capacity Disk Base Consumption (MiB)</label>
+                                        <input type="number" class="form-control" id="capDiskBaseConsumption">
                                     </div>
                                 </div>
-
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p>RAM Overhead Calculation</p>
+                                    <p>BaseConsumption + (NumDiskGroups * (DiskGroupBaseConsumption +
+                                        (SSDMemOverheadPerGiB * SSDSize))) + (NumCapacityDisks *
+                                        CapacityDiskBaseConsumption)</p>
+                                    <p>SSD size, number of HHD and quantity of disk groups are in main settings.</p>
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary" data-dismiss="modal">Save Changes</button>
+                        <button class="btn btn-primary" data-dismiss="modal" id="saveSettings">Save Changes</button>
                     </div>
                 </div>
             </div>
@@ -267,8 +317,6 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
-<!-- <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
     crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"

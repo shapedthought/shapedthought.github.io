@@ -1,31 +1,64 @@
-//This is all the old code from the vSAN performance cal, this will all be going soon
+//Update the FTT options based on flash or hybrid
 
-$(document).ready(function () {
+document.querySelector('#nodeType').addEventListener("change", runFtt);
 
-	//Modal load popup box
-	$('#myModal').modal('show');
-
-
-	$("#button2").click(function () {
-		var IOPS = Number($("#IOPS").val());
-		var wBlock = Number($("#wBlock").val());
-		var rBlock = Number($("#rBlock").val());
-		var ReadPercentage = Number($("#percentage").val());
-		ReadPercentage = ReadPercentage / 100;
-		WritePercentage = 1 - ReadPercentage;
-		if (IOPS == 0 || wBlock == 0 || rBlock == 0 || ReadPercentage == 0) {
-			alert("Please Enter Values");
-		} else {
-			$("#result").text(calculation(4, rBlock, wBlock, IOPS, ReadPercentage, WritePercentage));
-			$("#result2").text(calculation(8, rBlock, wBlock, IOPS, ReadPercentage, WritePercentage));
-			$("#result3").text(calculation(16, rBlock, wBlock, IOPS, ReadPercentage, WritePercentage));
-		}
-
-	});
-});
-
-function calculation(vBlock, rBlock, wBlock, iops, read, write) {
-	var result = (((iops * read * rBlock) / vBlock)) + (((iops * write * wBlock) / vBlock));
-	var result = result.toFixed(0);
-	return result;
+function runFtt() {
+	document.querySelector('#fttHybrid').classList.toggle('d-none');
+	document.querySelector('#fttFlash').classList.toggle('d-none');
 }
+
+//Add current values to modal on click
+
+document.querySelector('#settingsButton').addEventListener("click", settingsUpdate);
+
+let baseC = 5426;
+let dgBaseCon = 636;
+let ssdBaseMemOh = 8;
+let hybBaseMemOh = 14;
+let capDiskBaseCon = 70;
+let slackSpace = 25;
+let diskFormat = 1.2;
+
+function settingsUpdate() {
+	document.querySelector('#slackSpace').value = slackSpace;
+	document.querySelector('#dgBaseConsumption').value = dgBaseCon;
+	document.querySelector('#formattingOverhead').value = diskFormat;
+	document.querySelector('#baseConsumption').value = baseC;
+	document.querySelector('#SSDMemOverheadPerGiB').value = ssdBaseMemOh;
+	document.querySelector('#HDDMemOverheadPerGiB').value = hybBaseMemOh;
+	document.querySelector('#capDiskBaseConsumption').value = capDiskBaseCon;
+};
+
+//Save Changes to settings
+
+document.querySelector('#saveSettings').addEventListener("click", saveSettings);
+
+function saveSettings() {
+	slackSpace = document.querySelector('#slackSpace').value;
+	dgBaseCon = document.querySelector('#dgBaseConsumption').value;
+	diskFormat = document.querySelector('#formattingOverhead').value;
+	baseC = document.querySelector('#baseConsumption').value;
+	ssdBaseMemOh = document.querySelector('#SSDMemOverheadPerGiB').value;
+	hybBaseMemOh = document.querySelector('#HDDMemOverheadPerGiB').value;
+	capDiskBaseCon = document.querySelector('#capDiskBaseConsumption').value;
+}
+
+//RAM Overhead cal
+function ramOverhead(BC, NDG, DGBC, SMOH, SS, NCD, CDBC) {
+	let overHead = BC + (NDG * (DGBC + (SMOH * SS))) + (NCD * CDBC);
+	return overHead;
+}
+
+//FTT cal
+function fttCapCal(rawCap, format, slack, ftt) {
+	let overHead = (1 - (format + slack) / 100);
+	let capLessOh = (rawCap * overHead);
+	let postFtt = capLessOh / parseFloat(ftt); //changing the value to a float here?
+	return postFtt;
+}
+
+//vCPU and RAM deliverable cal
+
+//Minimum host warning based on FTT
+
+//Maxium disks per group

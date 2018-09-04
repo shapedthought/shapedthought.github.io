@@ -5,6 +5,7 @@ document.querySelector('#nodeType').addEventListener("change", runFtt);
 function runFtt() {
 	document.querySelector('#fttHybrid').classList.toggle('d-none');
 	document.querySelector('#fttFlash').classList.toggle('d-none');
+	document.querySelector('#showDedup').classList.toggle('d-none');
 }
 
 //Add current values to modal on click

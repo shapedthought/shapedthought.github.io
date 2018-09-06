@@ -51,10 +51,10 @@
             <div class="col-md-4">
                 <div class="card text-center mb-resp">
                     <div class="card-body">
-                        <h3>vCPU</h3>
-                        <p>vCPU Required: <span id="vcpuReqOutput"></span></p>
-                        <p>vCPU Delivered: <span id="vcpuDelOutput"></span></p>
-                        <p>Difference: <span id="vcpuDiffOutput"></span></p>
+                        <h3>Cores</h3>
+                        <p>Cores Required: <span id="coresReqOutput"></span></p>
+                        <p>Cores Delivered: <span id="coresDelOutput"></span></p>
+                        <p>Difference: <span id="coresDiffOutput"></span></p>
                     </div>
                 </div>
             </div>
@@ -89,11 +89,11 @@
         <div class="row">
             <div class="col-mb-3 ml-3 mr-3">
                 <label for="vcpuReq">vCPU</label>
-                <input type="number" name="vcpuReq" id="vcpuReq" class="form-control form-control-lg" required>
+                <input type="number" name="vcpuReq" id="vcpuReq" class="form-control " required>
             </div>
             <div class="col-mb-3">
                 <label for="ramReq">RAM (GiB)</label>
-                <input type="number" name="ramReq" id="ramReq" class="form-control form-control-lg" required>
+                <input type="number" name="ramReq" id="ramReq" class="form-control " required>
             </div>
         </div>
         <!-- QTY OF HOSTS -->
@@ -106,8 +106,8 @@
         <div class="row">
             <div class="col-2">
                 <label for="hostQuantity">Quantity of hosts</label>
-                <input type="number" name="hostQuantity" id="hostQuantity" class="form-control form-control-lg"
-                    placeholder="3 min" required>
+                <input type="number" name="hostQuantity" id="hostQuantity" class="form-control " placeholder="3 min"
+                    required>
             </div>
         </div>
 
@@ -121,26 +121,23 @@
         <div class="row">
             <div class="col">
                 <label for="overcommit">Overcommit ratio x:1</label>
-                <input type="number" name="overcommit" id="overcommit" class="form-control form-control-lg" required>
+                <input type="number" name="overcommit" id="overcommit" class="form-control " required>
             </div>
             <div class="col">
                 <label for="hostRedundancy">Host Redundancy N+X</label>
-                <input type="number" name="hostRedundancy" id="hostRedundancy" class="form-control form-control-lg"
-                    required>
+                <input type="number" name="hostRedundancy" id="hostRedundancy" class="form-control " required>
             </div>
             <div class="col">
                 <label for="corePerProcessor">Cores per processor</label>
-                <input type="number" name="corePerProcessor" id="corePerProcessor" class="form-control form-control-lg"
-                    required>
+                <input type="number" name="corePerProcessor" id="corePerProcessor" class="form-control " required>
             </div>
             <div class="col">
                 <label for="processorsPerHost">Processors per host</label>
-                <input type="number" name="processorsPerHost" id="processorsPerHost" class="form-control form-control-lg"
-                    required>
+                <input type="number" name="processorsPerHost" id="processorsPerHost" class="form-control " required>
             </div>
             <div class="col">
                 <label for="ramPerHost">RAM per host (GiB)</label>
-                <input type="number" name="ramPerHost" id="ramPerHost" class="form-control form-control-lg" required>
+                <input type="number" name="ramPerHost" id="ramPerHost" class="form-control " required>
             </div>
         </div>
         <hr>
@@ -183,35 +180,31 @@
         <div class="row mt-5">
             <div class="col-md-3">
                 <label for="capacityRequired">Capacity required (TiB)</label>
-                <input type="number" name="capacityRequired" id="capacityRequired" class="form-control form-control-lg"
-                    required>
+                <input type="number" name="capacityRequired" id="capacityRequired" class="form-control " required>
             </div>
 
             <div class="col-md-3">
                 <label for="diskGroupQtyPerHost">Disk Group Qty per host</label>
-                <input type="number" name="diskGroupQtyPerHost" id="diskGroupQtyPerHost" class="form-control form-control-lg"
-                    required>
+                <input type="number" name="diskGroupQtyPerHost" id="diskGroupQtyPerHost" class="form-control " required>
             </div>
             <div class="col=md-3">
                 <label for="dataDisksPerDiskGroup">Data disks per disk group</label>
-                <input type="number" name="dataDisksPerDiskGroup" id="dataDisksPerDiskGroup" class="form-control form-control-lg"
+                <input type="number" name="dataDisksPerDiskGroup" id="dataDisksPerDiskGroup" class="form-control "
                     placeholder="Min 3, Max 7" required>
             </div>
         </div>
         <div class="row mt-5">
             <div class="col-md-3">
                 <label for="cacheCapacity">Cache disk capacity (GiB)</label>
-                <input type="number" name="cacheCapacity" id="cacheCapacity" class="form-control form-control-lg"
-                    required>
+                <input type="number" name="cacheCapacity" id="cacheCapacity" class="form-control " required>
             </div>
             <div class="col-md-3">
                 <label for="dataDiskCapacity">Data disk capacity (GiB)</label>
-                <input type="number" name="dataDiskCapacity" id="dataDiskCapacity" class="form-control form-control-lg"
-                    required>
+                <input type="number" name="dataDiskCapacity" id="dataDiskCapacity" class="form-control " required>
             </div>
             <div class="col-md-3 d-none" id="showDedup">
                 <label for="dedupFactor">Dedup factor X:1</label>
-                <input type="number" name="dedupFactor" id="dedupFactor" class="form-control form-control-lg" required>
+                <input type="number" name="dedupFactor" id="dedupFactor" class="form-control " required>
             </div>
 
         </div>
@@ -307,13 +300,17 @@
                                     </div>
                                 </div>
                             </div>
+                            <hr>
                             <div class="row">
                                 <div class="col">
-                                    <p>RAM Overhead Calculation</p>
-                                    <p>BaseConsumption + (NumDiskGroups * (DiskGroupBaseConsumption +
-                                        (SSDMemOverheadPerGiB * SSDSize))) + (NumCapacityDisks *
-                                        CapacityDiskBaseConsumption)</p>
-                                    <p>SSD size, number of HHD and quantity of disk groups are in main settings.</p>
+                                    <h4>RAM Overhead Calculation</h4>
+                                    <ul>
+                                        <li>BaseConsumption + (NumDiskGroups * (DiskGroupBaseConsumption +
+                                            (SSDMemOverheadPerGiB * SSDSize))) + (NumCapacityDisks *
+                                            CapacityDiskBaseConsumption)</li>
+                                        <li>SSD size, number of HHD and quantity of disk groups are in main settings.</li>
+                                        <li>This overhead is added to the RAM requirement per host.</li>
+                                    </ul>
                                 </div>
                             </div>
                         </form>

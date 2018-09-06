@@ -4,13 +4,13 @@ document.querySelector('#nodeType').addEventListener("change", runFtt);
 
 //Sets current FTT state
 let nodeTypeSelect = 1;
+let fttReduction = 1;
 
 function runFtt() {
 	document.querySelector('#fttHybrid').classList.toggle('d-none');
 	document.querySelector('#fttFlash').classList.toggle('d-none');
 	document.querySelector('#showDedup').classList.toggle('d-none');
 	nodeTypeSelect = nodeTypeSelect === 1 ? 2 : 1;
-	console.log(nodeTypeSelect);
 }
 
 //Add current values to modal on click
@@ -51,15 +51,6 @@ function saveSettings() {
 }
 
 
-//FTT cal
-function fttCapCal(rawCap, format, slack, ftt) {
-	let overHead = (1 - (format + slack) / 100);
-	let capLessOh = (rawCap * overHead);
-	let postFtt = capLessOh / parseFloat(ftt); //changing the value to a float here?
-	return postFtt;
-}
-
-
 //Submit function
 
 document.querySelector('#submit').addEventListener('click', runCal);
@@ -82,8 +73,12 @@ function runCal() {
 	let ramPerHost = parseInt(document.querySelector('#ramPerHost').value);
 
 	//vSAN inputs
-	let fttReduction = 0;
-	document.querySelector('#dedupFactor').defaultValue = 0;
+	fttReduction = 1;
+	if (nodeTypeSelect === 1) {
+		document.querySelector('#dedupFactor').defaultValue = 1;
+		console.log("dedup reset")
+	};
+
 	if (nodeTypeSelect === 1) {
 		fttReduction = parseFloat(document.querySelector('#fttHybridValue').value);
 	} else {
@@ -95,9 +90,12 @@ function runCal() {
 	let dataDisksPerDiskGroup = parseInt(document.querySelector('#dataDisksPerDiskGroup').value);
 	let cacheCapacity = parseInt(document.querySelector('#cacheCapacity').value);
 	let dataDiskCapacity = parseInt(document.querySelector('#dataDiskCapacity').value);
-	let dedupFactor = parseFloat(document.querySelector('#dedupFactor').value);
+	let dedupFactor = parseFloat(document.querySelector('#dedupFactor').value); //updates the dedup factor
+	console.log("Dedup factor: " + dedupFactor);
 
 	let baseMemOh = 0;
+
+	//RAM overhead, total for cluster assumed
 
 	if (nodeTypeSelect === 1) {
 		baseMemOh = hybBaseMemOh;
@@ -105,8 +103,56 @@ function runCal() {
 		baseMemOh = ssdBaseMemOh;
 	}
 
-	console.log(baseC, diskGroupQtyPerHost, dgBaseCon, baseMemOh, cacheCapacity, dataDisksPerDiskGroup, capDiskBaseCon);
-
 	let ramOverhead = baseC + (diskGroupQtyPerHost * (dgBaseCon + (baseMemOh * cacheCapacity))) + (dataDisksPerDiskGroup * capDiskBaseCon);
-	console.log(ramOverhead);
+
+	//Host deliverables
+	//vCPU
+	let coresReq = (vcpuReq / overcommit);
+	document.querySelector('#coresReqOutput').innerText = coresReq;
+	let delCores = (hostQuantity - hostRedundancy) * (processorsPerHost * corePerProcessor);
+	document.querySelector('#coresDelOutput').innerText = delCores
+	let coresDiff = (delCores - coresReq).toFixed(2);
+	document.querySelector('#coresDiffOutput').innerText = coresDiff;
+	if (coresDiff < 0) {
+		document.querySelector('#coresDiffOutput').classList.add('text-danger');
+	} else {
+		document.querySelector('#coresDiffOutput').classList.remove('text-danger');
+	}
+
+	//RAM
+	let ramPlusOh = (ramReq + (ramOverhead / 1024)).toFixed(2); //Added RAM overhead (as total)
+	document.querySelector('#ramReqOutput').innerText = ramPlusOh;
+	let delRam = (hostQuantity - hostRedundancy) * ramPerHost;
+	document.querySelector('#ramDelOutput').innerText = delRam;
+	let ramDiff = (delRam - ramPlusOh).toFixed(2);
+	document.querySelector('#ramDiffOutput').innerText = ramDiff;
+	if (ramDiff < 0) {
+		document.querySelector('#ramDiffOutput').classList.add('text-danger');
+	} else {
+		document.querySelector('#ramDiffOutput').classList.remove('text-danger');
+	}
+
+	//The BIG one, vSAN capacity calculation!
+	document.querySelector('#capReqOutput').innerText = capacityRequired;
+	let rawCap = ((hostQuantity * (diskGroupQtyPerHost * dataDisksPerDiskGroup)) * dataDiskCapacity) / 1024;
+	console.log("Raw capacity" + rawCap);
+	let capDelivered = fttCapCal(rawCap, diskFormat, slackSpace, fttReduction, dedupFactor);
+	console.log("Cap delivered" + capDelivered);
+	document.querySelector('#capDelOutput').innerText = capDelivered;
+	document.querySelector('#capDiffOutput').innerText = capDelivered - capacityRequired;
+}
+
+//vSAN capacity function
+function fttCapCal(rawCap, format, slack, ftt, dedup) {
+	console.log("vSAN Sizing steps");
+	console.log("raw cap: " + rawCap + "TiB, format: " + format + "%, slack: " + slack + "%, ftt: " + ftt + " dedup: " + dedup + ": 1");
+	let overHead = (1 - (format + slack) / 100);
+	console.log("Overhead reduction (slack + format %): " + overHead + "% * raw cap");
+	let capLessOh = (rawCap * overHead);
+	console.log("Capacity with overhead reduction: " + capLessOh);
+	let postFtt = capLessOh / ftt;
+	console.log("Capacity post FTT reduction: " + postFtt);
+	let postDedup = postFtt * dedup;
+	console.log("Capacity with dedup factor: " + postDedup);
+	return (postDedup).toFixed(2);
 }

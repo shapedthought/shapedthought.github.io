@@ -88,14 +88,29 @@
         </div>
         <div class="row">
             <div class="col-mb-3 ml-3 mr-3">
-                <label for="vCPUReq">vCPU</label>
-                <input type="number" name="vCPU" id="" class="form-control form-control-lg" required>
+                <label for="vcpuReq">vCPU</label>
+                <input type="number" name="vcpuReq" id="vcpuReq" class="form-control form-control-lg" required>
             </div>
             <div class="col-mb-3">
                 <label for="ramReq">RAM (GiB)</label>
-                <input type="number" name="ramReq" id="IOPS" class="form-control form-control-lg" required>
+                <input type="number" name="ramReq" id="ramReq" class="form-control form-control-lg" required>
             </div>
         </div>
+        <!-- QTY OF HOSTS -->
+        <hr>
+        <div class="row mt-5">
+            <div class="col">
+                <h3>Host Quantity</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <label for="hostQuantity">Quantity of hosts</label>
+                <input type="number" name="hostQuantity" id="hostQuantity" class="form-control form-control-lg"
+                    placeholder="3 min" required>
+            </div>
+        </div>
+
         <!-- HOST CONFIG -->
         <hr>
         <div class="row mt-5">
@@ -147,19 +162,19 @@
             <div class="col-3" id="fttHybrid">
                 <label for="fttHybridValue">FTT Hybrid</label>
                 <select name="fttHybridValue" id="fttHybridValue" class="custom-select">
-                    <option value="2">FTT1</option>
-                    <option value="3">FTT2</option>
-                    <option value="4">FTT3</option>
+                    <option value="2">FTT1: min hosts 3</option>
+                    <option value="3">FTT2: min hosts 5</option>
+                    <option value="4">FTT3: min hosts 7</option>
                 </select>
             </div>
             <div class="col-3 d-none" id="fttFlash" class="d-none">
                 <label for="fttFlashValue">FTT All-Flash</label>
                 <select name="fttFlashValue" id="fttFlashValue" class="custom-select">
-                    <option value="2">FTT1</option>
-                    <option value="3">FTT2</option>
-                    <option value="4">FTT3</option>
-                    <option value="1.33">RAID-5</option>
-                    <option value="1.5">RAID-6</option>
+                    <option value="2">FTT1: min hosts 3</option>
+                    <option value="3">FTT2: min hosts 5</option>
+                    <option value="4">FTT3: min hosts 7</option>
+                    <option value="1.33">RAID-5: min hosts 4</option>
+                    <option value="1.5">RAID-6: min hosts 6</option>
                 </select>
             </div>
 
@@ -185,7 +200,7 @@
         </div>
         <div class="row mt-5">
             <div class="col-md-3">
-                <label for="cacheCapacity">Cache capacity (GiB)</label>
+                <label for="cacheCapacity">Cache disk capacity (GiB)</label>
                 <input type="number" name="cacheCapacity" id="cacheCapacity" class="form-control form-control-lg"
                     required>
             </div>
@@ -200,8 +215,8 @@
             </div>
 
         </div>
-        <div id="button" class="row">
-            <button id="button2" type="button" class="btn btn-primary mt-3 ml-3">Submit</button>
+        <div id="submit" class="row">
+            <button id="submit" type="button" class="btn btn-primary mt-3 ml-3">Submit</button>
         </div>
         <hr>
 

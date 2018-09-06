@@ -75,8 +75,7 @@ function runCal() {
 	//vSAN inputs
 	fttReduction = 1;
 	if (nodeTypeSelect === 1) {
-		document.querySelector('#dedupFactor').defaultValue = 1;
-		console.log("dedup reset")
+		document.querySelector('#dedupFactor').value = 1;
 	};
 
 	if (nodeTypeSelect === 1) {
@@ -91,7 +90,6 @@ function runCal() {
 	let cacheCapacity = parseInt(document.querySelector('#cacheCapacity').value);
 	let dataDiskCapacity = parseInt(document.querySelector('#dataDiskCapacity').value);
 	let dedupFactor = parseFloat(document.querySelector('#dedupFactor').value); //updates the dedup factor
-	console.log("Dedup factor: " + dedupFactor);
 
 	let baseMemOh = 0;
 
@@ -137,9 +135,9 @@ function runCal() {
 	let rawCap = ((hostQuantity * (diskGroupQtyPerHost * dataDisksPerDiskGroup)) * dataDiskCapacity) / 1024;
 	console.log("Raw capacity" + rawCap);
 	let capDelivered = fttCapCal(rawCap, diskFormat, slackSpace, fttReduction, dedupFactor);
-	console.log("Cap delivered" + capDelivered);
+	console.log("Cap delivered " + capDelivered + " TiB");
 	document.querySelector('#capDelOutput').innerText = capDelivered;
-	document.querySelector('#capDiffOutput').innerText = capDelivered - capacityRequired;
+	document.querySelector('#capDiffOutput').innerText = (capDelivered - capacityRequired).toFixed(2);
 }
 
 //vSAN capacity function
@@ -149,10 +147,10 @@ function fttCapCal(rawCap, format, slack, ftt, dedup) {
 	let overHead = (1 - (format + slack) / 100);
 	console.log("Overhead reduction (slack + format %): " + overHead + "% * raw cap");
 	let capLessOh = (rawCap * overHead);
-	console.log("Capacity with overhead reduction: " + capLessOh);
+	console.log("Capacity with overhead reduction: " + (capLessOh).toFixed(2));
 	let postFtt = capLessOh / ftt;
-	console.log("Capacity post FTT reduction: " + postFtt);
+	console.log("Capacity post FTT reduction: " + (postFtt).toFixed(2));
 	let postDedup = postFtt * dedup;
-	console.log("Capacity with dedup factor: " + postDedup);
+	console.log("Capacity with dedup factor: " + (postDedup).toFixed(2));
 	return (postDedup).toFixed(2);
 }

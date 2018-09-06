@@ -35,7 +35,7 @@
         <div class="row">
             <!-- Button trigger modal -->
             <div class="col">
-                <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#settingsModal"
+                <button type="button" class="btn btn-sm btn-success float-right" data-toggle="modal" data-target="#settingsModal"
                     id="settingsButton">
                     Settings
                 </button>
@@ -44,6 +44,12 @@
         <div class="row">
             <div class="col">
                 <h1 class="mb-3">vSAN Capacity Calculator<span id="icon"><i class="fas fa-calculator ml-3"></i></span></h1>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <button id="submit" type="button" class="btn btn-outline-danger float-right">Run</button>
             </div>
         </div>
         <hr>
@@ -80,13 +86,18 @@
             </div>
         </div>
         <hr>
-
+        <div class="row">
+        </div>
         <div class="row">
             <div class="col">
                 <h3>VM Requirements</h3>
             </div>
+            <div class="col">
+                <button type="button" class="btn btn-outline-primary btn-sm float-right" data-toggle="collapse"
+                    data-target="#vmReqCol" aria-expanded="true">Show/Hide</button>
+            </div>
         </div>
-        <div class="row">
+        <div class="row collapse show" id="vmReqCol">
             <div class="col-mb-3 ml-3 mr-3">
                 <label for="vcpuReq">vCPU</label>
                 <input type="number" name="vcpuReq" id="vcpuReq" class="form-control " required>
@@ -98,12 +109,16 @@
         </div>
         <!-- QTY OF HOSTS -->
         <hr>
-        <div class="row mt-5">
+        <div class="row mt-3">
             <div class="col">
                 <h3>Host Quantity</h3>
             </div>
+            <div class="col">
+                <button type="button" class="btn btn-outline-primary btn-sm float-right" data-toggle="collapse"
+                    data-target="#hostReqCol" aria-expanded="true">Show/Hide</button>
+            </div>
         </div>
-        <div class="row">
+        <div class="row collapse" id="hostReqCol">
             <div class="col-2">
                 <label for="hostQuantity">Quantity of hosts</label>
                 <input type="number" name="hostQuantity" id="hostQuantity" class="form-control " placeholder="3 min"
@@ -113,12 +128,16 @@
 
         <!-- HOST CONFIG -->
         <hr>
-        <div class="row mt-5">
+        <div class="row mt-3">
             <div class="col">
                 <h3>Host CPU and RAM Config</h3>
             </div>
+            <div class="col">
+                <button type="button" class="btn btn-outline-primary btn-sm float-right" data-toggle="collapse"
+                    data-target="#hostConfigCol" aria-expanded="true">Show/Hide</button>
+            </div>
         </div>
-        <div class="row">
+        <div class="row collapse" id="hostConfigCol">
             <div class="col">
                 <label for="overcommit">Overcommit ratio x:1</label>
                 <input type="number" name="overcommit" id="overcommit" class="form-control " required>
@@ -143,74 +162,79 @@
         <hr>
 
         <!-- VSAN CONFIG -->
-        <div class="row mt-5">
+        <div class="row mt-3">
             <div class="col">
                 <h3>vSAN Configuration</h3>
             </div>
+            <div class="col">
+                <button type="button" class="btn btn-outline-primary btn-sm float-right" data-toggle="collapse"
+                    data-target="#vsanConfigCol" aria-expanded="true">Show/Hide</button>
+            </div>
         </div>
-        <div class="row">
-            <div class="col-3">
-                <label for="nodeType">Node Type</label>
-                <select name="nodeType" id="nodeType" class="custom-select">
-                    <option value="hybrid">Hybrid</option>
-                    <option value="flash">Flash</option>
-                </select>
-            </div>
-            <div class="col-3" id="fttHybrid">
-                <label for="fttHybridValue">FTT Hybrid</label>
-                <select name="fttHybridValue" id="fttHybridValue" class="custom-select">
-                    <option value="2">FTT1: min hosts 3</option>
-                    <option value="3">FTT2: min hosts 5</option>
-                    <option value="4">FTT3: min hosts 7</option>
-                </select>
-            </div>
-            <div class="col-3 d-none" id="fttFlash" class="d-none">
-                <label for="fttFlashValue">FTT All-Flash</label>
-                <select name="fttFlashValue" id="fttFlashValue" class="custom-select">
-                    <option value="2">FTT1: min hosts 3</option>
-                    <option value="3">FTT2: min hosts 5</option>
-                    <option value="4">FTT3: min hosts 7</option>
-                    <option value="1.33">RAID-5: min hosts 4</option>
-                    <option value="1.5">RAID-6: min hosts 6</option>
-                </select>
-            </div>
+        <div class="collapse" id="vsanConfigCol">
+            <div class="row">
+                <div class="col-3">
+                    <label for="nodeType">Node Type</label>
+                    <select name="nodeType" id="nodeType" class="custom-select">
+                        <option value="hybrid">Hybrid</option>
+                        <option value="flash">Flash</option>
+                    </select>
+                </div>
+                <div class="col-3" id="fttHybrid">
+                    <label for="fttHybridValue">FTT Hybrid</label>
+                    <select name="fttHybridValue" id="fttHybridValue" class="custom-select">
+                        <option value="2">FTT1: min hosts 3</option>
+                        <option value="3">FTT2: min hosts 5</option>
+                        <option value="4">FTT3: min hosts 7</option>
+                    </select>
+                </div>
+                <div class="col-3 d-none" id="fttFlash" class="d-none">
+                    <label for="fttFlashValue">FTT All-Flash</label>
+                    <select name="fttFlashValue" id="fttFlashValue" class="custom-select">
+                        <option value="2">FTT1: min hosts 3</option>
+                        <option value="3">FTT2: min hosts 5</option>
+                        <option value="4">FTT3: min hosts 7</option>
+                        <option value="1.33">RAID-5: min hosts 4</option>
+                        <option value="1.5">RAID-6: min hosts 6</option>
+                    </select>
+                </div>
 
 
-        </div>
-        <div class="row mt-5">
-            <div class="col-md-3">
-                <label for="capacityRequired">Capacity required (TiB)</label>
-                <input type="number" name="capacityRequired" id="capacityRequired" class="form-control " required>
             </div>
+            <div class="row mt-5">
+                <div class="col-md-3">
+                    <label for="capacityRequired">Capacity required (TiB)</label>
+                    <input type="number" name="capacityRequired" id="capacityRequired" class="form-control " required>
+                </div>
 
-            <div class="col-md-3">
-                <label for="diskGroupQtyPerHost">Disk Group Qty per host</label>
-                <input type="number" name="diskGroupQtyPerHost" id="diskGroupQtyPerHost" class="form-control " required>
+                <div class="col-md-3">
+                    <label for="diskGroupQtyPerHost">Disk Group Qty per host</label>
+                    <input type="number" name="diskGroupQtyPerHost" id="diskGroupQtyPerHost" class="form-control "
+                        required>
+                </div>
+                <div class="col=md-3">
+                    <label for="dataDisksPerDiskGroup">Data disks per disk group</label>
+                    <input type="number" name="dataDisksPerDiskGroup" id="dataDisksPerDiskGroup" class="form-control "
+                        placeholder="Min 3, Max 7" required>
+                </div>
             </div>
-            <div class="col=md-3">
-                <label for="dataDisksPerDiskGroup">Data disks per disk group</label>
-                <input type="number" name="dataDisksPerDiskGroup" id="dataDisksPerDiskGroup" class="form-control "
-                    placeholder="Min 3, Max 7" required>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-md-3">
-                <label for="cacheCapacity">Cache disk capacity (GiB)</label>
-                <input type="number" name="cacheCapacity" id="cacheCapacity" class="form-control " required>
-            </div>
-            <div class="col-md-3">
-                <label for="dataDiskCapacity">Data disk capacity (GiB)</label>
-                <input type="number" name="dataDiskCapacity" id="dataDiskCapacity" class="form-control " required>
-            </div>
-            <div class="col-md-3 d-none" id="showDedup">
-                <label for="dedupFactor">Dedup factor X:1</label>
-                <input type="number" name="dedupFactor" id="dedupFactor" class="form-control " required>
-            </div>
+            <div class="row mt-5">
+                <div class="col-md-3">
+                    <label for="cacheCapacity">Cache disk capacity (GiB)</label>
+                    <input type="number" name="cacheCapacity" id="cacheCapacity" class="form-control " required>
+                </div>
+                <div class="col-md-3">
+                    <label for="dataDiskCapacity">Data disk capacity (GiB)</label>
+                    <input type="number" name="dataDiskCapacity" id="dataDiskCapacity" class="form-control " required>
+                </div>
+                <div class="col-md-3 d-none" id="showDedup">
+                    <label for="dedupFactor">Dedup factor X:1</label>
+                    <input type="number" name="dedupFactor" id="dedupFactor" class="form-control " required>
+                </div>
 
+            </div>
         </div>
-        <div id="submit" class="row">
-            <button id="submit" type="button" class="btn btn-primary mt-3 ml-3">Submit</button>
-        </div>
+
         <hr>
 
 

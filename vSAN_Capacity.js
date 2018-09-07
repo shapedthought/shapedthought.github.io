@@ -2,7 +2,7 @@
 
 document.querySelector('#nodeType').addEventListener("change", runFtt);
 
-//Sets current FTT state
+//Sets current FTT node state (flash/hybrid)
 let nodeTypeSelect = 1;
 let fttReduction = 1;
 
@@ -43,7 +43,7 @@ document.querySelector('#saveSettings').addEventListener("click", saveSettings);
 function saveSettings() {
 	slackSpace = parseInt(document.querySelector('#slackSpace').value);
 	dgBaseCon = parseInt(document.querySelector('#dgBaseConsumption').value);
-	diskFormat = parseInt(document.querySelector('#formattingOverhead').value);
+	diskFormat = parseFloat(document.querySelector('#formattingOverhead').value);
 	baseC = parseInt(document.querySelector('#baseConsumption').value);
 	ssdBaseMemOh = parseInt(document.querySelector('#SSDMemOverheadPerGiB').value);
 	hybBaseMemOh = parseInt(document.querySelector('#HDDMemOverheadPerGiB').value);
@@ -55,10 +55,15 @@ function saveSettings() {
 
 document.querySelector('#submit').addEventListener('click', runCal);
 
+//Add validation check on hosts vs FTT
+function fttCheck() {
+	document.querySelector
+}
+
+//Run calculation function
 function runCal() {
 
-
-	//Virtual Requirements inputs
+	//VM Requirements inputs
 	let vcpuReq = parseInt(document.querySelector('#vcpuReq').value);
 	let ramReq = parseInt(document.querySelector('#ramReq').value);
 
@@ -73,17 +78,21 @@ function runCal() {
 	let ramPerHost = parseInt(document.querySelector('#ramPerHost').value);
 
 	//vSAN inputs
-	fttReduction = 1;
+	fttReduction = 1; //resets the fttreduction variable in the function
+	//checks the current node type selected and changes it back to 1 if hybrid (not zero as that messes up the calculation)
 	if (nodeTypeSelect === 1) {
 		document.querySelector('#dedupFactor').value = 1;
 	};
 
+	//Sets the function variable to the selected FTT capacity reduction setting 
+	//I will take this out of this function so I can do host qty validation <<>>
 	if (nodeTypeSelect === 1) {
 		fttReduction = parseFloat(document.querySelector('#fttHybridValue').value);
 	} else {
 		fttReduction = parseFloat(document.querySelector('#fttFlashValue').value);
 	}
 
+	//vSAN inputs
 	let capacityRequired = parseInt(document.querySelector('#capacityRequired').value);
 	let diskGroupQtyPerHost = parseInt(document.querySelector('#diskGroupQtyPerHost').value);
 	let dataDisksPerDiskGroup = parseInt(document.querySelector('#dataDisksPerDiskGroup').value);
@@ -91,10 +100,10 @@ function runCal() {
 	let dataDiskCapacity = parseInt(document.querySelector('#dataDiskCapacity').value);
 	let dedupFactor = parseFloat(document.querySelector('#dedupFactor').value); //updates the dedup factor
 
+	//Rests the base memory overhead
 	let baseMemOh = 0;
 
-	//RAM overhead, total for cluster assumed
-
+	//Sets RAM overhead
 	if (nodeTypeSelect === 1) {
 		baseMemOh = hybBaseMemOh;
 	} else {
@@ -103,7 +112,7 @@ function runCal() {
 
 	let ramOverhead = baseC + (diskGroupQtyPerHost * (dgBaseCon + (baseMemOh * cacheCapacity))) + (dataDisksPerDiskGroup * capDiskBaseCon);
 
-	//Host deliverables
+	//Host deliverable calculations
 	//vCPU
 	let coresReq = (vcpuReq / overcommit);
 	document.querySelector('#coresReqOutput').innerText = coresReq;
@@ -130,12 +139,10 @@ function runCal() {
 		document.querySelector('#ramDiffOutput').classList.remove('text-danger');
 	}
 
-	//The BIG one, vSAN capacity calculation!
+	//vSAN capacity calculation, uses the fttCapCal function
 	document.querySelector('#capReqOutput').innerText = capacityRequired;
 	let rawCap = ((hostQuantity * (diskGroupQtyPerHost * dataDisksPerDiskGroup)) * dataDiskCapacity) / 1024;
-	console.log("Raw capacity" + rawCap);
 	let capDelivered = fttCapCal(rawCap, diskFormat, slackSpace, fttReduction, dedupFactor);
-	console.log("Cap delivered " + capDelivered + " TiB");
 	document.querySelector('#capDelOutput').innerText = capDelivered;
 	document.querySelector('#capDiffOutput').innerText = (capDelivered - capacityRequired).toFixed(2);
 }
@@ -151,6 +158,7 @@ function fttCapCal(rawCap, format, slack, ftt, dedup) {
 	let postFtt = capLessOh / ftt;
 	console.log("Capacity post FTT reduction: " + (postFtt).toFixed(2));
 	let postDedup = postFtt * dedup;
-	console.log("Capacity with dedup factor: " + (postDedup).toFixed(2));
+	console.log("Capacity with dedup factor: " + (postDedup).toFixed(2) + "TiB");
+	console.log("============================");
 	return (postDedup).toFixed(2);
 }

@@ -4,7 +4,7 @@ document.querySelector('#nodeType').addEventListener("change", runFtt);
 
 //Sets current FTT node state (flash/hybrid)
 let nodeTypeSelect = 1;
-let fttReduction = 1;
+let fttReduction = 1; //Actual reduction level
 
 function runFtt() {
 	document.querySelector('#fttHybrid').classList.toggle('d-none');
@@ -12,6 +12,49 @@ function runFtt() {
 	document.querySelector('#showDedup').classList.toggle('d-none');
 	nodeTypeSelect = nodeTypeSelect === 1 ? 2 : 1;
 }
+
+
+//Current host qty requirements
+//The way I've set up the flash vs hybrid drop downs makes this tricky!
+let hybridHostsReq = 3;
+let flashHostsReq = 3;
+let fttHybridCheck = 2;
+let fttFlashCheck = 2;
+let currentHostReq = 3;
+
+document.querySelector('#fttHybridValue').addEventListener('change', function hostQtyUpdate() {
+	fttHybridCheck = parseFloat(document.querySelector('#fttHybridValue').value);
+	hybridHostsReq = fttHostCheck(fttHybridCheck);
+	if (nodeTypeSelect === 1) {
+		currentHostReq = hybridHostsReq
+	}
+});
+
+document.querySelector('#fttFlashValue').addEventListener('change', function hostQtyUpdate() {
+	fttFlashCheck = parseFloat(document.querySelector('#fttFlashValue').value);
+	flashHostsReq = fttHostCheck(fttFlashCheck);
+	if (nodeTypeSelect === 2) {
+		currentHostReq = flashHostsReq
+	}
+});
+
+function fttHostCheck(reductionValue) {
+	if (reductionValue === 2) {
+		return 3;
+	} else if (reductionValue === 3) {
+		return 5;
+	} else if (reductionValue === 4) {
+		return 7;
+	} else if (reductionValue === 1.33) {
+		return 4;
+	} else if (reductionValue === 1.5) {
+		return 6;
+	} else {
+		alert('ftt calculation failed!')
+	}
+}
+
+
 
 //Add current values to modal on click
 
@@ -22,7 +65,7 @@ let dgBaseCon = 636;
 let ssdBaseMemOh = 8;
 let hybBaseMemOh = 14;
 let capDiskBaseCon = 70;
-let slackSpace = 25;
+let slackSpace = 30;
 let diskFormat = 1.2;
 
 function settingsUpdate() {
@@ -53,22 +96,38 @@ function saveSettings() {
 
 //Submit function
 
-document.querySelector('#submit').addEventListener('click', runCal);
+document.querySelector('#submit').addEventListener('click', hostQtyCheck);
 
-//Add validation check on hosts vs FTT
-function fttCheck() {
-	document.querySelector
+
+
+//FTT vs Host
+function hostQtyCheck() {
+	let hostQuantity = parseInt(document.querySelector('#hostQuantity').value);
+	if (hostQuantity < currentHostReq) {
+		document.querySelector('#hostQuantity').classList.add('is-invalid');
+		document.querySelector('#hostFeedback').classList.remove('hidden');
+		alert('Check host Qty!');
+	} else {
+		document.querySelector('#hostQuantity').classList.remove('is-invalid');
+		document.querySelector('#hostFeedback').classList.add('hidden');
+		runCal();
+		console.log('check ok!')
+	}
 }
+
+
 
 //Run calculation function
 function runCal() {
+
+
 
 	//VM Requirements inputs
 	let vcpuReq = parseInt(document.querySelector('#vcpuReq').value);
 	let ramReq = parseInt(document.querySelector('#ramReq').value);
 
 	//Host Qty
-	let hostQuantity = parseInt(document.querySelector('#hostQuantity').value);
+	hostQuantity = parseInt(document.querySelector('#hostQuantity').value);
 
 	//Host config inputs
 	let overcommit = parseInt(document.querySelector('#overcommit').value);
@@ -149,16 +208,18 @@ function runCal() {
 
 //vSAN capacity function
 function fttCapCal(rawCap, format, slack, ftt, dedup) {
+	let overHead = (1 - (format + slack) / 100);
+	let capLessOh = (rawCap * overHead);
+	let postFtt = capLessOh / ftt;
+	let postDedup = postFtt * dedup;
+	return (postDedup).toFixed(2);
+
+	//Console log 
 	console.log("vSAN Sizing steps");
 	console.log("raw cap: " + rawCap + "TiB, format: " + format + "%, slack: " + slack + "%, ftt: " + ftt + " dedup: " + dedup + ": 1");
-	let overHead = (1 - (format + slack) / 100);
-	console.log("Overhead reduction (slack + format %): " + overHead + "% * raw cap");
-	let capLessOh = (rawCap * overHead);
+	console.log("Overhead reduction (slack + format %): " + (overHead).toFixed(2) + "% * raw cap");
 	console.log("Capacity with overhead reduction: " + (capLessOh).toFixed(2));
-	let postFtt = capLessOh / ftt;
 	console.log("Capacity post FTT reduction: " + (postFtt).toFixed(2));
-	let postDedup = postFtt * dedup;
 	console.log("Capacity with dedup factor: " + (postDedup).toFixed(2) + "TiB");
 	console.log("============================");
-	return (postDedup).toFixed(2);
 }

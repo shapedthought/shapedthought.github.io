@@ -42,20 +42,24 @@
 
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <label for="iops">IOPS</label>
-                    <input name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="1000" required>
+                    <input name="iops" id="IOPS" class="form-control form-control-lg" type="text" placeholder="1000"
+                        required>
                 </div>
 
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <label for="rBlock">Read Block Size</label>
-                    <input name="rblock" id="rBlock" class="form-control form-control-lg" type="text" placeholder="32" required>
+                    <input name="rblock" id="rBlock" class="form-control form-control-lg" type="text" placeholder="32"
+                        required>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <label for="wBlock">Write Block Size</label>
-                    <input name="writeBlock" id="wBlock" class="form-control form-control-lg" type="text" placeholder="32" required>
+                    <input name="writeBlock" id="wBlock" class="form-control form-control-lg" type="text" placeholder="32"
+                        required>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <label for="percentage">Read Percentage</label>
-                    <input name="percentage" id="percentage" class="form-control form-control-lg" type="text" placeholder="70" required>
+                    <input name="percentage" id="percentage" class="form-control form-control-lg" type="text"
+                        placeholder="70" required>
                 </div>
             </div>
             <div id="button" class="row">
@@ -65,7 +69,8 @@
             <div class="row">
                 <div class="col-md-6 offset-md-3 text-center">
                     <h3>IOPS Required</h3>
-                    <span id="rBox"><p> <span id="result">0</span><span> @ 4k block</span></p>
+                    <span id="rBox">
+                        <p> <span id="result">0</span><span> @ 4k block</span></p>
                         <p class="otherResults"> <span id="result2">0</span><span> @ 8k block</span></p>
                         <p class="otherResults"> <span id="result3">0</span><span> @ 16k block</span></p>
                 </div>
@@ -75,8 +80,12 @@
         </div>
     </div>
 
-
-
+    <!-- FOOTER -->
+    <footer class="footer bg-dark">
+        <div class="container">
+            <span class="text-white">Ed Howard Copywrite @ 2018</span>
+        </div>
+    </footer>
 
 
 
@@ -94,7 +103,7 @@
 <script type="text/javascript" src="IoConvert.js"></script>
 
 <script>
-    //Get the curren year for the copyright
+    //Get the current year for the copyright
     $('#year').text(new Date().getFullYear());
 </script>
 

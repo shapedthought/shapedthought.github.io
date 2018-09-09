@@ -121,8 +121,8 @@
         <div class="row collapse" id="hostReqCol">
             <div class="col-2">
                 <label for="hostQuantity">Quantity of hosts</label>
-                <input type="number" name="hostQuantity" id="hostQuantity" class="form-control " placeholder="3 min"
-                    required>
+                <input type="number" name="hostQuantity" id="hostQuantity" class="form-control " required>
+                <div class="invalid-feedback hidden" id="hostFeedback">Check minimum host quantity for FTT</div>
             </div>
         </div>
 
@@ -215,7 +215,7 @@
                 <div class="col=md-3">
                     <label for="dataDisksPerDiskGroup">Data disks per disk group</label>
                     <input type="number" name="dataDisksPerDiskGroup" id="dataDisksPerDiskGroup" class="form-control "
-                        placeholder="Min 3, Max 7" required>
+                        required>
                 </div>
             </div>
             <div class="row mt-5">
@@ -350,6 +350,14 @@
     </div>
 
 
+    <!-- FOOTER -->
+    <footer class="footer bg-dark">
+        <div class="container">
+            <span class="text-white">Copyright &copy 2018 Ed Howard </span>
+        </div>
+    </footer>
+
+
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
@@ -359,7 +367,10 @@
     crossorigin="anonymous"></script>
 
 <script type="text/javascript" src="vSAN_Capacity.js"></script>
-
+<script>
+    //Get the current year for the copyright
+    $('#year').text(new Date().getFullYear());
+</script>
 
 
 </html>

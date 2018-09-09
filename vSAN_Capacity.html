@@ -9,6 +9,7 @@
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
         crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
     <link rel="stylesheet" href="feRaid.css">
     <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
     <title>vSAN Capacity Calcuator</title>
@@ -55,7 +56,7 @@
         <hr>
         <div class="row">
             <div class="col-md-4">
-                <div class="card text-center mb-resp">
+                <div class="card border-primary text-center mb-resp">
                     <div class="card-body">
                         <h3>Cores</h3>
                         <p>Cores Required: <span id="coresReqOutput"></span></p>
@@ -65,7 +66,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card text-center mb-resp">
+                <div class="card border-primary text-center mb-resp">
                     <div class="card-body">
                         <h3>RAM</h3>
                         <p>RAM Required: <span id="ramReqOutput"></span></p>
@@ -75,7 +76,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card text-center mb-resp">
+                <div class="card border-primary text-center mb-resp">
                     <div class="card-body">
                         <h3>Capacity</h3>
                         <p>Capacity Required: <span id="capReqOutput"></span></p>
@@ -86,8 +87,28 @@
             </div>
         </div>
         <hr>
-        <div class="row">
+        <!-- CHART -->
+        <!-- <div class="row mt-3">
+            <div class="col">
+                <h3>Chart</h3>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-outline-primary btn-sm float-right" data-toggle="collapse"
+                    data-target="#chartRow" aria-expanded="true">Show/Hide</button>
+            </div>
         </div>
+        <div class="row collapse" id="chartRow">
+            <div class="col-md-4">
+                <canvas id="cpuChart"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="ramChart"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="capacityChart"></canvas>
+            </div>
+        </div>
+        <hr> -->
         <div class="row">
             <div class="col">
                 <h3>VM Requirements</h3>
@@ -171,7 +192,7 @@
                     data-target="#vsanConfigCol" aria-expanded="true">Show/Hide</button>
             </div>
         </div>
-        <div class="collapse" id="vsanConfigCol">
+        <div class="collapse mb-5" id="vsanConfigCol">
             <div class="row">
                 <div class="col-3">
                     <label for="nodeType">Node Type</label>

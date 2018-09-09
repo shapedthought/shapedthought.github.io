@@ -126,6 +126,7 @@ function runCal() {
 	let vcpuReq = parseInt(document.querySelector('#vcpuReq').value);
 	let ramReq = parseInt(document.querySelector('#ramReq').value);
 
+
 	//Host Qty
 	hostQuantity = parseInt(document.querySelector('#hostQuantity').value);
 
@@ -144,7 +145,6 @@ function runCal() {
 	};
 
 	//Sets the function variable to the selected FTT capacity reduction setting 
-	//I will take this out of this function so I can do host qty validation <<>>
 	if (nodeTypeSelect === 1) {
 		fttReduction = parseFloat(document.querySelector('#fttHybridValue').value);
 	} else {
@@ -175,6 +175,8 @@ function runCal() {
 	//vCPU
 	let coresReq = (vcpuReq / overcommit);
 	document.querySelector('#coresReqOutput').innerText = coresReq;
+
+
 	let delCores = (hostQuantity - hostRedundancy) * (processorsPerHost * corePerProcessor);
 	document.querySelector('#coresDelOutput').innerText = delCores
 	let coresDiff = (delCores - coresReq).toFixed(2);
@@ -190,6 +192,9 @@ function runCal() {
 	document.querySelector('#ramReqOutput').innerText = ramPlusOh;
 	let delRam = (hostQuantity - hostRedundancy) * ramPerHost;
 	document.querySelector('#ramDelOutput').innerText = delRam;
+
+
+
 	let ramDiff = (delRam - ramPlusOh).toFixed(2);
 	document.querySelector('#ramDiffOutput').innerText = ramDiff;
 	if (ramDiff < 0) {
@@ -204,6 +209,15 @@ function runCal() {
 	let capDelivered = fttCapCal(rawCap, diskFormat, slackSpace, fttReduction, dedupFactor);
 	document.querySelector('#capDelOutput').innerText = capDelivered;
 	document.querySelector('#capDiffOutput').innerText = (capDelivered - capacityRequired).toFixed(2);
+
+	// //Chart updates
+	// cpuChart.data.datasets[0].data[0] = coresReq;
+	// cpuChart.data.datasets[0].data[1] = delCores;
+	// ramChart.data.datasets[0].data[0] = ramReq;
+	// ramChart.data.datasets[0].data[1] = delRam;
+	// capacityChart.data.datasets[0].data[0] = capacityRequired;
+	// capacityChart.data.datasets[0].data[1] = capDelivered;
+
 }
 
 //vSAN capacity function
@@ -223,3 +237,86 @@ function fttCapCal(rawCap, format, slack, ftt, dedup) {
 	console.log("Capacity with dedup factor: " + (postDedup).toFixed(2) + "TiB");
 	console.log("============================");
 }
+
+// //Bar Chart
+
+// let cpuChart = document.getElementById("cpuChart").getContext("2d");
+
+// let cpuChart2 = new Chart(cpuChart, {
+// 	type: "bar",
+// 	data: {
+// 		labels: [
+// 			"Cores Req",
+// 			"Cores Del",
+// 		],
+// 		datasets: [{
+// 			label: "TB",
+// 			data: [1, 1],
+// 			backgroundColor: [
+// 				"#ff6666",
+// 				"#ff6666",
+// 			],
+// 			borderWidth: 1
+// 		}]
+// 	},
+// 	options: {
+// 		title: {
+// 			display: true,
+// 			text: "Cores"
+// 		}
+// 	}
+// });
+
+// let ramChart = document.getElementById("ramChart").getContext("2d");
+
+// let ramChart2 = new Chart(ramChart, {
+// 	type: "bar",
+// 	data: {
+// 		labels: [
+// 			"RAM Req",
+// 			"RAM Del",
+// 		],
+// 		datasets: [{
+// 			label: "GiB",
+// 			data: [1, 1],
+// 			backgroundColor: [
+// 				"#ffff99",
+// 				"#ffff99",
+// 			],
+// 			borderWidth: 1
+// 		}]
+// 	},
+// 	options: {
+// 		title: {
+// 			display: true,
+// 			text: "RAM"
+// 		}
+// 	}
+// });
+
+// let capacityChart = document.getElementById("capacityChart").getContext("2d");
+
+// let capacityChart2 = new Chart(capacityChart, {
+// 	type: "bar",
+// 	data: {
+// 		labels: [
+// 			"Capacity Req",
+// 			"Capacity Del"
+// 		],
+// 		datasets: [{
+// 			label: "TiB",
+// 			data: [1, 1],
+// 			backgroundColor: [
+// 				"#b3ffb3",
+// 				"#b3ffb3"
+// 			],
+// 			borderWidth: 1
+// 		}]
+// 	},
+// 	options: {
+// 		title: {
+// 			display: true,
+// 			text: "Storage Capacity"
+// 		}
+// 	}
+// });

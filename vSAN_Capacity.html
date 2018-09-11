@@ -56,32 +56,43 @@
         <hr>
         <div class="row">
             <div class="col-md-4">
-                <div class="card border-primary text-center mb-resp">
+                <div class="card border-dark text-center mb-resp">
+                        <div class="card-header">Cores</div>
                     <div class="card-body">
-                        <h3>Cores</h3>
-                        <p>Cores Required: <span id="coresReqOutput"></span></p>
-                        <p>Cores Delivered: <span id="coresDelOutput"></span></p>
-                        <p>Difference: <span id="coresDiffOutput"></span></p>
+                        <p>Required: <span id="coresReqOutput"></span></p>
+                        <p>Delivered: <span id="coresDelOutput"></span></p>
+                        <p>Overhead: <span id="coresDiffOutput"></span></p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card border-primary text-center mb-resp">
+                <div class="card border-dark text-center mb-resp">
+                    <div class="card-header">RAM</div>
                     <div class="card-body">
-                        <h3>RAM</h3>
-                        <p>RAM Required: <span id="ramReqOutput"></span></p>
-                        <p>RAM Delivered: <span id="ramDelOutput"></span></p>
-                        <p>Difference: <span id="ramDiffOutput"></span></p>
+                        <p>Required: <span id="ramReqOutput"></span></p>
+                        <p>Delivered: <span id="ramDelOutput"></span></p>
+                        <p>Overhead: <span id="ramDiffOutput"></span></p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card border-primary text-center mb-resp">
+                <div class="card border-dark border-primary text-center mb-resp">
+                        <div class="card-header">Storage</div>
                     <div class="card-body">
-                        <h3>Capacity</h3>
-                        <p>Capacity Required: <span id="capReqOutput"></span></p>
-                        <p>Capacity Delivered: <span id="capDelOutput"></span></p>
-                        <p>Difference: <span id="capDiffOutput"></span></p>
+                        <p>Required: <span id="capReqOutput"></span></p>
+                        <p>Delivered: <span id="capDelOutput"></span></p>
+                        <p>Overhead: <span id="capDiffOutput"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-4 offset-md-4">
+                <div class="card border-dark text-center mb-resp">
+                    <div class="card-header">Cache</div>
+                    <div class="card-body">
+                        <p>Total capacity: <span id="totalCacheOutput"></span></p>
+                        <p>% vs Useable capacity: <span id="cachePercentOutput"></span></p>
                     </div>
                 </div>
             </div>

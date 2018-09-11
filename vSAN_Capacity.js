@@ -189,9 +189,9 @@ function runCal() {
 
 	//RAM
 	let ramPlusOh = (ramReq + (ramOverhead / 1024)).toFixed(2); //Added RAM overhead (as total)
-	document.querySelector('#ramReqOutput').innerText = ramPlusOh;
-	let delRam = (hostQuantity - hostRedundancy) * ramPerHost;
-	document.querySelector('#ramDelOutput').innerText = delRam;
+	document.querySelector('#ramReqOutput').innerText = ramPlusOh + " GiB";
+	let delRam = (hostQuantity - hostRedundancy) * ramPerHost + " GiB";
+	document.querySelector('#ramDelOutput').innerText = delRam + " GiB";
 
 
 
@@ -204,11 +204,21 @@ function runCal() {
 	}
 
 	//vSAN capacity calculation, uses the fttCapCal function
-	document.querySelector('#capReqOutput').innerText = capacityRequired;
+	document.querySelector('#capReqOutput').innerText = capacityRequired + " TiB";
 	let rawCap = ((hostQuantity * (diskGroupQtyPerHost * dataDisksPerDiskGroup)) * dataDiskCapacity) / 1024;
 	let capDelivered = fttCapCal(rawCap, diskFormat, slackSpace, fttReduction, dedupFactor);
-	document.querySelector('#capDelOutput').innerText = capDelivered;
-	document.querySelector('#capDiffOutput').innerText = (capDelivered - capacityRequired).toFixed(2);
+	document.querySelector('#capDelOutput').innerText = capDelivered + " TiB";
+	document.querySelector('#capDiffOutput').innerText = (capDelivered - capacityRequired).toFixed(2) + " TiB";
+	if ((capDelivered - capacityRequired) < 0) {
+		document.querySelector('#capDiffOutput').classList.add('text-danger');
+	} else {
+		document.querySelector('#capDiffOutput').classList.remove('text-danger');
+	}
+
+	//Cache percentage cal and output
+	totalCacheOutput
+	document.querySelector('#totalCacheOutput').innerText = ((cacheCapacity * hostQuantity) / 1024).toFixed(2) + " TiB";
+	document.querySelector('#cachePercentOutput').innerText =  (((((cacheCapacity / 1024) * diskGroupQtyPerHost) * hostQuantity) / capDelivered) * 100).toFixed(2) + " %";
 
 	// //Chart updates
 	// cpuChart.data.datasets[0].data[0] = coresReq;

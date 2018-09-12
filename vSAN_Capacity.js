@@ -12,7 +12,7 @@ let vsanChart = new Chart(myChart, {
     labels: ["Format", "Slack", "FTT Overhead", "Useable", "Effective"],
     datasets: [{
       label: "Capacity ratio",
-      data: [5, 30, 75, 75, 50],
+      data: [5, 30, 75, 75, 0],
       backgroundColor: ["#d3d3d3", "#e29b3d", "#5276d9", "#4cc44a", "#e5ef8b"],
       borderWidth: 1
     }]

@@ -1,3 +1,31 @@
+//Load modal, yes I know it's jQuery!
+$(document).ready(function(){
+	$('#myModal').modal('show');
+});
+
+//PIE CHART
+let myChart = document.getElementById("myChart").getContext("2d");
+
+let vsanChart = new Chart(myChart, {
+  type: "doughnut",
+  data: {
+    labels: ["Format", "Slack", "FTT Overhead", "Useable", "Effective"],
+    datasets: [{
+      label: "Capacity ratio",
+      data: [5, 30, 75, 75, 50],
+      backgroundColor: ["#d3d3d3", "#e29b3d", "#5276d9", "#4cc44a", "#e5ef8b"],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "Capacity delivered"
+    }
+  }
+});
+
+
 //Update the FTT options based on flash or hybrid
 
 document.querySelector('#nodeType').addEventListener("change", runFtt);
@@ -190,13 +218,13 @@ function runCal() {
 	//RAM
 	let ramPlusOh = (ramReq + (ramOverhead / 1024)).toFixed(2); //Added RAM overhead (as total)
 	document.querySelector('#ramReqOutput').innerText = ramPlusOh + " GiB";
-	let delRam = (hostQuantity - hostRedundancy) * ramPerHost + " GiB";
+	let delRam = (hostQuantity - hostRedundancy) * ramPerHost;
 	document.querySelector('#ramDelOutput').innerText = delRam + " GiB";
 
 
 
 	let ramDiff = (delRam - ramPlusOh).toFixed(2);
-	document.querySelector('#ramDiffOutput').innerText = ramDiff;
+	document.querySelector('#ramDiffOutput').innerText = ramDiff + " GiB";
 	if (ramDiff < 0) {
 		document.querySelector('#ramDiffOutput').classList.add('text-danger');
 	} else {
@@ -218,23 +246,25 @@ function runCal() {
 	//Cache percentage cal and output
 	totalCacheOutput
 	document.querySelector('#totalCacheOutput').innerText = ((cacheCapacity * hostQuantity) / 1024).toFixed(2) + " TiB";
-	document.querySelector('#cachePercentOutput').innerText =  (((((cacheCapacity / 1024) * diskGroupQtyPerHost) * hostQuantity) / capDelivered) * 100).toFixed(2) + " %";
+	document.querySelector('#cachePercentOutput').innerText =  (((((cacheCapacity / 1024) * diskGroupQtyPerHost) * (hostQuantity - overcommit)) / capDelivered) * 100).toFixed(2) + " %";
 
-	// //Chart updates
-	// cpuChart.data.datasets[0].data[0] = coresReq;
-	// cpuChart.data.datasets[0].data[1] = delCores;
-	// ramChart.data.datasets[0].data[0] = ramReq;
-	// ramChart.data.datasets[0].data[1] = delRam;
-	// capacityChart.data.datasets[0].data[0] = capacityRequired;
-	// capacityChart.data.datasets[0].data[1] = capDelivered;
-
+	//Chart outputs (damn it)
+	vsanChart.data.datasets[0].data[0] = rawCap * (diskFormat / 100);
+	vsanChart.data.datasets[0].data[1] = rawCap * (slackSpace / 100);  
+	vsanChart.data.datasets[0].data[2] = (rawCap * ((slackSpace + diskFormat) / 100)) - (rawCap * ((slackSpace + diskFormat) / 100) / fttReduction);
+	vsanChart.data.datasets[0].data[3] = (rawCap * ((slackSpace + diskFormat) / 100) / fttReduction);
+	vsanChart.update();
 }
+
+
 
 //vSAN capacity function
 function fttCapCal(rawCap, format, slack, ftt, dedup) {
-	let overHead = (1 - (format + slack) / 100);
+	let overHead = (1 - ((format + slack) / 100));
 	let capLessOh = (rawCap * overHead);
 	let postFtt = capLessOh / ftt;
+	chartInput3 = (capLessOh - postFtt);
+	chartInput4 = postFtt;
 	let postDedup = postFtt * dedup;
 	return (postDedup).toFixed(2);
 
@@ -248,85 +278,6 @@ function fttCapCal(rawCap, format, slack, ftt, dedup) {
 	console.log("============================");
 }
 
-// //Bar Chart
 
-// let cpuChart = document.getElementById("cpuChart").getContext("2d");
 
-// let cpuChart2 = new Chart(cpuChart, {
-// 	type: "bar",
-// 	data: {
-// 		labels: [
-// 			"Cores Req",
-// 			"Cores Del",
-// 		],
-// 		datasets: [{
-// 			label: "TB",
-// 			data: [1, 1],
-// 			backgroundColor: [
-// 				"#ff6666",
-// 				"#ff6666",
-// 			],
-// 			borderWidth: 1
-// 		}]
-// 	},
-// 	options: {
-// 		title: {
-// 			display: true,
-// 			text: "Cores"
-// 		}
-// 	}
-// });
 
-// let ramChart = document.getElementById("ramChart").getContext("2d");
-
-// let ramChart2 = new Chart(ramChart, {
-// 	type: "bar",
-// 	data: {
-// 		labels: [
-// 			"RAM Req",
-// 			"RAM Del",
-// 		],
-// 		datasets: [{
-// 			label: "GiB",
-// 			data: [1, 1],
-// 			backgroundColor: [
-// 				"#ffff99",
-// 				"#ffff99",
-// 			],
-// 			borderWidth: 1
-// 		}]
-// 	},
-// 	options: {
-// 		title: {
-// 			display: true,
-// 			text: "RAM"
-// 		}
-// 	}
-// });
-
-// let capacityChart = document.getElementById("capacityChart").getContext("2d");
-
-// let capacityChart2 = new Chart(capacityChart, {
-// 	type: "bar",
-// 	data: {
-// 		labels: [
-// 			"Capacity Req",
-// 			"Capacity Del"
-// 		],
-// 		datasets: [{
-// 			label: "TiB",
-// 			data: [1, 1],
-// 			backgroundColor: [
-// 				"#b3ffb3",
-// 				"#b3ffb3"
-// 			],
-// 			borderWidth: 1
-// 		}]
-// 	},
-// 	options: {
-// 		title: {
-// 			display: true,
-// 			text: "Storage Capacity"
-// 		}
-// 	}
-// });

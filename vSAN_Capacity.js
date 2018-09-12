@@ -246,13 +246,14 @@ function runCal() {
 	//Cache percentage cal and output
 	totalCacheOutput
 	document.querySelector('#totalCacheOutput').innerText = ((cacheCapacity * hostQuantity) / 1024).toFixed(2) + " TiB";
-	document.querySelector('#cachePercentOutput').innerText =  (((((cacheCapacity / 1024) * diskGroupQtyPerHost) * (hostQuantity - overcommit)) / capDelivered) * 100).toFixed(2) + " %";
+	document.querySelector('#cachePercentOutput').innerText =  (((((cacheCapacity / 1024) * diskGroupQtyPerHost) * (hostQuantity - hostRedundancy)) / capDelivered) * 100).toFixed(2) + " %";
 
 	//Chart outputs (damn it)
 	vsanChart.data.datasets[0].data[0] = rawCap * (diskFormat / 100);
 	vsanChart.data.datasets[0].data[1] = rawCap * (slackSpace / 100);  
 	vsanChart.data.datasets[0].data[2] = (rawCap * ((slackSpace + diskFormat) / 100)) - (rawCap * ((slackSpace + diskFormat) / 100) / fttReduction);
 	vsanChart.data.datasets[0].data[3] = (rawCap * ((slackSpace + diskFormat) / 100) / fttReduction);
+	vsanChart.data.datasets[0].data[4] = ((rawCap * ((slackSpace + diskFormat) / 100) / fttReduction) * dedupFactor) - (rawCap * ((slackSpace + diskFormat) / 100) / fttReduction);
 	vsanChart.update();
 }
 

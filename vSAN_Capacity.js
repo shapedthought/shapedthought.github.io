@@ -26,6 +26,8 @@ let vsanChart = new Chart(myChart, {
 });
 
 
+//FTT CHECKS//
+
 //Update the FTT options based on flash or hybrid
 
 document.querySelector('#nodeType').addEventListener("change", runFtt);
@@ -34,13 +36,13 @@ document.querySelector('#nodeType').addEventListener("change", runFtt);
 let nodeTypeSelect = 1;
 let fttReduction = 1; //Actual reduction level
 
+//Changes the DOM options and updates the selected node type if needed
 function runFtt() {
 	document.querySelector('#fttHybrid').classList.toggle('d-none');
 	document.querySelector('#fttFlash').classList.toggle('d-none');
 	document.querySelector('#showDedup').classList.toggle('d-none');
 	nodeTypeSelect = nodeTypeSelect === 1 ? 2 : 1;
 }
-
 
 //Current host qty requirements
 //The way I've set up the flash vs hybrid drop downs makes this tricky!
@@ -50,9 +52,13 @@ let fttHybridCheck = 2;
 let fttFlashCheck = 2;
 let currentHostReq = 3;
 
+//Watches for a change to the node type
 document.querySelector('#fttHybridValue').addEventListener('change', function hostQtyUpdate() {
+	//If the hybrid node type is selected
 	fttHybridCheck = parseFloat(document.querySelector('#fttHybridValue').value);
+	//Run the FTT value through the ffttHostCheck function, returns min host quantity
 	hybridHostsReq = fttHostCheck(fttHybridCheck);
+	//If the node selected is hybrid then update the min host quantity varable
 	if (nodeTypeSelect === 1) {
 		currentHostReq = hybridHostsReq
 	}
@@ -66,6 +72,7 @@ document.querySelector('#fttFlashValue').addEventListener('change', function hos
 	}
 });
 
+//Host check function, translates ftt reduction to host minimum host quatity
 function fttHostCheck(reductionValue) {
 	if (reductionValue === 2) {
 		return 3;
@@ -82,7 +89,7 @@ function fttHostCheck(reductionValue) {
 	}
 }
 
-
+//SETTINGS MODAL
 
 //Add current values to modal on click
 
@@ -122,13 +129,14 @@ function saveSettings() {
 }
 
 
+//SUBMIT CALCULATION
+
 //Submit function
 
 document.querySelector('#submit').addEventListener('click', hostQtyCheck);
 
 
-
-//FTT vs Host
+//FTT vs Host >> checks that the minimum hosts have been sepcified
 function hostQtyCheck() {
 	let hostQuantity = parseInt(document.querySelector('#hostQuantity').value);
 	if (hostQuantity < currentHostReq) {
@@ -147,7 +155,6 @@ function hostQtyCheck() {
 
 //Run calculation function
 function runCal() {
-
 
 
 	//VM Requirements inputs
@@ -197,6 +204,7 @@ function runCal() {
 		baseMemOh = ssdBaseMemOh;
 	}
 
+	//Calculates the base memory overhead for the current design
 	let ramOverhead = baseC + (diskGroupQtyPerHost * (dgBaseCon + (baseMemOh * cacheCapacity))) + (dataDisksPerDiskGroup * capDiskBaseCon);
 
 	//Host deliverable calculations
@@ -245,18 +253,10 @@ function runCal() {
 
 	//Cache percentage cal and output
 	totalCacheOutput
-	document.querySelector('#totalCacheOutput').innerText = ((cacheCapacity * hostQuantity) / 1024).toFixed(2) + " TiB";
-	document.querySelector('#cachePercentOutput').innerText =  (((((cacheCapacity / 1024) * diskGroupQtyPerHost) * (hostQuantity - hostRedundancy)) / capDelivered) * 100).toFixed(2) + " %";
-
-	//Chart outputs (damn it)
-	vsanChart.data.datasets[0].data[0] = rawCap * (diskFormat / 100);
-	vsanChart.data.datasets[0].data[1] = rawCap * (slackSpace / 100);  
-	vsanChart.data.datasets[0].data[2] = (rawCap * ((slackSpace + diskFormat) / 100)) - (rawCap * ((slackSpace + diskFormat) / 100) / fttReduction);
-	vsanChart.data.datasets[0].data[3] = (rawCap * ((slackSpace + diskFormat) / 100) / fttReduction);
-	vsanChart.data.datasets[0].data[4] = ((rawCap * ((slackSpace + diskFormat) / 100) / fttReduction) * dedupFactor) - (rawCap * ((slackSpace + diskFormat) / 100) / fttReduction);
-	vsanChart.update();
+	let totalCache = ((cacheCapacity * hostQuantity) / 1024).toFixed(2)
+	document.querySelector('#totalCacheOutput').innerText = totalCache + " TiB";
+	document.querySelector('#cachePercentOutput').innerText =  ((totalCache / capDelivered)*100).toFixed(2) + " %";
 }
-
 
 
 //vSAN capacity function
@@ -264,19 +264,40 @@ function fttCapCal(rawCap, format, slack, ftt, dedup) {
 	let overHead = (1 - ((format + slack) / 100));
 	let capLessOh = (rawCap * overHead);
 	let postFtt = capLessOh / ftt;
-	chartInput3 = (capLessOh - postFtt);
-	chartInput4 = postFtt;
 	let postDedup = postFtt * dedup;
-	return (postDedup).toFixed(2);
 
-	//Console log 
+		//Console log 
 	console.log("vSAN Sizing steps");
 	console.log("raw cap: " + rawCap + "TiB, format: " + format + "%, slack: " + slack + "%, ftt: " + ftt + " dedup: " + dedup + ": 1");
-	console.log("Overhead reduction (slack + format %): " + (overHead).toFixed(2) + "% * raw cap");
 	console.log("Capacity with overhead reduction: " + (capLessOh).toFixed(2));
-	console.log("Capacity post FTT reduction: " + (postFtt).toFixed(2));
+	console.log("Capacity post FTT reduction: " + (postFtt).toFixed(2) + " TiB");
 	console.log("Capacity with dedup factor: " + (postDedup).toFixed(2) + "TiB");
+
+
+	console.log("<<<==== Capacity Breakdown ====>>>");
+	console.log("Format capacity: " + (rawCap *(format/100)).toFixed(2));
+	console.log("Slack capacity: " + (rawCap *(slack/100)).toFixed(2));
+	console.log("FTT Overhead: " + (capLessOh - postFtt).toFixed(2) + " TiB");
+	console.log("Effective cap: " + (postDedup - postFtt).toFixed(2));
 	console.log("============================");
+
+
+	//Chart outputs (damn it)
+	//Format
+	vsanChart.data.datasets[0].data[0] = (rawCap *(format/100)).toFixed(2);
+	//Slack
+	vsanChart.data.datasets[0].data[1] = (rawCap *(slack/100)).toFixed(2);  
+	//FTT
+	vsanChart.data.datasets[0].data[2] = (capLessOh - postFtt).toFixed(2);
+	//Useable
+	vsanChart.data.datasets[0].data[3] = (postFtt).toFixed(2);
+	//Effective
+	vsanChart.data.datasets[0].data[4] = (postDedup - postFtt).toFixed(2);
+	vsanChart.update();
+
+
+	return (postDedup).toFixed(2);
+
 }
 
 

@@ -72,7 +72,7 @@
                 </div>
                 <hr>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 mt-2">
                 <div class="card border-dark text-center mb-resp">
                         <div class="card-header">Cores</div>
                     <div class="card-body">
@@ -82,7 +82,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mt-2">
                 <div class="card border-dark text-center mb-resp">
                     <div class="card-header">RAM</div>
                     <div class="card-body">
@@ -92,7 +92,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mt-2">
                 <div class="card border-dark border-primary text-center mb-resp">
                         <div class="card-header">Storage</div>
                     <div class="card-body">
@@ -127,11 +127,11 @@
             </div>
         </div>
         <div class="row collapse show" id="vmReqCol">
-            <div class="col-mb-3 ml-3 mr-3">
+            <div class="col-md-3 col-sm-12">
                 <label for="vcpuReq">vCPU</label>
                 <input type="number" name="vcpuReq" id="vcpuReq" class="form-control " required>
             </div>
-            <div class="col-mb-3">
+            <div class="col-md-3 col-sm-12">
                 <label for="ramReq">RAM (GiB)</label>
                 <input type="number" name="ramReq" id="ramReq" class="form-control " required>
             </div>
@@ -148,10 +148,10 @@
             </div>
         </div>
         <div class="row collapse" id="hostReqCol">
-            <div class="col-2">
+            <div class="col-md-3 col-sm-12">
                 <label for="hostQuantity">Quantity of hosts</label>
                 <input type="number" name="hostQuantity" id="hostQuantity" class="form-control " required>
-                <div class="invalid-feedback hidden" id="hostFeedback">Check minimum host quantity for FTT</div>
+                <div class="invalid-feedback" id="hostFeedback">Check minimum host quantity for FTT</div>
             </div>
         </div>
 
@@ -167,23 +167,23 @@
             </div>
         </div>
         <div class="row collapse" id="hostConfigCol">
-            <div class="col">
+            <div class="col-lg-3 col-md-12">
                 <label for="overcommit">Overcommit ratio x:1</label>
                 <input type="number" name="overcommit" id="overcommit" class="form-control " required>
             </div>
-            <div class="col">
+            <div class="col-lg-3 col-md-12">
                 <label for="hostRedundancy">Host Redundancy N+X</label>
                 <input type="number" name="hostRedundancy" id="hostRedundancy" class="form-control " required>
             </div>
-            <div class="col">
+            <div class="col-lg-2 col-md-12">
                 <label for="corePerProcessor">Cores per processor</label>
                 <input type="number" name="corePerProcessor" id="corePerProcessor" class="form-control " required>
             </div>
-            <div class="col">
+            <div class="col-lg-2 col-md-12">
                 <label for="processorsPerHost">Processors per host</label>
                 <input type="number" name="processorsPerHost" id="processorsPerHost" class="form-control " required>
             </div>
-            <div class="col">
+            <div class="col-lg-2 col-md-12">
                 <label for="ramPerHost">RAM per host (GiB)</label>
                 <input type="number" name="ramPerHost" id="ramPerHost" class="form-control " required>
             </div>
@@ -202,14 +202,14 @@
         </div>
         <div class="collapse mb-5" id="vsanConfigCol">
             <div class="row">
-                <div class="col-3">
+                <div class="col-lg-3 col-md-12">
                     <label for="nodeType">Node Type</label>
                     <select name="nodeType" id="nodeType" class="custom-select">
                         <option value="hybrid">Hybrid</option>
                         <option value="flash">Flash</option>
                     </select>
                 </div>
-                <div class="col-3" id="fttHybrid">
+                <div class="col-lg-3 col-md-12" id="fttHybrid">
                     <label for="fttHybridValue">FTT Hybrid</label>
                     <select name="fttHybridValue" id="fttHybridValue" class="custom-select">
                         <option value="2">FTT1: min hosts 3</option>
@@ -217,7 +217,7 @@
                         <option value="4">FTT3: min hosts 7</option>
                     </select>
                 </div>
-                <div class="col-3 d-none" id="fttFlash" class="d-none">
+                <div class="col-lg-3 col-md-12 d-none" id="fttFlash" class="d-none">
                     <label for="fttFlashValue">FTT All-Flash</label>
                     <select name="fttFlashValue" id="fttFlashValue" class="custom-select">
                         <option value="2">FTT1: min hosts 3</option>
@@ -231,32 +231,32 @@
 
             </div>
             <div class="row mt-5">
-                <div class="col-md-3">
+                <div class="col-lg-3 col-md-12">
                     <label for="capacityRequired">Capacity required (TiB)</label>
                     <input type="number" name="capacityRequired" id="capacityRequired" class="form-control " required>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-lg-3 col-md-12">
                     <label for="diskGroupQtyPerHost">Disk Group Qty per host</label>
                     <input type="number" name="diskGroupQtyPerHost" id="diskGroupQtyPerHost" class="form-control "
                         required>
                 </div>
-                <div class="col=md-3">
+                <div class="col-lg-3 col-md-12">
                     <label for="dataDisksPerDiskGroup">Data disks per disk group</label>
                     <input type="number" name="dataDisksPerDiskGroup" id="dataDisksPerDiskGroup" class="form-control "
                         required>
                 </div>
             </div>
             <div class="row mt-5">
-                <div class="col-md-3">
+                <div class="col-lg-3 col-md-12">
                     <label for="cacheCapacity">Cache disk capacity (GiB)</label>
                     <input type="number" name="cacheCapacity" id="cacheCapacity" class="form-control " required>
                 </div>
-                <div class="col-md-3">
+                <div class="col-lg-3 col-md-12">
                     <label for="dataDiskCapacity">Data disk capacity (GiB)</label>
                     <input type="number" name="dataDiskCapacity" id="dataDiskCapacity" class="form-control " required>
                 </div>
-                <div class="col-md-3 d-none" id="showDedup">
+                <div class="col-lg-3 col-md-12 d-none" id="showDedup">
                     <label for="dedupFactor">Dedup factor X:1</label>
                     <input type="number" name="dedupFactor" id="dedupFactor" class="form-control " required>
                 </div>
@@ -304,13 +304,13 @@
                     <div class="modal-body">
                         <form>
                             <div class="row">
-                                <div class="col">
+                                <div class="col-lg-6 col-sm-12">
                                     <div class="form-group">
                                         <label for="slackSpace">Slack (%)</label>
                                         <input type="number" class="form-control" id="slackSpace">
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col-lg-6 col-sm-12">
                                     <div class="form-group">
                                         <label for="formattingOverhead">Formatting Overhead (%)</label>
                                         <input type="number" class="form-control" id="formattingOverhead">
@@ -319,13 +319,14 @@
                             </div>
                             <hr>
                             <div class="row">
-                                <div class="col">
+                                <div class="col-lg-6 col-sm-12">
                                     <div class="form-group">
+                                      
                                         <label for="baseConsumption">Base Consumption (MiB)</label>
                                         <input type="number" class="form-control" id="baseConsumption">
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col-lg-6 col-sm-12">
                                     <div class="form-group">
                                         <label for="dgBaseConsumption">Disk Group Base Consumption (MiB)</label>
                                         <input type="number" class="form-control" id="dgBaseConsumption">
@@ -333,13 +334,13 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col">
+                                <div class="col-lg-6 col-sm-12">
                                     <div class="form-group">
                                         <label for="SSDMemOverheadPerGiB">Hybrid SSD Memory Overhead per GiB (MiB)</label>
                                         <input type="number" class="form-control" id="SSDMemOverheadPerGiB">
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col-lg-6 col-sm-12">
                                     <div class="form-group">
                                         <label for="HDDMemOverheadPerGiB">Flash SSD Memory Overhead per GiB (MiB)</label>
                                         <input type="number" class="form-control" id="HDDMemOverheadPerGiB">
@@ -347,7 +348,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-lg-6 col-sm-12">
                                     <div class="form-group">
                                         <label for="capDiskBaseConsumption">Capacity Disk Base Consumption (MiB)</label>
                                         <input type="number" class="form-control" id="capDiskBaseConsumption">

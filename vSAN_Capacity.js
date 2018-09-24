@@ -253,7 +253,7 @@ function runCal() {
 
 	//Cache percentage cal and output
 	totalCacheOutput
-	let totalCache = ((cacheCapacity * hostQuantity) / 1024).toFixed(2)
+	let totalCache = ((cacheCapacity * (hostQuantity - hostRedundancy)) / 1024).toFixed(2)
 	document.querySelector('#totalCacheOutput').innerText = totalCache + " TiB";
 	document.querySelector('#cachePercentOutput').innerText =  ((totalCache / capDelivered)*100).toFixed(2) + " %";
 }

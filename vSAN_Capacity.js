@@ -1,7 +1,7 @@
 //Load modal, yes I know it's jQuery!
-$(document).ready(function(){
-	$('#myModal').modal('show');
-});
+// $(document).ready(function(){
+// 	$('#myModal').modal('show');
+// });
 
 //PIE CHART
 let myChart = document.getElementById("myChart").getContext("2d");
@@ -97,8 +97,8 @@ document.querySelector('#settingsButton').addEventListener("click", settingsUpda
 
 let baseC = 5426;
 let dgBaseCon = 636;
-let ssdBaseMemOh = 8;
-let hybBaseMemOh = 14;
+let ssdBaseMemOh = 14;
+let hybBaseMemOh = 8;
 let capDiskBaseCon = 70;
 let slackSpace = 30;
 let diskFormat = 1.2;
@@ -147,7 +147,6 @@ function hostQtyCheck() {
 		document.querySelector('#hostQuantity').classList.remove('is-invalid');
 		document.querySelector('#hostFeedback').classList.add('hidden');
 		runCal();
-		console.log('check ok!')
 	}
 }
 
@@ -194,7 +193,12 @@ function runCal() {
 	let dataDiskCapacity = parseInt(document.querySelector('#dataDiskCapacity').value);
 	let dedupFactor = parseFloat(document.querySelector('#dedupFactor').value); //updates the dedup factor
 
-	//Rests the base memory overhead
+	//Show alert if cache disk in udner 600GB
+	if (cacheCapacity > 600) {
+		$('#cacheAlert').show('fade'); //yes I know more jQuery...
+	}
+
+	//Resets the base memory overhead
 	let baseMemOh = 0;
 
 	//Sets RAM overhead
@@ -204,8 +208,8 @@ function runCal() {
 		baseMemOh = ssdBaseMemOh;
 	}
 
-	//Calculates the base memory overhead for the current design
-	let ramOverhead = baseC + (diskGroupQtyPerHost * (dgBaseCon + (baseMemOh * cacheCapacity))) + (dataDisksPerDiskGroup * capDiskBaseCon);
+	//Calculates the base memory overhead for the current design >> meed to check if this is for all hosts?
+	let ramOverhead = (baseC + (diskGroupQtyPerHost * (dgBaseCon + (baseMemOh * cacheCapacity))) + (dataDisksPerDiskGroup * capDiskBaseCon)) * hostQuantity;
 
 	//Host deliverable calculations
 	//vCPU
@@ -213,7 +217,7 @@ function runCal() {
 	document.querySelector('#coresReqOutput').innerText = coresReq;
 
 
-	let delCores = (hostQuantity - hostRedundancy) * (processorsPerHost * corePerProcessor);
+	const delCores = (hostQuantity - hostRedundancy) * (processorsPerHost * (corePerProcessor * 0.9));
 	document.querySelector('#coresDelOutput').innerText = delCores
 	let coresDiff = (delCores - coresReq).toFixed(2);
 	document.querySelector('#coresDiffOutput').innerText = coresDiff;
@@ -261,14 +265,16 @@ function runCal() {
 
 //vSAN capacity function
 function fttCapCal(rawCap, format, slack, ftt, dedup) {
-	let overHead = (1 - ((format + slack) / 100));
+	let checksums = dedup === 1 ? 0.12 :  1.2;
+    let overHead = (1 - ((format + slack + checksums) / 100));
+
 	let capLessOh = (rawCap * overHead);
 	let postFtt = capLessOh / ftt;
 	let postDedup = postFtt * dedup;
 
 		//Console log 
 	console.log("vSAN Sizing steps");
-	console.log("raw cap: " + rawCap + "TiB, format: " + format + "%, slack: " + slack + "%, ftt: " + ftt + " dedup: " + dedup + ": 1");
+	console.log("raw cap: " + rawCap + "TiB, format: " + format + "%, slack: " + slack + "%, ftt: " + ftt + " dedup: " + dedup + ": 1" + " checksums: " + checksums + "%");
 	console.log("Capacity with overhead reduction: " + (capLessOh).toFixed(2));
 	console.log("Capacity post FTT reduction: " + (postFtt).toFixed(2) + " TiB");
 	console.log("Capacity with dedup factor: " + (postDedup).toFixed(2) + "TiB");
@@ -277,6 +283,7 @@ function fttCapCal(rawCap, format, slack, ftt, dedup) {
 	console.log("<<<==== Capacity Breakdown ====>>>");
 	console.log("Format capacity: " + (rawCap *(format/100)).toFixed(2));
 	console.log("Slack capacity: " + (rawCap *(slack/100)).toFixed(2));
+	console.log("Checksums capacity:" + (rawCap * (checksums/100)).toFixed(2));
 	console.log("FTT Overhead: " + (capLessOh - postFtt).toFixed(2) + " TiB");
 	console.log("Effective cap: " + (postDedup - postFtt).toFixed(2));
 	console.log("============================");

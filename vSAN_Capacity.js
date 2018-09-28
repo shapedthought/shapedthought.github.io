@@ -138,7 +138,7 @@ document.querySelector('#submit').addEventListener('click', hostQtyCheck);
 
 //FTT vs Host >> checks that the minimum hosts have been sepcified
 function hostQtyCheck() {
-	let hostQuantity = parseInt(document.querySelector('#hostQuantity').value);
+	const hostQuantity = parseInt(document.querySelector('#hostQuantity').value);
 	if (hostQuantity < currentHostReq) {
 		document.querySelector('#hostQuantity').classList.add('is-invalid');
 		document.querySelector('#hostFeedback').classList.remove('hidden');
@@ -157,19 +157,19 @@ function runCal() {
 
 
 	//VM Requirements inputs
-	let vcpuReq = parseInt(document.querySelector('#vcpuReq').value);
-	let ramReq = parseInt(document.querySelector('#ramReq').value);
+	const vcpuReq = parseInt(document.querySelector('#vcpuReq').value);
+	const ramReq = parseInt(document.querySelector('#ramReq').value);
 
 
 	//Host Qty
 	hostQuantity = parseInt(document.querySelector('#hostQuantity').value);
 
 	//Host config inputs
-	let overcommit = parseInt(document.querySelector('#overcommit').value);
-	let hostRedundancy = parseInt(document.querySelector('#hostRedundancy').value);
-	let corePerProcessor = parseInt(document.querySelector('#corePerProcessor').value);
-	let processorsPerHost = parseInt(document.querySelector('#processorsPerHost').value);
-	let ramPerHost = parseInt(document.querySelector('#ramPerHost').value);
+	const overcommit = parseInt(document.querySelector('#overcommit').value);
+	const hostRedundancy = parseInt(document.querySelector('#hostRedundancy').value);
+	const corePerProcessor = parseInt(document.querySelector('#corePerProcessor').value);
+	const processorsPerHost = parseInt(document.querySelector('#processorsPerHost').value);
+	const ramPerHost = parseInt(document.querySelector('#ramPerHost').value);
 
 	//vSAN inputs
 	fttReduction = 1; //resets the fttreduction variable in the function
@@ -186,12 +186,12 @@ function runCal() {
 	}
 
 	//vSAN inputs
-	let capacityRequired = parseInt(document.querySelector('#capacityRequired').value);
-	let diskGroupQtyPerHost = parseInt(document.querySelector('#diskGroupQtyPerHost').value);
-	let dataDisksPerDiskGroup = parseInt(document.querySelector('#dataDisksPerDiskGroup').value);
-	let cacheCapacity = parseInt(document.querySelector('#cacheCapacity').value);
-	let dataDiskCapacity = parseInt(document.querySelector('#dataDiskCapacity').value);
-	let dedupFactor = parseFloat(document.querySelector('#dedupFactor').value); //updates the dedup factor
+	const capacityRequired = parseInt(document.querySelector('#capacityRequired').value);
+	const diskGroupQtyPerHost = parseInt(document.querySelector('#diskGroupQtyPerHost').value);
+	const dataDisksPerDiskGroup = parseInt(document.querySelector('#dataDisksPerDiskGroup').value);
+	const cacheCapacity = parseInt(document.querySelector('#cacheCapacity').value);
+	const dataDiskCapacity = parseInt(document.querySelector('#dataDiskCapacity').value);
+	const dedupFactor = parseFloat(document.querySelector('#dedupFactor').value); //updates the dedup factor
 
 	//Show alert if cache disk in udner 600GB
 	if (cacheCapacity > 600) {
@@ -208,18 +208,18 @@ function runCal() {
 		baseMemOh = ssdBaseMemOh;
 	}
 
-	//Calculates the base memory overhead for the current design >> meed to check if this is for all hosts?
-	let ramOverhead = (baseC + (diskGroupQtyPerHost * (dgBaseCon + (baseMemOh * cacheCapacity))) + (dataDisksPerDiskGroup * capDiskBaseCon)) * hostQuantity;
+	//Calculates the base memory overhead for the current design
+	const ramOverhead = (baseC + (diskGroupQtyPerHost * (dgBaseCon + (baseMemOh * cacheCapacity))) + (dataDisksPerDiskGroup * capDiskBaseCon)) * hostQuantity;
 
 	//Host deliverable calculations
 	//vCPU
-	let coresReq = (vcpuReq / overcommit);
+	const coresReq = (vcpuReq / overcommit);
 	document.querySelector('#coresReqOutput').innerText = coresReq;
 
 
 	const delCores = (hostQuantity - hostRedundancy) * (processorsPerHost * (corePerProcessor * 0.9));
-	document.querySelector('#coresDelOutput').innerText = delCores
-	let coresDiff = (delCores - coresReq).toFixed(2);
+	document.querySelector('#coresDelOutput').innerText = delCores;
+	const coresDiff = (delCores - coresReq).toFixed(2);
 	document.querySelector('#coresDiffOutput').innerText = coresDiff;
 	if (coresDiff < 0) {
 		document.querySelector('#coresDiffOutput').classList.add('text-danger');
@@ -228,14 +228,14 @@ function runCal() {
 	}
 
 	//RAM
-	let ramPlusOh = (ramReq + (ramOverhead / 1024)).toFixed(2); //Added RAM overhead (as total)
+	const ramPlusOh = (ramReq + (ramOverhead / 1024)).toFixed(2); //Added RAM overhead (as total)
 	document.querySelector('#ramReqOutput').innerText = ramPlusOh + " GiB";
-	let delRam = (hostQuantity - hostRedundancy) * ramPerHost;
+	const delRam = (hostQuantity - hostRedundancy) * ramPerHost;
 	document.querySelector('#ramDelOutput').innerText = delRam + " GiB";
 
 
 
-	let ramDiff = (delRam - ramPlusOh).toFixed(2);
+	const ramDiff = (delRam - ramPlusOh).toFixed(2);
 	document.querySelector('#ramDiffOutput').innerText = ramDiff + " GiB";
 	if (ramDiff < 0) {
 		document.querySelector('#ramDiffOutput').classList.add('text-danger');
@@ -245,8 +245,8 @@ function runCal() {
 
 	//vSAN capacity calculation, uses the fttCapCal function
 	document.querySelector('#capReqOutput').innerText = capacityRequired + " TiB";
-	let rawCap = ((hostQuantity * (diskGroupQtyPerHost * dataDisksPerDiskGroup)) * dataDiskCapacity) / 1024;
-	let capDelivered = fttCapCal(rawCap, diskFormat, slackSpace, fttReduction, dedupFactor);
+	const rawCap = ((hostQuantity * (diskGroupQtyPerHost * dataDisksPerDiskGroup)) * dataDiskCapacity) / 1024;
+	const capDelivered = fttCapCal(rawCap, diskFormat, slackSpace, fttReduction, dedupFactor);
 	document.querySelector('#capDelOutput').innerText = capDelivered + " TiB";
 	document.querySelector('#capDiffOutput').innerText = (capDelivered - capacityRequired).toFixed(2) + " TiB";
 	if ((capDelivered - capacityRequired) < 0) {
@@ -257,7 +257,7 @@ function runCal() {
 
 	//Cache percentage cal and output
 	totalCacheOutput
-	let totalCache = ((cacheCapacity * (hostQuantity - hostRedundancy)) / 1024).toFixed(2)
+	const totalCache = ((cacheCapacity * (hostQuantity - hostRedundancy)) / 1024).toFixed(2)
 	document.querySelector('#totalCacheOutput').innerText = totalCache + " TiB";
 	document.querySelector('#cachePercentOutput').innerText =  ((totalCache / capDelivered)*100).toFixed(2) + " %";
 }
@@ -265,12 +265,12 @@ function runCal() {
 
 //vSAN capacity function
 function fttCapCal(rawCap, format, slack, ftt, dedup) {
-	let checksums = dedup === 1 ? 0.12 :  1.2;
-    let overHead = (1 - ((format + slack + checksums) / 100));
+	const checksums = dedup === 1 ? 0.12 :  1.2;
+    const overHead = (1 - ((format + slack + checksums) / 100));
 
-	let capLessOh = (rawCap * overHead);
-	let postFtt = capLessOh / ftt;
-	let postDedup = postFtt * dedup;
+	const capLessOh = (rawCap * overHead);
+	const postFtt = capLessOh / ftt;
+	const postDedup = postFtt * dedup;
 
 		//Console log 
 	console.log("vSAN Sizing steps");

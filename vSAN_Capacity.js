@@ -9,7 +9,7 @@ let myChart = document.getElementById("myChart").getContext("2d");
 let vsanChart = new Chart(myChart, {
   type: "doughnut",
   data: {
-    labels: ["Format", "Slack", "FTT Overhead", "Useable", "Effective"],
+    labels: ["format & checksum", "Slack", "FTT Overhead", "Useable", "Effective"],
     datasets: [{
       label: "Capacity ratio",
       data: [5, 30, 75, 75, 0],
@@ -291,7 +291,7 @@ function fttCapCal(rawCap, format, slack, ftt, dedup) {
 
 	//Chart outputs (damn it)
 	//Format
-	vsanChart.data.datasets[0].data[0] = (rawCap *(format/100)).toFixed(2);
+	vsanChart.data.datasets[0].data[0] = (rawCap *((format + checksums) /100)).toFixed(2);
 	//Slack
 	vsanChart.data.datasets[0].data[1] = (rawCap *(slack/100)).toFixed(2);  
 	//FTT

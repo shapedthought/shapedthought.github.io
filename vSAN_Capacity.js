@@ -217,7 +217,7 @@ function runCal() {
 	document.querySelector('#coresReqOutput').innerText = coresReq;
 
 
-	const delCores = (hostQuantity - hostRedundancy) * (processorsPerHost * (corePerProcessor * 0.9));
+	const delCores = Math.floor((hostQuantity - hostRedundancy) * (processorsPerHost * (corePerProcessor * 0.9)));
 	document.querySelector('#coresDelOutput').innerText = delCores;
 	const coresDiff = (delCores - coresReq).toFixed(2);
 	document.querySelector('#coresDiffOutput').innerText = coresDiff;

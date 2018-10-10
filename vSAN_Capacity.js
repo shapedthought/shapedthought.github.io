@@ -1,7 +1,3 @@
-//Load modal, yes I know it's jQuery!
-// $(document).ready(function(){
-// 	$('#myModal').modal('show');
-// });
 
 //PIE CHART
 let myChart = document.getElementById("myChart").getContext("2d");
@@ -33,7 +29,7 @@ let vsanChart = new Chart(myChart, {
 document.querySelector('#nodeType').addEventListener("change", runFtt);
 
 //Sets current FTT node state (flash/hybrid)
-let nodeTypeSelect = 1;
+let nodeTypeSelect = 'hybrid';
 let fttReduction = 1; //Actual reduction level
 
 //Changes the DOM options and updates the selected node type if needed
@@ -41,7 +37,7 @@ function runFtt() {
 	document.querySelector('#fttHybrid').classList.toggle('d-none');
 	document.querySelector('#fttFlash').classList.toggle('d-none');
 	document.querySelector('#showDedup').classList.toggle('d-none');
-	nodeTypeSelect = nodeTypeSelect === 1 ? 2 : 1;
+	nodeTypeSelect = nodeTypeSelect === 'hybrid' ? 'flash' : 'hybrid';
 }
 
 //Current host qty requirements
@@ -53,21 +49,21 @@ let fttFlashCheck = 2;
 let currentHostReq = 3;
 
 //Watches for a change to the node type
-document.querySelector('#fttHybridValue').addEventListener('change', function hostQtyUpdate() {
+document.querySelector('#fttHybridValue').addEventListener('change', () => {
 	//If the hybrid node type is selected
 	fttHybridCheck = parseFloat(document.querySelector('#fttHybridValue').value);
 	//Run the FTT value through the ffttHostCheck function, returns min host quantity
 	hybridHostsReq = fttHostCheck(fttHybridCheck);
 	//If the node selected is hybrid then update the min host quantity varable
-	if (nodeTypeSelect === 1) {
+	if (nodeTypeSelect === 'hybrid') {
 		currentHostReq = hybridHostsReq
 	}
 });
 
-document.querySelector('#fttFlashValue').addEventListener('change', function hostQtyUpdate() {
+document.querySelector('#fttFlashValue').addEventListener('change', () => {
 	fttFlashCheck = parseFloat(document.querySelector('#fttFlashValue').value);
 	flashHostsReq = fttHostCheck(fttFlashCheck);
-	if (nodeTypeSelect === 2) {
+	if (nodeTypeSelect === 'flash') {
 		currentHostReq = flashHostsReq
 	}
 });
@@ -116,9 +112,7 @@ function settingsUpdate() {
 
 //Save Changes to settings
 
-document.querySelector('#saveSettings').addEventListener("click", saveSettings);
-
-function saveSettings() {
+document.querySelector('#saveSettings').addEventListener("click", () => {
 	slackSpace = parseInt(document.querySelector('#slackSpace').value);
 	dgBaseCon = parseInt(document.querySelector('#dgBaseConsumption').value);
 	diskFormat = parseFloat(document.querySelector('#formattingOverhead').value);
@@ -126,18 +120,13 @@ function saveSettings() {
 	ssdBaseMemOh = parseInt(document.querySelector('#SSDMemOverheadPerGiB').value);
 	hybBaseMemOh = parseInt(document.querySelector('#HDDMemOverheadPerGiB').value);
 	capDiskBaseCon = parseInt(document.querySelector('#capDiskBaseConsumption').value);
-}
+})
 
 
 //SUBMIT CALCULATION
-
 //Submit function
 
-document.querySelector('#submit').addEventListener('click', hostQtyCheck);
-
-
-//FTT vs Host >> checks that the minimum hosts have been sepcified
-function hostQtyCheck() {
+document.querySelector('#submit').addEventListener('click', () => {
 	const hostQuantity = parseInt(document.querySelector('#hostQuantity').value);
 	if (hostQuantity < currentHostReq) {
 		document.querySelector('#hostQuantity').classList.add('is-invalid');
@@ -148,13 +137,12 @@ function hostQtyCheck() {
 		document.querySelector('#hostFeedback').classList.add('hidden');
 		runCal();
 	}
-}
+})
 
 
 
 //Run calculation function
 function runCal() {
-
 
 	//VM Requirements inputs
 	const vcpuReq = parseInt(document.querySelector('#vcpuReq').value);
@@ -164,6 +152,7 @@ function runCal() {
 	//Host Qty
 	hostQuantity = parseInt(document.querySelector('#hostQuantity').value);
 
+
 	//Host config inputs
 	const overcommit = parseInt(document.querySelector('#overcommit').value);
 	const hostRedundancy = parseInt(document.querySelector('#hostRedundancy').value);
@@ -171,19 +160,21 @@ function runCal() {
 	const processorsPerHost = parseInt(document.querySelector('#processorsPerHost').value);
 	const ramPerHost = parseInt(document.querySelector('#ramPerHost').value);
 
+
 	//vSAN inputs
 	fttReduction = 1; //resets the fttreduction variable in the function
-	//checks the current node type selected and changes it back to 1 if hybrid (not zero as that messes up the calculation)
-	if (nodeTypeSelect === 1) {
+	if (nodeTypeSelect === 'hybrid') {
 		document.querySelector('#dedupFactor').value = 1;
 	};
 
+
 	//Sets the function variable to the selected FTT capacity reduction setting 
-	if (nodeTypeSelect === 1) {
+	if (nodeTypeSelect === 'hybrid') {
 		fttReduction = parseFloat(document.querySelector('#fttHybridValue').value);
 	} else {
 		fttReduction = parseFloat(document.querySelector('#fttFlashValue').value);
 	}
+
 
 	//vSAN inputs
 	const capacityRequired = parseInt(document.querySelector('#capacityRequired').value);
@@ -193,30 +184,33 @@ function runCal() {
 	const dataDiskCapacity = parseInt(document.querySelector('#dataDiskCapacity').value);
 	const dedupFactor = parseFloat(document.querySelector('#dedupFactor').value); //updates the dedup factor
 
+
 	//Show alert if cache disk in udner 600GB
 	if (cacheCapacity > 600) {
 		$('#cacheAlert').show('fade'); //yes I know more jQuery...
 	}
 
+
 	//Resets the base memory overhead
 	let baseMemOh = 0;
 
+
 	//Sets RAM overhead
-	if (nodeTypeSelect === 1) {
+	if (nodeTypeSelect === 'hybrid') {
 		baseMemOh = hybBaseMemOh;
 	} else {
 		baseMemOh = ssdBaseMemOh;
 	}
 
+
 	//Calculates the base memory overhead for the current design
 	const ramOverhead = (baseC + (diskGroupQtyPerHost * (dgBaseCon + (baseMemOh * cacheCapacity))) + (dataDisksPerDiskGroup * capDiskBaseCon)) * hostQuantity;
+
 
 	//Host deliverable calculations
 	//vCPU
 	const coresReq = (vcpuReq / overcommit);
 	document.querySelector('#coresReqOutput').innerText = coresReq;
-
-
 	const delCores = Math.floor((hostQuantity - hostRedundancy) * (processorsPerHost * (corePerProcessor * 0.9)));
 	document.querySelector('#coresDelOutput').innerText = delCores;
 	const coresDiff = (delCores - coresReq).toFixed(2);
@@ -227,14 +221,12 @@ function runCal() {
 		document.querySelector('#coresDiffOutput').classList.remove('text-danger');
 	}
 
+
 	//RAM
 	const ramPlusOh = (ramReq + (ramOverhead / 1024)).toFixed(2); //Added RAM overhead (as total)
 	document.querySelector('#ramReqOutput').innerText = ramPlusOh + " GiB";
 	const delRam = (hostQuantity - hostRedundancy) * ramPerHost;
 	document.querySelector('#ramDelOutput').innerText = delRam + " GiB";
-
-
-
 	const ramDiff = (delRam - ramPlusOh).toFixed(2);
 	document.querySelector('#ramDiffOutput').innerText = ramDiff + " GiB";
 	if (ramDiff < 0) {
@@ -243,9 +235,11 @@ function runCal() {
 		document.querySelector('#ramDiffOutput').classList.remove('text-danger');
 	}
 
+
 	//vSAN capacity calculation, uses the fttCapCal function
 	document.querySelector('#capReqOutput').innerText = capacityRequired + " TiB";
 	const rawCap = ((hostQuantity * (diskGroupQtyPerHost * dataDisksPerDiskGroup)) * dataDiskCapacity) / 1024;
+	// const capDelivered = fttCapCal(rawCap, diskFormat, slackSpace, fttReduction, dedupFactor);
 	const capDelivered = fttCapCal(rawCap, diskFormat, slackSpace, fttReduction, dedupFactor);
 	document.querySelector('#capDelOutput').innerText = capDelivered + " TiB";
 	document.querySelector('#capDiffOutput').innerText = (capDelivered - capacityRequired).toFixed(2) + " TiB";
@@ -255,8 +249,8 @@ function runCal() {
 		document.querySelector('#capDiffOutput').classList.remove('text-danger');
 	}
 
-	//Cache percentage cal and output
-	totalCacheOutput
+
+	//Cache percentage cal and output totalCacheOutput
 	const totalCache = ((cacheCapacity * (hostQuantity - hostRedundancy)) / 1024).toFixed(2)
 	document.querySelector('#totalCacheOutput').innerText = totalCache + " TiB";
 	document.querySelector('#cachePercentOutput').innerText =  ((totalCache / capDelivered)*100).toFixed(2) + " %";

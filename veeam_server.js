@@ -35,17 +35,19 @@ document.getElementById('runForm').addEventListener('submit', e =>{
     //Exports
     cpuReqFull.innerHTML = Math.ceil(proxyCoresFull + backServCores);
     cpuReqInc.innerHTML = Math.ceil(proxyCoresInc + backServCores);
+    //Full RAM
     if((buRamDel + (proxyCoresFull * 2)) < 8) {
         ramReqFull.innerHTML = 8;
     } else {
-        ramReqFull.innerHTML = (buRamDel + (proxyCoresFull * 2)).toFixed(2);
+        ramReqFull.innerHTML = Math.ceil(buRamDel + (proxyCoresFull * 2));
     };
-
+    //Inc RAM
     if((buRamDel + (proxyCoresInc * 2)) < 8) {
-        ramReqFull.innerHTML = 8;
+        ramReqInc.innerHTML = 8;
     } else {
-        ramReqInc.innerHTML = (buRamDel + (proxyCoresFull * 2)).toFixed(2);
+        ramReqInc.innerHTML = Math.ceil(buRamDel + (proxyCoresFull * 2));
     }
+
 
     fullMb.innerHTML = (fullMbDel).toFixed(2);
     incMb.innerHTML = (incMbDel).toFixed(2);

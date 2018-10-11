@@ -32,7 +32,7 @@ document.getElementById('runForm').addEventListener('submit', e =>{
     const backServCores = buCores(vmQuantity);
     const buRamDel = buRam(vmQuantity);
     const fullMbDel = ((datawithGrowth * Math.pow(1024, 2)) / (fullBackuptime * Math.pow(60, 2)));
-    const incMbDel = (((datawithGrowth * Math.pow(1024, 2)) / (fullBackuptime * Math.pow(60, 2)))*(change / 100));
+    const incMbDel = (((datawithGrowth * Math.pow(1024, 2)) / (increBackuptime * Math.pow(60, 2)))*(change / 100));
     
     //Exports
     cpuReqFull.innerHTML = Math.ceil(proxyCoresFull + backServCores);

@@ -7,6 +7,7 @@ document.getElementById('runForm').addEventListener('submit', e =>{
     const fullBackuptime = parseInt(document.getElementById('fullBackuptime').value);
     const increBackuptime = parseInt(document.getElementById('increBackuptime').value);
     const change = parseInt(document.getElementById('changeRate').value);
+    const reduction = parseInt(document.getElementById('reduction').value);
     const growth = parseInt(document.getElementById('growth').value);
     const scope = parseInt(document.getElementById('scope').value);
     const block = parseInt(document.getElementById('block').value);
@@ -24,7 +25,8 @@ document.getElementById('runForm').addEventListener('submit', e =>{
     const iopsIncPr = document.getElementById('iopsIncPr');
 
     //Calculations
-    const datawithGrowth = sourceData * (1 + ((growth / 100) * scope ))
+    const datawithGrowth = ((sourceData * ((100 - reduction) / 100)) * (1 + ((growth / 100) * scope )));
+    console.log(sourceData, datawithGrowth);
     const proxyCoresFull = fullCores(datawithGrowth, fullBackuptime);
     const proxyCoresInc = increCores(datawithGrowth, increBackuptime, change);
     const backServCores = buCores(vmQuantity);

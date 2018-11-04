@@ -85,6 +85,17 @@ function fttHostCheck(reductionValue) {
 	}
 }
 
+// Could change the above to an object the loop
+const fttToHosts = [
+	{'ftt': 2, 'hosts': 3},
+	{'ftt': 3, 'hosts': 5},
+	{'ftt': 4, 'hosts': 7},
+	{'ftt': 1.33, 'hosts': 4},
+	{'ftt': 1.5, 'hosts': 6}
+]
+
+
+
 //SETTINGS MODAL
 
 //Add current values to modal on click
@@ -185,7 +196,7 @@ function runCal() {
 	const dedupFactor = parseFloat(document.querySelector('#dedupFactor').value); //updates the dedup factor
 
 
-	//Show alert if cache disk in udner 600GB
+	//Show alert if cache disk in udner 600GB >> needs updating for all flash only
 	if (cacheCapacity > 600) {
 		$('#cacheAlert').show('fade'); //yes I know more jQuery...
 	}

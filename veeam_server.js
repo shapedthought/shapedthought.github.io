@@ -82,11 +82,7 @@ function buCores(vmQuantity) {
 function buRam(vmQuantity) {
     const jobs = Math.ceil(vmQuantity / 30);
     const ram = (Math.ceil(jobs / 10)) * 5;
-    if(ram < 8){ 
-        return 8
-    } else {
-        return ram;
-    }
+    return ram;
 }
 
 

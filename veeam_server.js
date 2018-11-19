@@ -25,9 +25,12 @@ document.getElementById('runForm').addEventListener('submit', e =>{
     const iopsIncPr = document.getElementById('iopsIncPr');
 
     //Calculations
+    //Capacity with growth
     const datawithGrowth = ((sourceData * ((100 - reduction) / 100)) * (1 + ((growth / 100) * scope )));
     console.log(sourceData, datawithGrowth);
+    // Cores required for full backup T/100
     const proxyCoresFull = fullCores(datawithGrowth, fullBackuptime);
+    // Cores required for incremental backup (T X CR)/25
     const proxyCoresInc = increCores(datawithGrowth, increBackuptime, change);
     const backServCores = buCores(vmQuantity);
     const buRamDel = buRam(vmQuantity);

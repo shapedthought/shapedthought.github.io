@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
+        crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+        crossorigin="anonymous"> -->
+        <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
+    <link rel="stylesheet" href="feRaid.css">
+    <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+    <title>vSAN IOPS Calcuator</title>
+</head>
+<!-- NAVBAR -->
+
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark mb-3" id="main-nav">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">tawsome</a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#navabarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navabarCollapse">
+                <ul class="navbar-nav ml-auto">
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CALCULATOR-->
+     <!-- Basic info -->
+     <div class="container">
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                            <h5 class="card-title">Current config</h5>
+                            <ul>
+                                <li>Max slots for array: <span id="maxDiskOut"></span></li>
+                                <li>Total Configured slots: <span id="currConfigSlots"></span></li>
+                                <li>Total Configured disks: <span id="currConfigDisks"></span></li>
+                                <li>Total 2.5" slots: <span id="total25slots"></span></li>
+                                <li>Total 2.5" disks: <span id="total25disks"></span></li>
+                                <li>Remaining 2.5" slots: <span id="remain25slots"></span></li>
+                                <li>Total 3.5" slots: <span id="total35slots"></span></li>
+                                <li>Total 3.5" disks: <span id="total35disks"></span></li>
+                                <li>Remaining 3.5" slots: <span id="remain35slots"></span></li>
+                                <li>Slots that can be added: <span id="remConfigSlots"></span></li>
+                            </ul>
+                            <br>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                                <h5 class="card-title">Upgraded config</h5>
+                                <ul>
+                                    <li>Total new disks: <span id="currConfigDisksUp"></span></li>
+                                    <li>Total new 2.5" 25x shelves: <span id="newShelves25"></span></li>
+                                    <li>New 2.5" slots: <span id="total25slotsUp"></span></li>
+                                    <li>New 2.5" disks: <span id="total25disksUp"></span></li>
+                                    <li>Free 2.5" slots: <span id="remain25slotsUp"></span></li>
+                                    <li>Total new 3.5" 15x shelves: <span id="newShelves35"></span></li>
+                                    <li>New 3.5" slots: <span id="total35slotsUp"></span></li>
+                                    <li>New 3.5" disks: <span id="total35disksUp"></span></li>
+                                    <li>Free 3.5" slots: <span id="remain35slotsUp"></span></li>
+                                    <li>Total configured slots: <span id="currConfigSlotsUp"></span></li>
+                                    <li>Slots that can be added: <span id="remConfigSlotsUp"></span></li>
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+    </div>
+
+    <!-- Main form -->
+    <div class="container mt-3">
+        <form id="configForm">
+            <h5>Current Array Config</h5>
+            <!-- First Line -->
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="model">Array Selector</label>
+                    <select id="model" class="custom-select">
+                        <option value="" disabled selected>Select Array</option>
+                        <option value="75">VNX5100</option>
+                        <option value="125">VNX5300</option>
+                        <option value="250">VNX5500</option>
+                        <option value="500">VNX5700</option>
+                        <option value="125">VNX5200</option>
+                        <option value="250">VNX5400</option>
+                        <option value="500">VNX5600</option>
+                        <option value="740">VNX5800</option>
+                    </select>
+                </div>
+                <div class="form-group col">
+                    <label for="dpe">DPE Size</label>
+                    <select id="dpe" class="custom-select">
+                        <option value="" disabled selected>Select size</option>
+                        <option value="25">2.5"</option>
+                        <option value="15">3.5"</option>
+                    </select>
+                </div>
+                <div class="form-group col">
+                    <label for="vault">Vault Disks</label>
+                    <select id="vault" class="custom-select">
+                        <option value="" disabled selected>Select size</option>
+                        <option value="300-10k">300GB 10k</option>
+                        <option value="300-15k">300GB 15k</option>
+                        <option value="600-10k">600GB 10k</option>
+                        <option value="900-10k">900GB 10k</option>
+                    </select>
+                </div>
+                <div class="form-group col">
+                    <label for="shelf25">2.5" shelf qty</label>
+                    <input type="number" id="shelf25" class="form-control">
+                </div>
+                <div class="form-group col">
+                    <label for="shelf35">3.5" shelf qty</label>
+                    <input type="number" id="shelf35" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                    <div class="col">
+                        <button class="btn btn-primary" id="setArray">Set Array</button>
+                        <button class="btn btn-danger d-none" id="resetBtn">Reset Config</button>
+                    </div>
+                </div>
+            <!-- Second line -->
+            <h5 class="mt-3">Fast Cache Disks</h5>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="cacheCurUp">Current/Upgrade</label>
+                    <select id="cacheCurUp" class="custom-select">
+                        <option value="" disabled selected>Select use</option>
+                        <option value="false">Current</option>
+                        <option value="true">New</option>
+                    </select>
+                </div>
+                <div class="form-group col">
+                    <label for="cDiskSelect">Fast Cache Disk Capacity</label>
+                    <select id="cDiskSelect" class="custom-select">
+                        <option value="" disabled selected>Select size</option>
+                        <option value="200-EFD-2.5">200GB EFD 2.5"</option>
+                        <option value="400-EFD-2.5">400GB EFD 2.5"</option>
+                        <option value="800-EFD-2.5">800GB EFD 2.5"</option>
+                        <option value="200-EFD-3.5">200GB EFD 3.5"</option>
+                        <option value="400-EFD-3.5">400GB EFD 3.5"</option>
+                        <option value="800-EFD-3.5">800GB EFD 3.5"</option>
+                    </select>
+                </div>
+                <div class="from-group col">
+                    <label for="acDisks">Active Disks (even number)</label>
+                    <input type="number" id="acDisks" class="form-control">
+                </div>
+                <div class="from-group col">
+                    <label for="scDisks">Spare Disks</label>
+                    <input type="number" id="scDisks" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                    <div class="col">
+                        <button class="btn btn-primary" id="addCacheBtn" disabled>Add Disk</button>
+                    </div>
+                </div>
+            <!-- Third Line -->
+            <h5 class="mt-3">Data Disks</h5>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="curUpgrade">Current/Upgrade</label>
+                    <select id="curUpgrade" class="custom-select">
+                        <option value="" disabled selected>Select use</option>
+                        <option value="false">Current</option>
+                        <option value="true">New</option>
+                    </select>
+                </div>
+                <div class="from-group col">
+                    <label for="diskSelect">Disk Capacity</label>
+                    <select id="diskSelect" class="custom-select">
+                        <option value="" disabled selected>Select size</option>
+                        <option value="200-EFD-2.5">200GB EFD 2.5"</option>
+                        <option value="400-EFD-2.5">400GB EFD 2.5"</option>
+                        <option value="800-EFD-2.5">800GB EFD 2.5"</option>
+                        <option value="1.6-EFD-2.5">1.6TB EFD 2.5"</option>
+                        <option value="300-10k-2.5">300GB 10k 2.5"</option>
+                        <option value="300-15k-2.5">300GB 15k 2.5"</option>
+                        <option value="600-10k-2.5">600GB 10k 2.5"</option>
+                        <option value="600-15k-2.5">600GB 15k 2.5"</option>
+                        <option value="900-10k-2.5">900GB 10k 2.5"</option>
+                        <option value="1.2TB-10k-2.5">1.2TB 10k 2.5"</option>
+                        <option value="1.8TB-10k-2.5">1.8TB 10k 2.5"</option>
+                        <option value="200-EFD-3.5">200GB EFD 3.5"</option>
+                        <option value="400-EFD-3.5">400GB EFD 3.5"</option>
+                        <option value="800-EFD-3.5">800GB EFD 3.5"</option>
+                        <option value="1.6TB-EFD-3.5">1.6TB EFD 3.5"</option>
+                        <option value="300-10k-3.5">300GB 10k 3.5"</option>
+                        <option value="300-15k-3.5">300GB 15k 3.5"</option>
+                        <option value="600-10k-3.5">600GB 10k 3.5"</option>
+                        <option value="900-10k-3.5">900GB 10k 3.5"</option>
+                        <option value="1.2TB-10k-3.5">1.2TB 10k 3.5"</option>
+                        <option value="2TB-7.2k-3.5">2TB 7.2k 3.5"</option>
+                        <option value="3TB-7.2k-3.5">3TB 7.2k 3.5"</option>
+                        <option value="4TB-7.2k-3.5">4TB 7.2k 3.5"</option>
+                    </select>
+                </div>
+                <div class="from-group col">
+                    <label for="aDisks">Active Disks</label>
+                    <input type="number" id="aDisks" class="form-control">
+                </div>
+                <div class="from-group col">
+                    <label for="sDisks">Spare Disks</label>
+                    <input type="number" id="sDisks" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-primary" id="addDiskBtn" disabled>Add Disk</button>
+                </div>
+            </div>
+    </div>
+
+    </form>
+
+    <!-- Configured disks -->
+    <div class="container">
+            <div class="row">
+                    <div class="col">
+                        <div class="disk-alert"></div>
+                    </div>
+                </div>
+        <hr>
+        <div class="row mt-4">
+            <div class="col">
+                <h5>All Disks</h5>
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th>Disk Type</th>
+                            <th>Active Qty</th>
+                            <th>Spare Qty</th>
+                            <th>Disk Size</th>
+                            <th>Disk Capacity</th>
+                            <th>Disk Speed</th>
+                            <th>Upgrade?</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="diskTable">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+
+    <footer class="footer bg-dark">
+        <!-- <div class="container">
+            <span class="text-white">Copyright &copy 2018 Ed Howard </span>
+        </div> -->
+    </footer>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+<!-- <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+    crossorigin="anonymous"></script>
+
+    <script src="storage_app.js"></script>
+    <script src="output.js"></script>
+    <script src="events.js"></script>
+    <script src="data.js"></script>
+
+
+</html>

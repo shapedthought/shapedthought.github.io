@@ -5,6 +5,7 @@ const setArray = document.querySelector('#setArray');
 const addCacheBtn = document.querySelector("#addCacheBtn");
 const addDiskBtn = document.querySelector("#addDiskBtn");
 const resetBtn = document.querySelector("#resetBtn");
+const exportBtn = document.querySelector("#exportBtn");
 
 
 // Set array button
@@ -81,3 +82,6 @@ setArray.addEventListener("click",function(e) {
     resetEverything();
     e.preventDefault();
   })
+
+  // Export config
+  exportBtn.addEventListener("click", exportConfig);

@@ -72,6 +72,7 @@ function updateOutputs() {
 
 // NOTE TO SELF, SHELVES ARE NOT ADDING!!!
 
+let exportText = '';
 
 function upDateUpgrade() {
 
@@ -139,6 +140,22 @@ function upDateUpgrade() {
     document.querySelector("#remain35slotsUp").innerHTML = newRem35slots;
     document.querySelector("#currConfigSlotsUp").innerHTML = newTotalSlots;
     document.querySelector("#remConfigSlotsUp").innerHTML = remSlotUpgrades;
+
+    exportText = `
+    Total new disks: ${totalDisksUp}
+    Total new 2.5" 25x shelves: ${totalShelves25Up}
+    New 2.5" slots: ${totalAddSlots25}
+    New 2.5" disks: ${total25disksUp}
+    Free 2.5" slots: ${newRem25slots}
+    Total new 3.5" 15x shelves: ${totalShelves35Up}
+    New 3.5" slots: ${totalAddSlots35}
+    New 3.5" disks: ${total35disksUp}
+    Free 3.5" slots: ${newRem35slots}
+    Total configured slots: ${newTotalSlots}
+    Slots that can be added: ${remSlotUpgrades}
+    `
+
+
 };
 
 
@@ -239,3 +256,12 @@ function clearAlert() {
 
 }
 
+// Export config
+function exportConfig() {
+  var blob = new Blob([exportText], 
+    {type: "text/plain;charset=utf-8"}
+    );
+
+
+    saveAs(blob, "config_export.txt");
+}

@@ -10,9 +10,8 @@
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
         crossorigin="anonymous"> -->
         <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
-    <link rel="stylesheet" href="feRaid.css">
     <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
-    <title>vSAN IOPS Calcuator</title>
+    <title>VNX Upgrade Calculator</title>
 </head>
 <!-- NAVBAR -->
 
@@ -76,8 +75,14 @@
                     </div>
                 </div>
         </div>
-
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary float-right mt-3" id="exportBtn" disabled>Export</button>
+            </div>
+        </div>
     </div>
+
+
 
     <!-- Main form -->
     <div class="container mt-3">
@@ -278,6 +283,7 @@
     crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
     crossorigin="anonymous"></script>
+    <script src="resources/js/lib/FileSaver.min.js"></script>
 
     <script src="./resources/js/src/storage_app.js"></script>
     <script src="./resources/js/src/output.js"></script>

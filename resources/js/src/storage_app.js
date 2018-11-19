@@ -101,6 +101,12 @@ function addDisk(type) {
   // Show alert
   showAlert('Disk Added', 'text-center alert alert-success mt-2')
 
+  // Enable export button
+  if(curUpgrade === "true") {
+    document.querySelector("#exportBtn").disabled = false;
+  }
+
+
 };
 
 
@@ -143,6 +149,7 @@ function resetEverything(){
   document.querySelector("#vault").disabled = false;
   document.querySelector("#shelf25").disabled = false;
   document.querySelector("#shelf35").disabled = false;
+  document.querySelector("#exportBtn").disabled = true;
   document.querySelector("#configForm").reset();
   addCacheBtn.disabled = true;
   addDiskBtn.disabled = true;

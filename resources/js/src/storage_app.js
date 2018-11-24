@@ -149,7 +149,6 @@ function resetEverything(){
   document.querySelector("#vault").disabled = false;
   document.querySelector("#shelf25").disabled = false;
   document.querySelector("#shelf35").disabled = false;
-  document.querySelector("#exportBtn").disabled = true;
   document.querySelector("#configForm").reset();
   loadBtn.disabled = true;
   addCacheBtn.disabled = true;

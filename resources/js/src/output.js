@@ -22,10 +22,12 @@ function updateOutputs(load) {
       var arrayOut = modelName;
     } else if(load === true) {
       arrayTotal = parseInt(inputData.cConfig.maxDisk);
+      var vault = inputData.cConfig.vault;
       var dpe = parseInt(inputData.cConfig.dpe);
       var shelf25 = parseInt(inputData.cConfig.dae25);
       var shelf35 = parseInt(inputData.cConfig.dae35);
       var arrayOut = inputData.cConfig.model;
+      cConfig = new currentConfig(arrayOut, arrayTotal, dpe, vault, shelf25, shelf35);
     } 
 
 

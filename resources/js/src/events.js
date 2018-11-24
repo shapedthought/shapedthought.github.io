@@ -5,8 +5,12 @@ const setArray = document.querySelector('#setArray');
 const addCacheBtn = document.querySelector("#addCacheBtn");
 const addDiskBtn = document.querySelector("#addDiskBtn");
 const resetBtn = document.querySelector("#resetBtn");
-const exportBtn = document.querySelector("#exportBtn");
+const saveBtn = document.querySelector("#saveBtn");
+const uploadConfigBtn = document.querySelector("#upLoadConfig");
 
+// Settings object
+let cConfig;
+let modelName;
 
 // Set array button
 setArray.addEventListener("click",function(e) {
@@ -15,24 +19,21 @@ setArray.addEventListener("click",function(e) {
     let vault = document.querySelector("#vault").value;
     let shelf25 = document.querySelector("#shelf25").value;
     let shelf35 = document.querySelector("#shelf35").value;
-  
+
     if(model.length === 0 || dpe.length === 0 || vault === 0) {
       alert('Enter values in the Array config drop downs');
     } else {
+      let modelList = document.querySelector("#model");
+      modelName = modelList.options[modelList.selectedIndex].text;
       addDisk("vault");
-      addCacheBtn.disabled = false;
-      addDiskBtn.disabled = false;
-      setArray.disabled = true;
-      document.querySelector("#model").disabled = true;
-      document.querySelector("#dpe").disabled = true;
-      document.querySelector("#vault").disabled = true;
-      document.querySelector("#shelf25").disabled = true;
-      document.querySelector("#shelf35").disabled = true;
-      resetBtn.classList.remove('d-none');
+      disableArrayConfig();
+      cConfig = new currentConfig(modelName, model, dpe, vault, shelf25, shelf35);
+      console.log(cConfig);
     }; 
     e.preventDefault();
   });
   
+  // Set settings
   
   // Add cache button
   addCacheBtn.addEventListener("click", function(e) {
@@ -66,6 +67,21 @@ setArray.addEventListener("click",function(e) {
     e.preventDefault();
   });
   
+  // Disables the inital array configuration
+  function disableArrayConfig() {
+      addCacheBtn.disabled = false;
+      addDiskBtn.disabled = false;
+      setArray.disabled = true;
+      saveBtn.disabled = false;
+      loadBtn.disabled = true;
+      document.querySelector("#model").disabled = true;
+      document.querySelector("#dpe").disabled = true;
+      document.querySelector("#vault").disabled = true;
+      document.querySelector("#shelf25").disabled = true;
+      document.querySelector("#shelf35").disabled = true;
+      resetBtn.classList.remove('d-none');
+  }
+
   // Delete disk table icon
   document.querySelector("#diskTable").addEventListener("click", function(e) {
     if (e.target.classList.contains("delete-item")) {
@@ -83,5 +99,18 @@ setArray.addEventListener("click",function(e) {
     e.preventDefault();
   })
 
-  // Export config
-  exportBtn.addEventListener("click", exportConfig);
+  // Save Data Modal
+  saveBtn.addEventListener("click", () => {
+    const outPut = saveConfig();
+    document.getElementById('saveOut').innerHTML = JSON.stringify(outPut);
+  });
+
+  // Load config
+  uploadConfigBtn.addEventListener("click", () => {
+    updateOutputs(true);
+    disksArr = inputData.disksArr;
+    diskTableUpdate();
+    upDateUpgrade();
+    disableArrayConfig();
+
+  })

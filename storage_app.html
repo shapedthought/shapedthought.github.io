@@ -39,6 +39,10 @@
                     <div class="card-body">
                             <h5 class="card-title">Current config</h5>
                             <ul>
+                                <li>Model: <span id="modelOut"></span></li>
+                                <li>DPE Size: <span id="dpeSizeOut"></span></li>
+                                <li>DAE 2.5" Qty: <span id="dae25Out"></span></li>
+                                <li>DAE 3.5" Qty: <span id="dae35Out"></span></li>
                                 <li>Max slots for array: <span id="maxDiskOut"></span></li>
                                 <li>Total Configured slots: <span id="currConfigSlots"></span></li>
                                 <li>Total Configured disks: <span id="currConfigDisks"></span></li>
@@ -50,10 +54,10 @@
                                 <li>Remaining 3.5" slots: <span id="remain35slots"></span></li>
                                 <li>Slots that can be added: <span id="remConfigSlots"></span></li>
                             </ul>
-                            <br>
                     </div>
                 </div>
             </div>
+            <div id="test"></div>
             <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
@@ -63,21 +67,25 @@
                                     <li>Total new 2.5" 25x shelves: <span id="newShelves25"></span></li>
                                     <li>New 2.5" slots: <span id="total25slotsUp"></span></li>
                                     <li>New 2.5" disks: <span id="total25disksUp"></span></li>
-                                    <li>Free 2.5" slots: <span id="remain25slotsUp"></span></li>
+                                    <li>Remaining 2.5" slots: <span id="remain25slotsUp"></span></li>
                                     <li>Total new 3.5" 15x shelves: <span id="newShelves35"></span></li>
                                     <li>New 3.5" slots: <span id="total35slotsUp"></span></li>
                                     <li>New 3.5" disks: <span id="total35disksUp"></span></li>
-                                    <li>Free 3.5" slots: <span id="remain35slotsUp"></span></li>
+                                    <li>Remaining 3.5" slots: <span id="remain35slotsUp"></span></li>
                                     <li>Total configured slots: <span id="currConfigSlotsUp"></span></li>
-                                    <li>Slots that can be added: <span id="remConfigSlotsUp"></span></li>
+                                    <li>Slots/shelves that can be added: <span id="remConfigSlotsUp"></span></li>
                                 </ul>
+                                <br>
+                                <br>
+                                <br>
                         </div>
                     </div>
                 </div>
         </div>
         <div class="row">
             <div class="col">
-                <button class="btn btn-primary float-right mt-3" id="exportBtn" disabled>Export</button>
+                <button class="btn btn-primary mt-3" id="saveBtn" data-toggle="modal" data-target="#saveModal" disabled>Save</button>
+                <button class="btn btn-primary mt-3" id="loadBtn" data-toggle="modal" data-target="#loadFile">Load</button>
             </div>
         </div>
     </div>
@@ -267,6 +275,49 @@
 
     </div>
 
+          
+          <!-- Modal -->
+          <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModal" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Save Config</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body ml-auto">
+                    <p>This tool has no back-end currently and JS doesn't allow writing directly to the file system.</p>
+                    <p>For the time being you can save the data below into a text file which can be read back into the tool via the 'Load' button.</p>
+                    <p id="saveOut"></p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+            <!-- Modal -->
+          <div class="modal fade" id="loadFile" tabindex="-1" role="dialog" aria-labelledby="loadFileLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Load Config</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <input type="file">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" id="upLoadConfig" disabled>Load</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
 
     <footer class="footer bg-dark">
         <!-- <div class="container">

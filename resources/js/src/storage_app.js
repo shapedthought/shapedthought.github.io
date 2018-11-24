@@ -37,6 +37,9 @@ function addDisk(type) {
     sDisks = 0;
   };
 
+
+
+
   // Assign ID
   let ID;
   if (disksArr.length > 0) {
@@ -92,7 +95,7 @@ function addDisk(type) {
   // Checks what type of disk it is then runs the appropriate function
   if(newDisk.upgrade === "false"){
   // Updates the current config totals
-  updateOutputs();
+  updateOutputs(false);
   } else if(newDisk.upgrade === "true"){
   // Update upgrade totals
   upDateUpgrade();
@@ -101,10 +104,7 @@ function addDisk(type) {
   // Show alert
   showAlert('Disk Added', 'text-center alert alert-success mt-2')
 
-  // Enable export button
-  if(curUpgrade === "true") {
-    document.querySelector("#exportBtn").disabled = false;
-  }
+
 
 
 };
@@ -125,7 +125,7 @@ function deleteDisk(id) {
   disksArr.splice(index, 1);
 
   // Updates the current totals
-  updateOutputs();
+  updateOutputs(false);
 
   // Update upgrade totals
   upDateUpgrade();
@@ -151,9 +151,11 @@ function resetEverything(){
   document.querySelector("#shelf35").disabled = false;
   document.querySelector("#exportBtn").disabled = true;
   document.querySelector("#configForm").reset();
+  loadBtn.disabled = true;
   addCacheBtn.disabled = true;
   addDiskBtn.disabled = true;
   setArray.disabled = false;
+  lo
   resetBtn.classList.add('d-none');
   // Updates the html table
   diskTableUpdate();

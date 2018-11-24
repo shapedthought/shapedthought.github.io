@@ -12,14 +12,26 @@ let total35slots;
 let totalSlots
 
 // Sets the configured array maximums
-function updateOutputs() {
+function updateOutputs(load) {
+
+    if(load === false) {
+      arrayTotal = parseInt(document.querySelector("#model").value);
+      var dpe = parseInt(document.querySelector("#dpe").value); //value is disk quantity
+      var shelf25 = parseInt(document.querySelector("#shelf25").value);
+      var shelf35 = parseInt(document.querySelector("#shelf35").value);
+      var arrayOut = modelName;
+    } else if(load === true) {
+      arrayTotal = parseInt(inputData.cConfig.maxDisk);
+      var dpe = parseInt(inputData.cConfig.dpe);
+      var shelf25 = parseInt(inputData.cConfig.dae25);
+      var shelf35 = parseInt(inputData.cConfig.dae35);
+      var arrayOut = inputData.cConfig.model;
+    } 
+
 
     // Current configuration
     //Inputs
-    arrayTotal = parseInt(document.querySelector("#model").value);
-    let dpe = parseInt(document.querySelector("#dpe").value); //value is disk quantity
-    let shelf25 = parseInt(document.querySelector("#shelf25").value);
-    let shelf35 = parseInt(document.querySelector("#shelf35").value);
+
     // Sets the total configured slots >> NOTE: totals are not GLOBAL
     shelf25 = Number.isNaN(shelf25) ? 0 : shelf25;
     shelf35 = Number.isNaN(shelf35) ? 0 : shelf35;
@@ -54,7 +66,12 @@ function updateOutputs() {
       alert('configuration over maximum')
     }
 
+
     //Outputs
+    document.querySelector("#modelOut").innerHTML = arrayOut;
+    document.querySelector("#dpeSizeOut").innerHTML = dpe;
+    document.querySelector("#dae25Out").innerHTML = shelf25;
+    document.querySelector("#dae35Out").innerHTML = shelf35;
     document.querySelector("#maxDiskOut").innerHTML = arrayTotal;
     document.querySelector("#currConfigSlots").innerHTML = totalSlots;
     document.querySelector("#currConfigDisks").innerHTML = totalConfigDisks;
@@ -70,7 +87,7 @@ function updateOutputs() {
 
 };
 
-// NOTE TO SELF, SHELVES ARE NOT ADDING!!!
+
 
 let exportText = '';
 
@@ -256,12 +273,24 @@ function clearAlert() {
 
 }
 
-// Export config
-function exportConfig() {
-  var blob = new Blob([exportText], 
-    {type: "text/plain;charset=utf-8"}
-    );
 
-
-    saveAs(blob, "config_export.txt");
+// Save config
+function saveConfig() { 
+  const allOut = {cConfig, disksArr};
+  return allOut
 }
+
+
+
+let inputData = '';
+
+// Input config, might move this later
+const input = document.querySelector('input[type="file"]')
+input.addEventListener('change', function(e) {
+  const reader = new FileReader()
+  reader.readAsText(input.files[0])
+  reader.onload = function () {
+    inputData = JSON.parse(reader.result)
+    uploadConfigBtn.disabled = false;
+  }
+}, false)

@@ -107,10 +107,11 @@ setArray.addEventListener("click",function(e) {
 
   // Load config
   uploadConfigBtn.addEventListener("click", () => {
-    updateOutputs(true);
     disksArr = inputData.disksArr;
+    updateOutputs(true);
     diskTableUpdate();
     upDateUpgrade();
     disableArrayConfig();
+    uploadConfigBtn.disabled = true;
 
   })

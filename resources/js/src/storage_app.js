@@ -150,11 +150,12 @@ function resetEverything(){
   document.querySelector("#shelf25").disabled = false;
   document.querySelector("#shelf35").disabled = false;
   document.querySelector("#configForm").reset();
-  loadBtn.disabled = true;
+  loadBtn.disabled = false;
+  uploadConfigBtn.disabled = false;
   addCacheBtn.disabled = true;
   addDiskBtn.disabled = true;
   setArray.disabled = false;
-  lo
+
   resetBtn.classList.add('d-none');
   // Updates the html table
   diskTableUpdate();

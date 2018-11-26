@@ -102,9 +102,9 @@ function addDisk(type) {
   }
 
   // Show alert
-  showAlert('Disk Added', 'text-center alert alert-success mt-2')
+  // showAlert('Disk Added', 'text-center alert alert-success mt-2')
 
-
+  $.notify("Disk Added", "success");
 
 
 };
@@ -136,7 +136,9 @@ function deleteDisk(id) {
   const diskNumber = index + 1;
 
   // Show alert
-  showAlert(`Disk ${diskNumber} deleted`, 'text-center alert alert-danger mt-2')
+  // showAlert(`Disk ${diskNumber} deleted`, 'text-center alert alert-danger mt-2')
+
+  $.notify("Disk Deleted", "warn");
 
 };
 

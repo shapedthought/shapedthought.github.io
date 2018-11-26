@@ -21,7 +21,10 @@ setArray.addEventListener("click",function(e) {
     let shelf35 = document.querySelector("#shelf35").value;
 
     if(model.length === 0 || dpe.length === 0 || vault === 0) {
-      alert('Enter values in the Array config drop downs');
+      $.alert({
+        title: 'Alert!',
+        content: 'Enter values in the Array config drop downs'
+      });
     } else {
       let modelList = document.querySelector("#model");
       modelName = modelList.options[modelList.selectedIndex].text;
@@ -42,7 +45,10 @@ setArray.addEventListener("click",function(e) {
     let cDisk = document.querySelector("#cDiskSelect").value;
     if(cache.length === 0 || cDisk.length === 0) {
       // Need to change these to 
-      alert('Enter values in cache drop downs')
+      $.alert({
+        title: 'Alert!',
+        content: 'Enter values in cache drop downs'
+      });
     } else {
       let acDisks = parseInt(document.querySelector("#acDisks").value);
       if(acDisks % 2 === 0) {
@@ -60,7 +66,11 @@ setArray.addEventListener("click",function(e) {
     let disk = document.querySelector("#curUpgrade").value;
     let cDisk = document.querySelector("#diskSelect").value;
     if(disk.length === 0 || cDisk.length === 0){
-      alert('Enter values in the disk drop downs');
+      $.alert({
+        title: 'Alert!',
+        content: 'Enter values in the disk drop downs'
+      });
+
     } else {
       addDisk("data");
     };
@@ -93,9 +103,25 @@ setArray.addEventListener("click",function(e) {
     e.preventDefault();
   });
   
-  // Reset config
+  // Reset config, I know it's a bit weird to have both vanilla and jQuery in the same function! Sue me!
   resetBtn.addEventListener("click", function(e) {
-    resetEverything();
+    $.confirm({
+      title:'Are you sure?',
+      content: 'This resets everything...',
+      animation: 'top',
+      closeAnimation: 'bottom',
+      buttons: {
+        confirm: function() {
+          resetEverything();
+          $.alert('Done!')
+        }, 
+        cancel: function () {
+          $.alert('Phew that was close!')
+        }
+      }
+    });
+
+    // resetEverything();
     e.preventDefault();
   })
 
@@ -107,8 +133,13 @@ setArray.addEventListener("click",function(e) {
 
   // Load config
   uploadConfigBtn.addEventListener("click", () => {
-    disksArr = inputData.disksArr;
-    updateOutputs(true);
+    inputData.disksArr.forEach(e => {
+      const newDisk = new Disk(e.id, e.aQty, e.hQty, e.capacity, e.speed, e.size, e.use, e.upgrade);
+      disksArr.push(newDisk)
+    });
+
+    // disksArr = inputData.disksArr;
+    updateOutputs(true); // true sets the inputs to be the cConfig elements
     diskTableUpdate();
     upDateUpgrade();
     disableArrayConfig();

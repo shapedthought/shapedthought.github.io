@@ -65,7 +65,10 @@ function updateOutputs(load) {
 
     // Alert if over max config (current)
     if(remSlots <= 0){ 
-      alert('configuration over maximum')
+      $.alert({
+        title: 'System is over maximum!',
+        content: 'Better check your sums...'
+      })
     }
 
 
@@ -144,7 +147,11 @@ function upDateUpgrade() {
 
     //Alert 
     if(newTotalSlots > arrayTotal) { 
-      alert("BUST!!!")
+      // alert("BUST!!!")
+      $.alert({
+        title: 'System is over maximum!',
+        content: 'Better check your sums...'
+      })
     }
 
     //Outputs
@@ -244,36 +251,37 @@ function diskTableUpdate() {
 
 
 
-// Show alert
-function showAlert(message, className) {
-  const div = document.createElement('div');
+// // Show alert
+// function showAlert(message, className) {
+//   const div = document.createElement('div');
 
-  // Add classes
-  div.className = className;
+//   // Add classes
+//   div.className = className;
 
-  // Add text
-  div.appendChild(document.createTextNode(message));
+//   // Add text
+//   div.appendChild(document.createTextNode(message));
 
-  // Get parent
-  const disksAlrt = document.querySelector('.disk-alert');
-  disksAlrt.appendChild(div);
+//   // Get parent
+//   const disksAlrt = document.querySelector('.disk-alert');
+//   disksAlrt.appendChild(div);
 
-  console.log(div);
+//   console.log(div);
 
-  // Time out
-  setTimeout(() => {
-    clearAlert();
-  }, 1000);
-}
+//   // Time out
+//   setTimeout(() => {
+//     clearAlert();
+//   }, 1000);
+// }
 
-// clear alert
-function clearAlert() {
-  const currentAlert = document.querySelector('.alert');
-  if(currentAlert) {
-    currentAlert.remove();
-  }
+// // clear alert
+// function clearAlert() {
+//   const currentAlert = document.querySelector('.alert');
+//   if(currentAlert) {
+//     currentAlert.remove();
+//   }
 
-}
+// }
+
 
 
 // Save config

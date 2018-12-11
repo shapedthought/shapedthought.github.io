@@ -290,17 +290,3 @@ function saveConfig() {
   return allOut
 }
 
-
-
-let inputData = '';
-
-// Input config, might move this later
-const input = document.querySelector('input[type="file"]')
-input.addEventListener('change', function(e) {
-  const reader = new FileReader()
-  reader.readAsText(input.files[0])
-  reader.onload = function () {
-    inputData = JSON.parse(reader.result)
-    uploadConfigBtn.disabled = false;
-  }
-}, false)

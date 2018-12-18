@@ -89,6 +89,7 @@ setArray.addEventListener("click",function(e) {
       document.querySelector("#vault").disabled = true;
       document.querySelector("#shelf25").disabled = true;
       document.querySelector("#shelf35").disabled = true;
+      document.querySelector("#diskTableHeader").classList.remove('d-none');
       resetBtn.classList.remove('d-none');
   }
 

@@ -125,7 +125,11 @@ function deleteDisk(id) {
   disksArr.splice(index, 1);
 
   // Updates the current totals
-  updateOutputs(false);
+  if(loadedData === true) {
+    updateOutputs(true);
+  } else {
+    updateOutputs(false);
+  }
 
   // Update upgrade totals
   upDateUpgrade();

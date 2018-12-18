@@ -133,6 +133,7 @@ function upDateUpgrade() {
 
     // New total slots
     let newTotalSlots = totalSlots + totalAddSlots25 + totalAddSlots35
+    console.log(newTotalSlots)
 
     // Remaining slots 
     // 2.5
@@ -141,9 +142,11 @@ function upDateUpgrade() {
     // 3.5
     let newTotal35slot = total35slots + totalAddSlots35;
     let newRem35slots = newTotal35slot - (total35disks + total35disksUp);
-
+    console.log(newRem35slots);
+    
     // Remaining upgrades
     let remSlotUpgrades = arrayTotal - newTotalSlots;
+    console.log(remSlotUpgrades);
 
     //Alert 
     if(newTotalSlots > arrayTotal) { 
@@ -188,7 +191,11 @@ function upDateUpgrade() {
 
 
 function resetOutputs(){
-  document.querySelector("#maxDiskOut").innerHTML = 
+    document.querySelector("#modelOut").innerHTML = "";
+    document.querySelector("#dpeSizeOut").innerHTML = "";
+    document.querySelector("#dae25Out").innerHTML = "";
+    document.querySelector("#dae35Out").innerHTML = "";
+    document.querySelector("#maxDiskOut").innerHTML = "";
     document.querySelector("#currConfigSlots").innerHTML = "";
     document.querySelector("#currConfigDisks").innerHTML = "";
     document.querySelector("#total25slots").innerHTML = "";

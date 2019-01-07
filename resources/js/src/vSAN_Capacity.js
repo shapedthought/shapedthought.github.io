@@ -183,7 +183,7 @@ function runCal() {
 	if (nodeTypeSelect === 'hybrid') {
 		fttReduction = parseFloat(document.querySelector('#fttHybridValue').value);
 	} else {
-		fttReduction = parseFloat(document.querySelector('# ').value);
+		fttReduction = parseFloat(document.querySelector('#fttFlashValue').value);
 	}
 
 

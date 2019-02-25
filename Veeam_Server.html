@@ -42,6 +42,18 @@
                         <input type="number" name="sourceData" id="sourceData" class="form-control mb-2" required>
                         <label for="vmQuantity">VMDK Quantity</label>
                         <input type="number" name="vmQuantity" id="vmQuantity" class="form-control mb-2" required>
+                        <label for="fullBackupType">Full Backup Type</label>
+                        <select name="fullBackupType" id="fullBackupType" class="custom-select">
+                            <option value="1">Active Full</option>
+                            <option value="2">Synthetic Full</option>
+                            <option value="4">Synthetic Full with rollbacks</option>
+                        </select>
+                        <label for="incBackupType">Incremental Backup Type</label>
+                        <select name="incBackupType" id="incBackupType" class="custom-select">
+                            <option value="3">Forever Forward Incremental</option>
+                            <option value="1">Forward Incremental</option>
+                            <option value="3">Reverse Incremental</option>
+                        </select>
                         <label for="fullBackuptime">Backup Time for Full (hours)</label>
                         <input type="number" name="fullBackuptime" id="fullBackuptime" class="form-control mb-2" required>
                         <label for="increBackuptime">Backup Time for Incremental (hours)</label>

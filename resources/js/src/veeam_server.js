@@ -4,6 +4,8 @@ document.getElementById('runForm').addEventListener('submit', e =>{
     //Inputs
     const sourceData = parseInt(document.getElementById('sourceData').value);
     const vmQuantity = parseInt(document.getElementById('vmQuantity').value);
+    const fullBackupType = parseInt(document.getElementById('fullBackupType').value);
+    const incrBackupType = parseInt(document.getElementById('incBackupType').value);
     const fullBackuptime = parseInt(document.getElementById('fullBackuptime').value);
     const increBackuptime = parseInt(document.getElementById('increBackuptime').value);
     const change = parseInt(document.getElementById('changeRate').value);
@@ -23,6 +25,7 @@ document.getElementById('runForm').addEventListener('submit', e =>{
     const iopsInc = document.getElementById('iopsInc');
     const iopsFullPr = document.getElementById('iopsFullPr');
     const iopsIncPr = document.getElementById('iopsIncPr');
+
 
     //Calculations
     //Capacity with growth
@@ -53,13 +56,26 @@ document.getElementById('runForm').addEventListener('submit', e =>{
         ramReqInc.innerHTML = Math.ceil(buRamDel + (proxyCoresFull * 2));
     }
 
+    // IO Calculations
+    const rawFullIops = (fullMbDel * 1024) / block;
+    const fullIopsWithOverhead = rawFullIops * fullBackupType;
+    const rawIncrIops = (incMbDel * 1024) / block;
+    const incrIopsWithOverhead = rawIncrIops * incrBackupType;
+
 
     fullMb.innerHTML = (fullMbDel).toFixed(2);
     incMb.innerHTML = (incMbDel).toFixed(2);
-    iopsFull.innerHTML = ((fullMbDel * 1024) / block).toFixed(2);
-    iopsInc.innerHTML = ((incMbDel * 1024) / block).toFixed(2);
-    iopsFullPr.innerHTML = (((fullMbDel * 1024) / block) * 6).toFixed(2);
-    iopsIncPr.innerHTML = (((incMbDel * 1024) / block) * 6).toFixed(2);
+
+    // iopsFull.innerHTML = ((fullMbDel * 1024) / block).toFixed(2);
+    // iopsInc.innerHTML = ((incMbDel * 1024) / block).toFixed(2);
+    // iopsFullPr.innerHTML = (((fullMbDel * 1024) / block) * 6).toFixed(2);
+    // iopsIncPr.innerHTML = (((incMbDel * 1024) / block) * 6).toFixed(2);
+
+    iopsFull.innerHTML = (fullIopsWithOverhead).toFixed(2);
+    iopsInc.innerHTML = (incrIopsWithOverhead).toFixed(2);
+    iopsFullPr.innerHTML = (fullIopsWithOverhead * 6).toFixed(2);
+    // Should really strip out those additional reads here...
+    iopsIncPr.innerHTML = (incrIopsWithOverhead * 6).toFixed(2);
 
     });
 

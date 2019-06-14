@@ -30,32 +30,45 @@ document.getElementById('runForm').addEventListener('submit', e =>{
     //Calculations
     //Capacity with growth
     const datawithGrowth = ((sourceData * ((100 - reduction) / 100)) * (1 + ((growth / 100) * scope )));
-    console.log(sourceData, datawithGrowth);
-    // Cores required for full backup T/100
+
+    //Backup server
+    const backServCores = buCores(vmQuantity);
+    const buRamDel = buRam(vmQuantity);
+
+
+    //Proxy server
+
+    //IO METHOD
+    // Cores required for full backup T/100 >> IO Method
     const proxyCoresFull = fullCores(datawithGrowth, fullBackuptime);
     // Cores required for incremental backup (T X CR)/25
     const proxyCoresInc = increCores(datawithGrowth, increBackuptime, change);
-    const backServCores = buCores(vmQuantity);
-    const buRamDel = buRam(vmQuantity);
+
+    // Rule of thumb method for cores
+    const rotCoresFull = Math.ceil(vmQuantity/30);
+
+    // Throughput requirements
     const fullMbDel = ((datawithGrowth * Math.pow(1024, 2)) / (fullBackuptime * Math.pow(60, 2)));
     const incMbDel = (((datawithGrowth * Math.pow(1024, 2)) / (increBackuptime * Math.pow(60, 2)))*(change / 100));
     
+
     //Exports
     cpuReqFull.innerHTML = Math.ceil(proxyCoresFull + backServCores);
     cpuReqInc.innerHTML = Math.ceil(proxyCoresInc + backServCores);
-    //Full RAM
+    //Full RAM for both Backup server and Proxy
     if((buRamDel + (proxyCoresFull * 2)) < 8) {
         ramReqFull.innerHTML = 8;
     } else {
         ramReqFull.innerHTML = Math.ceil(buRamDel + (proxyCoresFull * 2));
     };
-    //Inc RAM
+    //Inc RAM for both Backup server and Proxy
     if((buRamDel + (proxyCoresInc * 2)) < 8) {
         ramReqInc.innerHTML = 8;
     } else {
         ramReqInc.innerHTML = Math.ceil(buRamDel + (proxyCoresFull * 2));
     }
 
+    
     // IO Calculations
     const rawFullIops = (fullMbDel * 1024) / block;
     const fullIopsWithOverhead = rawFullIops * fullBackupType;
@@ -66,10 +79,6 @@ document.getElementById('runForm').addEventListener('submit', e =>{
     fullMb.innerHTML = (fullMbDel).toFixed(2);
     incMb.innerHTML = (incMbDel).toFixed(2);
 
-    // iopsFull.innerHTML = ((fullMbDel * 1024) / block).toFixed(2);
-    // iopsInc.innerHTML = ((incMbDel * 1024) / block).toFixed(2);
-    // iopsFullPr.innerHTML = (((fullMbDel * 1024) / block) * 6).toFixed(2);
-    // iopsIncPr.innerHTML = (((incMbDel * 1024) / block) * 6).toFixed(2);
 
     iopsFull.innerHTML = (fullIopsWithOverhead).toFixed(2);
     iopsInc.innerHTML = (incrIopsWithOverhead).toFixed(2);

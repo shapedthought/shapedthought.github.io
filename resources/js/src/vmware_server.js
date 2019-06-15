@@ -62,13 +62,13 @@ document.getElementById('runForm').addEventListener('submit', e =>{
     const ramDif = (activeRam - ramWithGrowth).toFixed(2);
 
     //Output to DOM
-    reqCoresOut.innerHTML = coresWithGrowth;
+    reqCoresOut.innerHTML = (coresWithGrowth).toFixed(2);
     delCoresOut.innerHTML = activeCores;
     coreDifOut.innerHTML = coreDif;
-    reqGhzOut.innerHTML = ghzWithGrowth;
+    reqGhzOut.innerHTML = (ghzWithGrowth).toFixed(2);
     delGhzOut.innerHTML = activeGhz;
     ghzDifOut.innerHTML = ghzDif;
-    reqRamOut.innerHTML = ramWithGrowth;
+    reqRamOut.innerHTML = (ramWithGrowth).toFixed(2);
     delRamOut.innerHTML = activeRam;
     ramDifOut.innerHTML = ramDif;
 

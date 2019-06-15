@@ -146,7 +146,6 @@ function deleteDisk(id) {
 
 };
 
-
 // RESETS THE WHOLE DAMN THING
 function resetEverything(){
   disksArr = [];

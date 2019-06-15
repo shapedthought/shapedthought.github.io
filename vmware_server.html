@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
+        crossorigin="anonymous">
+        <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
+     
+        <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+    <title>VMware Host Calcution</title>
+</head>
+<body>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark mb-3" id="main-nav">
+                <div class="container">
+                    <a href="index.html" class="navbar-brand">tawsome</a>
+                    <button class="navbar-toggler" data-toggle="collapse" data-target="#navabarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navabarCollapse">
+                    </div>
+                </div>
+            </nav>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="mb3">VMware Host Calculation</h1>
+        </div>
+    </div>
+    <form id="runForm">
+    <div class="row">
+        <div class="col-lg-6">
+
+       
+                <h2>Requirements</h2>
+                <label for="ghzRequired">Current GHz</label>
+                <input type="number" name="ghzRequired" id="ghzRequired" class="form-control mb-2" required>
+                <label for="coresRequired">Current Cores</label>
+                <input type="number" name="coresRequired" id="coresRequired" class="form-control mb-2" required>
+                <label for="ramRequired">Current RAM (TiB or GiB)</label>
+                <input type="float" name="ramRequired" id="ramRequired" class="form-control mb-2" required>
+                <label for="growthPerYear">Growth Per Year (%)</label>
+                <input type="number" name="growthPerYear" id="growthPerYear" class="form-control mb-2" required>
+                <label for="yearsInScope">Years In Scope</label>
+                <input type="number" name="yearsInScope" id="yearsInScope" class="form-control mb-2" required>
+                <label for="haLevel">HA Level x:1</label>
+                <input type="number" name="haLevel" id="haLevel" class="form-control mb-2" required>
+
+        </div>
+        <div class="col-lg-6">
+                <h2>Server Config</h2>
+                <label for="hostQty">Quantity of hosts</label>
+                <input type="number" name="hostQty" id="hostQty" class="form-control mb-2" required>
+                <label for="cpuPerHost">CPU Per Host</label>
+                <input type="number" name="cpuPerHost" id="cpuPerHost" class="form-control mb-2" required>
+                <label for="coresPerCpu">Cores Per CPU</label>
+                <input type="number" name="coresPerCpu" id="coresPerCpu" class="form-control mb-2" required>
+                <label for="ghzPerCore">GHz Per Core</label>
+                <input type="float" name="ghzPerCore" id="ghzPerCore" class="form-control mb-2" required>
+                <label for="ramPerHost">RAM Per Host</label>
+                <!-- <input type="number" name="ramPerHost" id="ramPerHost" class="form-control mb-2" required> -->
+                <select name="ramPerHost" id="ramPerHost" class="custom-select">
+                    <option value="32">32</option>
+                    <option value="64">64</option>
+                    <option value="128">128</option>
+                    <option value="256">256</option>
+                    <option value="384">384</option>
+                    <option value="512">512</option>
+                    <option value="768">768</option>
+                    <option value="1024">1024</option>
+                </select>
+        </div>
+    </div>
+    <div class="row">
+        <hr>
+            <div class="col">
+                    <input type="submit" id="submit" class="btn btn-primary" value="Submit">
+            </div>
+        </div>
+            </form>
+
+            <hr>
+    <div class="row mt-3">
+        <h2>Results</h2>
+        <thead>
+        <table class="table">
+            <tr>
+                <th scope="col">Element</th>
+                <th scope="col">Required</th>
+                <th scope="col">Delivered</th>
+                <th scope="col">Difference</th>
+            </tr>
+        </thead>
+            <tr>
+                <th scope="row">Cores</th>
+                <td id="reqCoresOut"></td>
+                <td id="delCoresOut"></td>
+                <td id="coreDifOut"></td>
+            </tr>
+            <tr>
+                <th scope="row">GHz</th>
+                <td id="reqGhzOut"></td>
+                <td id="delGhzOut"></td>
+                <td id="ghzDifOut"></td>
+            </tr>
+            <tr>
+                <th scope="row">RAM (GiB)</th>
+                <td id="reqRamOut"></td>
+                <td id="delRamOut"></td>
+                <td id="ramDifOut"></td>
+                </tr>
+        </table>
+    </div>
+    </div>
+</div>
+
+
+    
+</body>
+<script type="text/javascript" src="./resources/js/src/vmware_server.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</html>

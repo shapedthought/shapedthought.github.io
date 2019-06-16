@@ -96,21 +96,34 @@ document.getElementById('upLoadConfig').addEventListener('click', ()=> {
     const loadedData = document.getElementById('serverConfig').value;
     try { 
         loadObject = JSON.parse(loadedData);
+        console.log(typeof(loadObject));
+        document.getElementById('ghzRequired').value = loadObject.requirement.currentGhz;
+        document.getElementById('coresRequired').value = loadObject.requirement.currentCores;
+        document.getElementById('ramRequired').value = loadObject.requirement.currentRam;
+        document.getElementById('growthPerYear').value = loadObject.requirement.growth;
+        document.getElementById('yearsInScope').value = loadObject.requirement.yearsInScope;
+        document.getElementById('haLevel').value = loadObject.requirement.haLevel;
+        document.getElementById('hostQty').value = loadObject.serverConfig.coresPerCpu;
+        document.getElementById('cpuPerHost').value = loadObject.serverConfig.cpuPerHost;
+        document.getElementById('coresPerCpu').value = loadObject.serverConfig.coresPerCpu;
+        document.getElementById('ghzPerCore').value = loadObject.serverConfig.ghzPerCore;
+        document.getElementById('ramPerHost').value = loadObject.serverConfig.ramPerHost;
+    
+        Swal.fire({
+            type: 'success',
+            title: 'Success',
+            text: 'Configuration Loaded!',
+          });
     } catch (e) {
-        alert('Invalid JSON');
+        // alert('Invalid JSON');
+        Swal.fire({
+            type: 'error',
+            title: 'Oops...',
+            text: 'Invalid JSON!',
+          });
     } 
-    console.log(typeof(loadObject));
-    document.getElementById('ghzRequired').value = loadObject.requirement.currentGhz;
-    document.getElementById('coresRequired').value = loadObject.requirement.currentCores;
-    document.getElementById('ramRequired').value = loadObject.requirement.currentRam;
-    document.getElementById('growthPerYear').value = loadObject.requirement.growth;
-    document.getElementById('yearsInScope').value = loadObject.requirement.yearsInScope;
-    document.getElementById('haLevel').value = loadObject.requirement.haLevel;
-    document.getElementById('hostQty').value = loadObject.serverConfig.coresPerCpu;
-    document.getElementById('cpuPerHost').value = loadObject.serverConfig.cpuPerHost;
-    document.getElementById('coresPerCpu').value = loadObject.serverConfig.coresPerCpu;
-    document.getElementById('ghzPerCore').value = loadObject.serverConfig.ghzPerCore;
-    document.getElementById('ramPerHost').value = loadObject.serverConfig.ramPerHost;
+   
+
 });
 
 var saveData = {};

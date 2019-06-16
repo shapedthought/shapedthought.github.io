@@ -17,6 +17,8 @@ const Disk = function(id, aQty, hQty, capacity, speed, size, use, upgrade) {
   
   let disksArr = [];
 
+  let diskArrMod = [];
+
   // Current configuration class
 
 class currentConfig {

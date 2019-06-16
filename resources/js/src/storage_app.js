@@ -83,6 +83,8 @@ function addDisk(type) {
       objQty += 1;
     }
   }
+
+  
   // Checks to see if the objQty varable matches the length of the array
   // If it does it adds the new disk to the array
   if (objQty === disksArr.length) {
@@ -91,6 +93,28 @@ function addDisk(type) {
 
   // Updates the table in the DOM
   diskTableUpdate();
+
+  // Checks if any of the 
+  diskArrMod = disksArr.slice(0);
+  diskArrMod.splice(0,1);
+  
+  let vaultDisk = diskArr[0];
+
+  for( i in diskArrMod) {
+    if (
+      diskArrMod[i].capacity === vaultDisk.capacity &&
+      diskArrMod[i].speed === vaultDisk.speed &&
+      diskArrMod[i].size === vaultDisk.size 
+    ) {
+      diskArrMod[i].aQty += vaultDisk.aQty;
+      diskArrMod[i].hQty += vaultDisk.hQty;
+      console.log('Entry updated');
+    } else {
+      diskArrMod.push(vault);
+      console.log('vault added back in again');
+    }
+  }
+  
 
   // Checks what type of disk it is then runs the appropriate function
   if(newDisk.upgrade === "false"){

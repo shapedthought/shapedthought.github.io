@@ -68,7 +68,7 @@ document.getElementById('runForm').addEventListener('submit', e =>{
     reqGhzOut.innerHTML = (ghzWithGrowth).toFixed(2);
     delGhzOut.innerHTML = activeGhz;
     ghzDifOut.innerHTML = ghzDif;
-    reqRamOut.innerHTML = (ramWithGrowth).toFixed(2);
+    reqRamOut.innerHTML = ramWithGrowth;
     delRamOut.innerHTML = activeRam;
     ramDifOut.innerHTML = ramDif;
 

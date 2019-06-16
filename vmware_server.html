@@ -27,8 +27,16 @@
     <div class="row">
         <div class="col">
             <h1 class="mb3">VMware Host Calculation</h1>
+            <hr>
         </div>
     </div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary float-right" id="saveBtn" data-toggle="modal" data-target="#saveModal" disabled>Save</button>
+            <button class="btn btn-primary mr-2 float-right" id="loadBtn" data-toggle="modal" data-target="#loadFile">Load</button>
+        </div>
+    </div>
+    <hr>
     <form id="runForm">
     <div class="row">
         <div class="col-lg-6">
@@ -113,10 +121,52 @@
                 </tr>
         </table>
     </div>
+
     </div>
 </div>
 
+ <!-- Modal -->
+ <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Save Config</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <p>Save this JSON string somewhere.</p>
+            <p id="saveOut"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
+    <!-- Modal -->
+  <div class="modal fade" id="loadFile" tabindex="-1" role="dialog" aria-labelledby="loadFileLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Load Config</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <textarea class="form-control" id="serverConfig" placeholder="Paste the config here."></textarea>
+            <!-- <input id="storageConfig" type="file"> -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="upLoadConfig">Load</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
     
 </body>
 <script type="text/javascript" src="./resources/js/src/vmware_server.js"></script>

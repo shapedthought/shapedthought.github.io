@@ -1,3 +1,26 @@
+// Checks local storage to see if a config has been stored previously
+document.addEventListener('DOMContentLoaded', function() {
+    if(localStorage.getItem('config') === null) {
+        console.log('No data in local storage')
+    } else {
+        const lastConfig = JSON.parse(localStorage.getItem('config'));
+        console.log(lastConfig)
+        document.getElementById('ghzRequired').value = lastConfig.requirement.currentGhz;
+        document.getElementById('coresRequired').value = lastConfig.requirement.currentCores;
+        document.getElementById('ramRequired').value = lastConfig.requirement.currentRam;
+        document.getElementById('growthPerYear').value = lastConfig.requirement.growth;
+        document.getElementById('yearsInScope').value = lastConfig.requirement.yearsInScope;
+        document.getElementById('haLevel').value = lastConfig.requirement.haLevel;
+        document.getElementById('hostQty').value = lastConfig.serverConfig.coresPerCpu;
+        document.getElementById('cpuPerHost').value = lastConfig.serverConfig.cpuPerHost;
+        document.getElementById('coresPerCpu').value = lastConfig.serverConfig.coresPerCpu;
+        document.getElementById('ghzPerCore').value = lastConfig.serverConfig.ghzPerCore;
+        document.getElementById('ramPerHost').value = lastConfig.serverConfig.ramPerHost;
+    }
+})
+
+
+
 // Declare inputs here so I can use them again
 
 var ghzRequired;
@@ -88,6 +111,23 @@ document.getElementById('runForm').addEventListener('submit', e =>{
 
     // Enables the save button
     document.getElementById('saveBtn').disabled = false;
+
+    //save data to local storage
+    saveData = { requirement:
+        {currentGhz: ghzRequired, 
+        currentCores: coresRequired, 
+        currentRam: ramRequired, 
+        growth: growthPerYear, 
+        yearsInScope: yearsInScope, 
+        haLevel: haLevel}, 
+            serverConfig:
+        {quantyOfHosts: hostQty,
+        cpuPerHost: cpuPerHost,
+        coresPerCpu: coresPerCpu,
+        ghzPerCore: ghzPerCore,
+        ramPerHost: ramPerHost} 
+            };
+
 });
 
 var loadedData = {};
@@ -129,17 +169,7 @@ document.getElementById('upLoadConfig').addEventListener('click', ()=> {
 var saveData = {};
 
 document.getElementById('saveBtn').addEventListener('click', ()=> {
-        // saveData.requirement.currentGhz = ghzRequired;
-        // saveData.requirement.currentCores = coresRequired;
-        // saveData.requirement.currentRam = ramRequired;
-        // saveData.requirement.growth = growthPerYear;
-        // saveData.requirement.yearsInScope = yearsInScope;
-        // saveData.requirement.haLevel = haLevel;
-        // saveData.serverConfig.quantyOfHosts = hostQty;
-        // saveData.serverConfig.cpuPerHost = cpuPerHost;
-        // saveData.serverConfig.coresPerCpu = coresPerCpu;
-        // saveData.serverConfig.ghzPerCore = ghzPerCore;
-        // saveData.serverConfig.ramPerHost = ramPerHost;
+
         saveData = { requirement:
                                 {currentGhz: ghzRequired, 
                                 currentCores: coresRequired, 
@@ -156,3 +186,15 @@ document.getElementById('saveBtn').addEventListener('click', ()=> {
                     };
     document.getElementById('saveOut').innerHTML = JSON.stringify(saveData);
 });
+
+document.getElementById('copyBtn').addEventListener('click', ()=> {
+    var copyText = document.getElementById('saveOut');
+    copyText.select();
+    document.execCommand('copy');
+    Swal.fire({
+        type: 'success',
+        title: 'Success',
+        text: 'Data Copied to Clipboard',
+      });
+});
+

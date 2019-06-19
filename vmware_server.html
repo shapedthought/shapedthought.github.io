@@ -137,10 +137,12 @@
         </div>
         <div class="modal-body">
             <p>Save this JSON string somewhere.</p>
-            <p id="saveOut"></p>
+            <textarea class="form-control" id="saveOut" placeholder="Paste the config here."></textarea>
+            <!-- <p id="saveOut"></p> -->
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="copyBtn">Copy to clipboard</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>

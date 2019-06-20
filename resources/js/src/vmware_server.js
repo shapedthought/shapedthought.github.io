@@ -87,7 +87,7 @@ document.getElementById('runForm').addEventListener('submit', e =>{
 
     //Overheads
     const coreDif = activeCores - coresWithGrowth;
-    const ghzDif = (activeGhz - ghzWithGrowth).toFixed(2);
+    const ghzDif = activeGhz - ghzWithGrowth;
     const ramDif = activeRam - ramWithGrowth;
 
     //Output to DOM
@@ -95,7 +95,7 @@ document.getElementById('runForm').addEventListener('submit', e =>{
     delCoresOut.innerHTML = activeCores;
     coreDifOut.innerHTML = coreDif;
     reqGhzOut.innerHTML = ghzWithGrowth;
-    delGhzOut.innerHTML = (activeGhz).toFixed(2);
+    delGhzOut.innerHTML = activeGhz;
     ghzDifOut.innerHTML = ghzDif;
     reqRamOut.innerHTML = ramWithGrowth;
     delRamOut.innerHTML = activeRam;
@@ -127,6 +127,8 @@ document.getElementById('runForm').addEventListener('submit', e =>{
         ghzPerCore: ghzPerCore,
         ramPerHost: ramPerHost} 
             };
+
+    localStorage.setItem('config', JSON.stringify(saveData));
 
 });
 

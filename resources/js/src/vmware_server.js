@@ -1,44 +1,50 @@
+// Declare input values here so I can use them again
+
+let ghzRequired;
+let coresRequired;
+let ramRequired;
+let growthPerYear;
+let yearsInScope;
+let haLevel;
+let hostQty;
+let cpuPerHost;
+let coresPerCpu;
+let ghzPerCore;
+let ramPerHost;
+
+
+
+// set inputs- value- used with loading from storage and upload but not the main function yet
+function setInputs (inputObject) {
+    document.getElementById('ghzRequired').value = inputObject.requirement.currentGhz;
+    document.getElementById('coresRequired').value = inputObject.requirement.currentCores;
+    document.getElementById('ramRequired').value = inputObject.requirement.currentRam;
+    document.getElementById('growthPerYear').value = inputObject.requirement.growth;
+    document.getElementById('yearsInScope').value = inputObject.requirement.yearsInScope;
+    document.getElementById('haLevel').value = inputObject.requirement.haLevel;
+    document.getElementById('hostQty').value = inputObject.serverConfig.coresPerCpu;
+    document.getElementById('cpuPerHost').value = inputObject.serverConfig.cpuPerHost;
+    document.getElementById('coresPerCpu').value = inputObject.serverConfig.coresPerCpu;
+    document.getElementById('ghzPerCore').value = inputObject.serverConfig.ghzPerCore;
+    document.getElementById('ramPerHost').value = inputObject.serverConfig.ramPerHost;
+}
+
+
 // Checks local storage to see if a config has been stored previously
 document.addEventListener('DOMContentLoaded', function() {
     if(localStorage.getItem('config') === null) {
         console.log('No data in local storage')
     } else {
         const lastConfig = JSON.parse(localStorage.getItem('config'));
-        console.log(lastConfig)
-        document.getElementById('ghzRequired').value = lastConfig.requirement.currentGhz;
-        document.getElementById('coresRequired').value = lastConfig.requirement.currentCores;
-        document.getElementById('ramRequired').value = lastConfig.requirement.currentRam;
-        document.getElementById('growthPerYear').value = lastConfig.requirement.growth;
-        document.getElementById('yearsInScope').value = lastConfig.requirement.yearsInScope;
-        document.getElementById('haLevel').value = lastConfig.requirement.haLevel;
-        document.getElementById('hostQty').value = lastConfig.serverConfig.coresPerCpu;
-        document.getElementById('cpuPerHost').value = lastConfig.serverConfig.cpuPerHost;
-        document.getElementById('coresPerCpu').value = lastConfig.serverConfig.coresPerCpu;
-        document.getElementById('ghzPerCore').value = lastConfig.serverConfig.ghzPerCore;
-        document.getElementById('ramPerHost').value = lastConfig.serverConfig.ramPerHost;
+        setInputs(lastConfig)
     }
 })
 
 
-
-// Declare inputs here so I can use them again
-
-var ghzRequired;
-var coresRequired;
-var ramRequired;
-var growthPerYear;
-var yearsInScope;
-var haLevel;
-var hostQty;
-var cpuPerHost;
-var coresPerCpu;
-var ghzPerCore;
-var ramPerHost;
-
 document.getElementById('runForm').addEventListener('submit', e =>{
 
     e.preventDefault();
-    //Inputs
+    //Inputs- need to do something with this
     ghzRequired = parseInt(document.getElementById('ghzRequired').value);
     coresRequired = parseInt(document.getElementById('coresRequired').value);
     ramRequired = parseFloat(document.getElementById('ramRequired').value);
@@ -52,7 +58,7 @@ document.getElementById('runForm').addEventListener('submit', e =>{
     ramPerHost = parseInt(document.getElementById('ramPerHost').value);
 
     //Outputs
-    //Deliverables
+    //Deliverables- got this twice, need to reduce
 
     const reqCoresOut = document.getElementById('reqCoresOut');
     const delCoresOut = document.getElementById('delCoresOut');
@@ -95,8 +101,8 @@ document.getElementById('runForm').addEventListener('submit', e =>{
     delCoresOut.innerHTML = activeCores;
     coreDifOut.innerHTML = coreDif;
     reqGhzOut.innerHTML = ghzWithGrowth;
-    delGhzOut.innerHTML = activeGhz;
-    ghzDifOut.innerHTML = ghzDif;
+    delGhzOut.innerHTML = (activeGhz).toFixed(2);
+    ghzDifOut.innerHTML = (ghzDif).toFixed(2);
     reqRamOut.innerHTML = ramWithGrowth;
     delRamOut.innerHTML = activeRam;
     ramDifOut.innerHTML = ramDif;
@@ -112,7 +118,10 @@ document.getElementById('runForm').addEventListener('submit', e =>{
     // Enables the save button
     document.getElementById('saveBtn').disabled = false;
 
-    //save data to local storage
+    // Enables the clear button
+    document.getElementById('clearButton').classList.toggle('d-none')
+
+    //create a saveData object to be stored in local storage- saves this globally below
     saveData = { requirement:
         {currentGhz: ghzRequired, 
         currentCores: coresRequired, 
@@ -128,29 +137,18 @@ document.getElementById('runForm').addEventListener('submit', e =>{
         ramPerHost: ramPerHost} 
             };
 
+    // save object to local storage
     localStorage.setItem('config', JSON.stringify(saveData));
 
 });
 
 var loadedData = {};
 
-document.getElementById('upLoadConfig').addEventListener('click', ()=> {
+document.getElementById('upLoadConfig').addEventListener('click', ()=> {  
     const loadedData = document.getElementById('serverConfig').value;
     try { 
         loadObject = JSON.parse(loadedData);
-        console.log(typeof(loadObject));
-        document.getElementById('ghzRequired').value = loadObject.requirement.currentGhz;
-        document.getElementById('coresRequired').value = loadObject.requirement.currentCores;
-        document.getElementById('ramRequired').value = loadObject.requirement.currentRam;
-        document.getElementById('growthPerYear').value = loadObject.requirement.growth;
-        document.getElementById('yearsInScope').value = loadObject.requirement.yearsInScope;
-        document.getElementById('haLevel').value = loadObject.requirement.haLevel;
-        document.getElementById('hostQty').value = loadObject.serverConfig.coresPerCpu;
-        document.getElementById('cpuPerHost').value = loadObject.serverConfig.cpuPerHost;
-        document.getElementById('coresPerCpu').value = loadObject.serverConfig.coresPerCpu;
-        document.getElementById('ghzPerCore').value = loadObject.serverConfig.ghzPerCore;
-        document.getElementById('ramPerHost').value = loadObject.serverConfig.ramPerHost;
-    
+        setInputs(loadObject)
         Swal.fire({
             type: 'success',
             title: 'Success',
@@ -168,8 +166,14 @@ document.getElementById('upLoadConfig').addEventListener('click', ()=> {
 
 });
 
+// Deletes the previous config input, works on the load click
+document.getElementById('loadBtn').addEventListener('click', ()=> {
+    document.getElementById('serverConfig').value = '';
+})
+
 var saveData = {};
 
+//Outputs the saveData object to a input box
 document.getElementById('saveBtn').addEventListener('click', ()=> {
 
         saveData = { requirement:
@@ -200,3 +204,20 @@ document.getElementById('copyBtn').addEventListener('click', ()=> {
       });
 });
 
+// clear button
+document.getElementById('clearButton').addEventListener('click', ()=>{
+    document.getElementById('runForm').reset();
+    localStorage.clear();
+    document.getElementById('clearButton').classList.toggle('d-none');
+    document.getElementById('reqCoresOut').innerHTML = '';
+    document.getElementById('delCoresOut').innerHTML = '';
+    document.getElementById('coreDifOut').innerHTML = '';
+
+    document.getElementById('reqGhzOut').innerHTML = '';
+    document.getElementById('delGhzOut').innerHTML = '';
+    document.getElementById('ghzDifOut').innerHTML = '';
+
+    document.getElementById('reqRamOut').innerHTML = '';
+    document.getElementById('delRamOut').innerHTML = '';
+    document.getElementById('ramDifOut').innerHTML = '';
+})

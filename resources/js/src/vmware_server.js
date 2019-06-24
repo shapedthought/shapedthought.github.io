@@ -20,7 +20,7 @@ function setInputs (inputObject) {
     document.getElementById('growthPerYear').value = inputObject.requirement.growth;
     document.getElementById('yearsInScope').value = inputObject.requirement.yearsInScope;
     document.getElementById('haLevel').value = inputObject.requirement.haLevel;
-    document.getElementById('hostQty').value = inputObject.serverConfig.coresPerCpu;
+    document.getElementById('hostQty').value = inputObject.serverConfig.quantyOfHosts;
     document.getElementById('cpuPerHost').value = inputObject.serverConfig.cpuPerHost;
     document.getElementById('coresPerCpu').value = inputObject.serverConfig.coresPerCpu;
     document.getElementById('ghzPerCore').value = inputObject.serverConfig.ghzPerCore;

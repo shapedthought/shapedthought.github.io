@@ -16,6 +16,7 @@ let ramPerHost;
 function setInputs (inputObject) {
     document.getElementById('ghzRequired').value = inputObject.requirement.currentGhz;
     document.getElementById('coresRequired').value = inputObject.requirement.currentCores;
+    document.getElementById('vcpuRequired').value = inputObject.requirement.currentVcpu;
     document.getElementById('ramRequired').value = inputObject.requirement.currentRam;
     document.getElementById('growthPerYear').value = inputObject.requirement.growth;
     document.getElementById('yearsInScope').value = inputObject.requirement.yearsInScope;
@@ -51,6 +52,7 @@ let beenRun = false;
 
 function runCal() {
  //Inputs- need to do something with this
+ vcpuRequired = parseInt(document.getElementById('vcpuRequired').value);
  ghzRequired = parseInt(document.getElementById('ghzRequired').value);
  coresRequired = parseInt(document.getElementById('coresRequired').value);
  ramRequired = parseFloat(document.getElementById('ramRequired').value);
@@ -78,6 +80,8 @@ function runCal() {
  const delRamOut = document.getElementById('delRamOut');
  const ramDifOut = document.getElementById('ramDifOut');
 
+ const ratioOut = document.getElementById('ratioOut')
+
  //Calculations
  // Check if RAM is in TiB or GiB
  if (ramRequired < 10) {
@@ -89,6 +93,15 @@ function runCal() {
  const ghzWithGrowth = Math.ceil(ghzRequired * growthFactor);
  const coresWithGrowth = Math.ceil(coresRequired * growthFactor);
  const ramWithGrowth = Math.ceil((ramRequired * growthFactor).toFixed(2));
+ let vcpuWithGrowth;
+ if(isNaN(vcpuRequired)) {
+    vcpuWithGrowth = 0;
+    console.log("run1")
+ } else {
+    vcpuWithGrowth = (vcpuRequired * growthFactor).toFixed(2);
+    console.log("run2")
+ }
+
 
  // Host deliverables
  const activeHosts = hostQty - haLevel;
@@ -102,6 +115,9 @@ function runCal() {
  const ghzDif = activeGhz - ghzWithGrowth;
  const ramDif = activeRam - ramWithGrowth;
 
+ //vCPU to Core ratio
+ const vcpuToCoreRatio = (vcpuWithGrowth / activeCores).toFixed(2)  + ":1"; 
+
  //Output to DOM
  reqCoresOut.innerHTML = coresWithGrowth;
  delCoresOut.innerHTML = activeCores;
@@ -112,6 +128,10 @@ function runCal() {
  reqRamOut.innerHTML = ramWithGrowth;
  delRamOut.innerHTML = activeRam;
  ramDifOut.innerHTML = ramDif;
+ ratioOut.innerHTML = vcpuToCoreRatio;
+ 
+ console.log(vcpuRequired)
+ console.log(typeof(vcpuRequired))
 
  // checks
  coreDifOut.classList.remove("text-danger");
@@ -134,6 +154,7 @@ function runCal() {
  saveData = { requirement:
      {currentGhz: ghzRequired, 
      currentCores: coresRequired, 
+     currentVcpu: vcpuRequired,
      currentRam: ramRequired, 
      growth: growthPerYear, 
      yearsInScope: yearsInScope, 
@@ -192,6 +213,7 @@ document.getElementById('saveBtn').addEventListener('click', ()=> {
         saveData = { requirement:
                                 {currentGhz: ghzRequired, 
                                 currentCores: coresRequired, 
+                                currentVcpu: vcpuRequired,
                                 currentRam: ramRequired, 
                                 growth: growthPerYear, 
                                 yearsInScope: yearsInScope, 
@@ -226,6 +248,7 @@ document.getElementById('clearButton').addEventListener('click', ()=>{
     document.getElementById('reqCoresOut').innerHTML = '';
     document.getElementById('delCoresOut').innerHTML = '';
     document.getElementById('coreDifOut').innerHTML = '';
+    document.getElementById('ratioOut').innerHTML = '';
 
     document.getElementById('reqGhzOut').innerHTML = '';
     document.getElementById('delGhzOut').innerHTML = '';

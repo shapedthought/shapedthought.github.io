@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="./resources/css/feRaid.css">
      
         <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
-    <title>VMware Host Calcution</title>
+    <title>VMware Host Calculation</title>
 </head>
 <body>
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark mb-3" id="main-nav">
@@ -48,6 +48,8 @@
                 <input type="number" name="ghzRequired" id="ghzRequired" class="form-control mb-2" required>
                 <label for="coresRequired">Current Cores</label>
                 <input type="number" name="coresRequired" id="coresRequired" class="form-control mb-2" required>
+                <label for="vcpuRequired">Current vCPU quantity (optional)</label>
+                <input type="number" name="vCPU" id="vcpuRequired" class="form-control mb-2">
                 <label for="ramRequired">Current RAM (TiB or GiB)</label>
                 <input type="float" name="ramRequired" id="ramRequired" class="form-control mb-2" required>
                 <label for="growthPerYear">Growth Per Year (%)</label>
@@ -120,7 +122,13 @@
                 <td id="reqRamOut"></td>
                 <td id="delRamOut"></td>
                 <td id="ramDifOut"></td>
-                </tr>
+            </tr>
+            <tr>
+                <th scope="row">vCPU/Core ratio</th>
+                <td></td>
+                <td></td>
+                <td id="ratioOut"></td>
+            </tr>
         </table>
     </div>
 
